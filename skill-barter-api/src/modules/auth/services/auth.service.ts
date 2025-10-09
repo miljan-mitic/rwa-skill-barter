@@ -9,14 +9,14 @@ import { AuthSignupDto } from '../dtos/auth-signup.dto';
 import { User } from 'src/models/entities/user.entity';
 import { JwtPayload } from 'src/common/interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import { ConfigurationService } from 'src/modules/configuration/services/configuration.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-    private readonly configService: ConfigService,
+    private readonly configurationService: ConfigurationService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -45,8 +45,8 @@ export class AuthService {
     };
 
     const accessToken = await this.jwtService.signAsync(payload, {
-      secret: this.configService.get<string>('JWT_ACCESS_SECRET_KEY'),
-      expiresIn: this.configService.get<string>('JWT_ACCESS_EXPIRATION_TIME'),
+      secret: this.configurationService.get('JWT_ACCESS_SECRET_KEY'),
+      expiresIn: this.configurationService.get('JWT_ACCESS_EXPIRATION_TIME'),
     });
 
     return { user, accessToken };
