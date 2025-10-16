@@ -1,0 +1,45 @@
+<footer class="sb-footer" fxLayout="row" fxLayoutAlign="center center">
+  <div
+    class="footer-container"
+    fxLayout="row"
+    fxLayout.lt-md="column"
+    fxLayoutAlign="space-between center"
+    fxLayoutGap="16px"
+  >
+    <div fxFlex fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="12px">
+      <img src="/images/skill-barter-logo.png" alt="SkillBarter logo" class="footer-logo" />
+      <div>
+        <div class="brand-name">SkillBarter</div>
+        <div class="brand-tagline">Exchange knowledge.</div>
+        <div class="brand-tagline">Grow together.</div>
+      </div>
+    </div>
+
+    <div
+      fxFlex
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="8px"
+      class="footer-middle"
+    >
+      <a mat-button routerLink="/home">Home</a>
+      <a mat-button routerLink="/login">Login</a>
+      <a mat-button routerLink="/signup">Signup</a>
+    </div>
+
+    <div
+      fxFlex
+      fxLayout="column"
+      fxLayoutAlign="end center"
+      fxLayoutAlign.lt-md="center center"
+      fxLayoutGap="8px"
+    >
+      <div fxLayout="row" fxLayoutGap="6px" class="social-icons">
+        <a href="/" aria-label="Twitter" title="Twitter" class="pi pi-twitter"></a>
+        <a href="/" aria-label="LinkedIn" title="LinkedIn" class="pi pi-linkedin"></a>
+        <a href="/" aria-label="Github" title="GitHub" class="pi pi-github"></a>
+      </div>
+      <div class="copyright">© {{ currentYear }} SkillBarter</div>
+    </div>
+  </div>
+</footer>

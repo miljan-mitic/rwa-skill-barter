@@ -1,0 +1,66 @@
+<section fxLayoutAlign="center" fxLayoutGap="10%">
+  <mat-card fxLayout="column" fxHide.lt-sm>
+    <mat-card-title>Welcome to the Skill Barter</mat-card-title>
+    <mat-card-subtitle
+      >Welcome to the Skill Barter page where you can find the best skills on the
+      web</mat-card-subtitle
+    >
+    <div fxLayoutAlign="center end" class="signup-button">
+      <button fxFlex="50%" mat-fab extended color="primary" routerLing="/signup">
+        <mat-icon matPrefix>how_to_reg</mat-icon>
+        Sign Up
+      </button>
+    </div>
+  </mat-card>
+
+  <mat-card fxLayout="column" fxFlex.lt-md="100%" fxFlex.lt-lg="50%" fxFlex.gt-sm="40%">
+    <mat-toolbar color="primary">Login</mat-toolbar>
+    <div fxHide.gt-xs>
+      <mat-card-title>Welcome to the Skill Barter</mat-card-title>
+      <mat-card-subtitle
+        >Welcome to the Skill Barter page where you can find the best skills on the
+        web</mat-card-subtitle
+      >
+    </div>
+    <mat-card-content>
+      <form
+        fxLayout="column"
+        fxLayoutGap="40px"
+        #loginForm="ngForm"
+        (ngSubmit)="onSubmit(loginForm)"
+      >
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <input matInput ngModel type="email" name="email" email required #emailInput="ngModel" />
+          @if(emailInput.hasError('email')) {
+          <mat-error>Enter valid email</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            ngModel
+            type="password"
+            name="password"
+            required
+            #passwordInput="ngModel"
+          />
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">
+          <mat-icon matPrefix fontIcon="login"></mat-icon>Login
+        </button>
+      </form>
+      <div fxLayoutAlign="center center" fxHide.gt-xs>
+        <mat-card-subtitle
+          >Don't have an account?
+          <button mat-button color="primary" routerLink="/signup">
+            <mat-icon matPrefix fontIcon="how_to_reg"></mat-icon>Signup
+          </button>
+        </mat-card-subtitle>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

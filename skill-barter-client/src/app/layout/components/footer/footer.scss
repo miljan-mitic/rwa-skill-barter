@@ -1,0 +1,52 @@
+.sb-footer {
+  background: #0d1b2a;
+  color: #f1f1f1;
+  padding: 16px 0;
+
+  .footer-container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  .footer-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+
+  .brand-name {
+    font-weight: 600;
+    font-size: 18.5px;
+  }
+
+  .brand-tagline {
+    font-size: 15px;
+    color: #d0d0d0;
+  }
+
+  .footer-middle {
+    a[mat-button] {
+      color: #cfd8dc;
+      text-transform: none;
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+
+  .social-icons {
+    a {
+      color: #90caf9;
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+  .copyright {
+    font-size: 14px;
+    color: #b0bec5;
+  }
+}

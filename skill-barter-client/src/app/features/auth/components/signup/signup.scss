@@ -1,0 +1,43 @@
+section {
+  margin: 5%;
+}
+
+mat-card-title {
+  font-weight: bold;
+  padding: 5%;
+}
+
+mat-card-content {
+  padding: 5%;
+}
+
+.profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+}
+
+.click-region {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.click-region:hover .profile-picture {
+  filter: brightness(0.7);
+}
+
+.click-region:hover .edit-icon {
+  opacity: 1;
+}

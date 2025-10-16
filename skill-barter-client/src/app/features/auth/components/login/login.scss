@@ -1,0 +1,35 @@
+section {
+  margin: 5.1%;
+}
+
+@media screen and (max-width: 1300px) {
+  section {
+    margin: 7%;
+  }
+}
+
+@media screen and (max-width: 1170px) {
+  section {
+    margin: 10%;
+  }
+}
+
+mat-card-subtitle {
+  padding-inline: 5%;
+  margin-top: 5%;
+}
+
+mat-card-title {
+  font-weight: bold;
+  color: #0044cc;
+  padding: 5%;
+}
+
+mat-card-content {
+  padding: 5%;
+}
+
+.signup-button {
+  margin-bottom: 5%;
+  height: 100%;
+}

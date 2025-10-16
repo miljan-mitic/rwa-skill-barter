@@ -1,0 +1,118 @@
+<section fxLayoutAlign="center" fxLayoutGap="5%">
+  <mat-card fxLayout="column" fxFlex.lt-md="100%" fxFlex.lt-lg="70%" fxFlex.gt-sm="55%">
+    <mat-toolbar class="signup-toolbar" color="primary">
+      <mat-card-title>Signup</mat-card-title>
+    </mat-toolbar>
+    <mat-card-title fxFlexAlign="center">Welcome to the Skill Barter</mat-card-title>
+
+    <mat-card-content>
+      <form
+        fxLayout="column"
+        fxLayoutGap="40px"
+        #signupForm="ngForm"
+        (ngSubmit)="onSubmit(signupForm)"
+      >
+        <div fxFlex fxLayoutAlign="center center">
+          <a class="click-region" (click)="fileUpload.choose()">
+            <p-avatar
+              [image]="formatImage(uploadedImage)"
+              size="xlarge"
+              shape="circle"
+              class="profile-picture"
+              [style]="AVATAR_STYLE"
+            ></p-avatar>
+            <mat-icon class="edit-icon" color="primary" fontIcon="edit"></mat-icon>
+            <p-fileUpload
+              name="images[]"
+              [url]="UPLOAD_IMAGES_URL"
+              #fileUpload
+              (onSelect)="onSelectProfilePicture(fileUpload)"
+              (onUpload)="onUploadProfilePicture($event)"
+              [multiple]="true"
+              accept="image/*"
+              [maxFileSize]="1000000"
+              [style]="{ display: 'none' }"
+            ></p-fileUpload>
+          </a>
+        </div>
+
+        <mat-form-field>
+          <mat-label>Username</mat-label>
+          <mat-icon matPrefix fontIcon="person"></mat-icon>
+          <input
+            matInput
+            ngModel
+            type="text"
+            name="username"
+            required
+            [minlength]="USERNAME_MIN_LENGTH"
+            #usernameInput="ngModel"
+          />
+          <mat-hint
+            >Please enter a username with at least {{ USERNAME_MIN_LENGTH }} characters.</mat-hint
+          >
+          @if(usernameInput.hasError('required')) {
+          <mat-error>Username is required</mat-error>
+          } @if(usernameInput.hasError('minlength')) {
+          <mat-error
+            >Username must be at least {{ USERNAME_MIN_LENGTH }} characters long.</mat-error
+          >
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Email</mat-label>
+          <mat-icon matPrefix fontIcon="email"></mat-icon>
+          <input matInput ngModel type="email" name="email" required #emailInput="ngModel" />
+          @if(emailInput.hasError('required')) {
+          <mat-error>Email is required</mat-error>
+          } @if(emailInput.hasError('email')) {
+          <mat-error>Enter valid email</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Password</mat-label>
+          <mat-icon matPrefix fontIcon="password"></mat-icon>
+          <input
+            matInput
+            ngModel
+            type="password"
+            name="password"
+            [pattern]="PASSWORD_PATTERN"
+            required
+            #passwordInput="ngModel"
+          />
+          @if(passwordInput.hasError('required')) {
+          <mat-error>Password is required</mat-error>
+          } @if(passwordInput.hasError('pattern')) {
+          <mat-error
+            >Password must contain uppercase and lowercase letters, a number, a special character,
+            and be at least 8 characters long.</mat-error
+          >
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Confirm password</mat-label>
+          <mat-icon matPrefix fontIcon="password"></mat-icon>
+          <input
+            matInput
+            ngModel
+            type="password"
+            name="confirmPassword"
+            required
+            #confirmPasswordInput="ngModel"
+          />
+          @if(passwordInput.hasError('required')) {
+          <mat-error>Confirm password is required</mat-error>
+          }
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">
+          <mat-icon matPrefix fontIcon="app_registration"></mat-icon>Signup
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</section>
