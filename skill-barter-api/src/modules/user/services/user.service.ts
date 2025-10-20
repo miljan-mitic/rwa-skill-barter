@@ -26,7 +26,9 @@ export class UserService {
     });
 
     try {
-      return await this.userRepository.save(user);
+      const savedUser = await this.userRepository.save(user);
+      delete savedUser.password;
+      return savedUser;
     } catch (error) {
       if (error.code === '23505') {
         throw new ConflictException('Username or Email already exists');
@@ -37,11 +39,19 @@ export class UserService {
     }
   }
 
-  async getUserByEmail(email: string): Promise<User> {
-    return this.userRepository.findOneBy({ email });
+  async getUserByEmail(email: string, includePassword = false): Promise<User> {
+    const query = this.userRepository
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email });
+
+    if (includePassword) {
+      query.addSelect('user.password');
+    }
+
+    return query.getOne();
   }
 
   async getUserById(id: number): Promise<User> {
-    return this.userRepository.findOneBy({ id: id });
+    return this.userRepository.findOneBy({ id });
   }
 }

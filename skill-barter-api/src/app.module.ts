@@ -6,9 +6,10 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { ConfigurationModule } from './modules/configuration/configuration.module';
 import { AppLoggerMiddleware } from './common/middlewares/log.middleware';
+import { FileModule } from './modules/file/file.module';
 
 @Module({
-  imports: [ConfigurationModule, DatabaseModule, AuthModule, UserModule],
+  imports: [ConfigurationModule, DatabaseModule, AuthModule, UserModule, FileModule],
   controllers: [AppController],
   providers: [AppService],
 })

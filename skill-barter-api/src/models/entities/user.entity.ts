@@ -12,7 +12,7 @@ export class User {
   @Column({ nullable: false, unique: true })
   username: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, select: false })
   password: string;
 
   @Column({ type: 'enum', enum: ROLE, default: ROLE.USER })
