@@ -67,7 +67,7 @@ export class Signup {
       return;
     }
 
-    const { confirmPassword, ...data } = form.value();
+    const { confirmPassword, ...data } = form.value;
     const signupAuthDto: SignupAuthDto = { ...data, profilePicture: this.uploadedImage };
 
     if (signupAuthDto.password !== confirmPassword) {

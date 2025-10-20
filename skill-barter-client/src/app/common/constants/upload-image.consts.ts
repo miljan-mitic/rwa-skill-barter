@@ -7,4 +7,4 @@ export const DEFAULT = {
 };
 
 export const IMAGES_URL = `${environment.api}/file/image`;
-export const UPLOAD_IMAGES_URL = `${environment.api}/file/uploadImages`;
+export const UPLOAD_IMAGES_URL = `${environment.api}/file/uploadImages/`;
