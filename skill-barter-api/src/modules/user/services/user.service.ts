@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/models/entities/user.entity';
+import { User } from 'src/entities/user.entity';
 import { AuthSignupDto } from 'src/modules/auth/dtos/auth-signup.dto';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';

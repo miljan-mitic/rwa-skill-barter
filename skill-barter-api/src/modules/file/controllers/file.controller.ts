@@ -8,7 +8,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileService } from '../services/file.service';
-import { ImageType } from 'src/common/enums/image-type.enum';
+import { IMAGE_TYPE } from 'src/common/enums/image-type.enum';
 import type { Response } from 'express';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { File } from 'multer';
@@ -19,7 +19,7 @@ export class FileController {
 
   @Get('image/:imageType/:imageName')
   getImage(
-    @Param('imageType') imageType: ImageType,
+    @Param('imageType') imageType: IMAGE_TYPE,
     @Param('imageName') imageName: string,
     @Res() res: Response,
   ) {
@@ -33,7 +33,7 @@ export class FileController {
   )
   uploadImages(
     @UploadedFiles() files: File[],
-    @Param('imageType') imageType: ImageType,
+    @Param('imageType') imageType: IMAGE_TYPE,
   ) {
     console.log({ imageType });
     return this.fileService.getFilenamesFromUploadedFiles(files);

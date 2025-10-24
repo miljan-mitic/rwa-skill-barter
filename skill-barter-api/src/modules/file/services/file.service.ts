@@ -5,7 +5,7 @@ import {
 } from '@nestjs/platform-express';
 import { existsSync } from 'fs';
 import path from 'path';
-import { ImageType } from 'src/common/enums/image-type.enum';
+import { IMAGE_TYPE } from 'src/common/enums/image-type.enum';
 import * as multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import { File } from 'multer';
@@ -33,7 +33,7 @@ export class FileService implements MulterOptionsFactory {
     return fileNames;
   }
 
-  getImagePath(imageType: ImageType, imageName: string): string {
+  getImagePath(imageType: IMAGE_TYPE, imageName: string): string {
     const imagePath = this.getImageLocation(imageType, imageName);
     if (!existsSync(imagePath)) {
       throw new NotFoundException(
@@ -43,7 +43,7 @@ export class FileService implements MulterOptionsFactory {
     return imagePath;
   }
 
-  getImageLocation(imageType: ImageType, imageName: string) {
+  getImageLocation(imageType: IMAGE_TYPE, imageName: string) {
     const imagePath = path.resolve(
       process.cwd(),
       'images',
