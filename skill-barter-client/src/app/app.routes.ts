@@ -1,15 +1,18 @@
 import { Routes } from '@angular/router';
 import { Signup } from './features/auth/components/signup/signup';
 import { Login } from './features/auth/components/login/login';
-import { Home } from './shared/components/home/home';
+import { canActivateAuth, canMatchAuth } from './features/auth/guards/auth.guard';
+import { dashboardRoutes } from './features/dashboard/dashboard.routes';
 
-export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+export const appRoutes: Routes = [
   { path: 'login', component: Login },
   { path: 'signup', component: Signup },
   {
-    path: '',
-    children: [{ path: 'home', component: Home }],
+    path: 'dashboard',
+    children: dashboardRoutes,
+    canActivate: [canActivateAuth],
+    canMatch: [canMatchAuth],
   },
-  { path: '**', redirectTo: '/home' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '**', redirectTo: '/dashboard' },
 ];

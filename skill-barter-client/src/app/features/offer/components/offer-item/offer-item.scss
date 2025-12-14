@@ -1,0 +1,52 @@
+mat-card {
+  cursor: pointer;
+}
+
+mat-card-title {
+  color: black;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.clickable-text:hover {
+  color: #ff5722;
+}
+
+.price {
+  color: #ff5722;
+  font-size: 0.9rem;
+}
+
+.old-price {
+  text-decoration: line-through;
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.discount {
+  font-size: 1rem;
+  color: red;
+  font-weight: bold;
+}
+
+.offer-image {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.example-header-image {
+  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-size: cover;
+}
+
+.user-avatar {
+  cursor: pointer;
+}
+
+.text-container {
+  max-width: 100%;
+  white-space: normal;
+}

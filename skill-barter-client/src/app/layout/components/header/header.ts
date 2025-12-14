@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { User } from '../../../common/models/user.model';
-import { AuthActions } from '../../../features/auth/state/auth.actions';
+import { AuthActions } from '../../../features/auth/store/auth.actions';
 import { RouterLink } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -31,7 +31,7 @@ import { UserState } from '../../../features/user/state/user.state';
   styleUrl: './header.scss',
 })
 export class Header implements OnInit {
-  user!: Observable<User | undefined>;
+  user: Observable<User | undefined>;
 
   constructor(private readonly store: Store<UserState>) {}
 

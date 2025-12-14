@@ -13,6 +13,7 @@ import { OfferModule } from './modules/offer/offer.module';
 import { OfferRequestModule } from './modules/offer-request/offer-request.module';
 import { TransactionModule } from './modules/transaction/transaction.module';
 import { ReviewModule } from './modules/review/review.module';
+import { CallGateway } from './call.gateway';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { ReviewModule } from './modules/review/review.module';
     ReviewModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, CallGateway],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer): void {

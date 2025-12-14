@@ -1,0 +1,17 @@
+<div fxLayout="column" fxLayoutAlign="space-between">
+  <mat-list fxLayout="column" fxLayoutGap="2%">
+    @for (offer of offers$ | async; track offer.id) {
+    <mat-list-item>
+      <app-offer-item [offer]="offer"></app-offer-item>
+    </mat-list-item>
+    }
+  </mat-list>
+
+  <mat-paginator
+    [length]="length$ | async"
+    [pageSize]="paginationParams.pageSize"
+    [pageIndex]="paginationParams.page"
+    (page)="getData($event)"
+  >
+  </mat-paginator>
+</div>

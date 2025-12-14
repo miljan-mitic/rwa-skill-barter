@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../../state/auth.state';
-import { AuthActions } from '../../state/auth.actions';
+import { AuthState } from '../../store/auth.state';
+import { AuthActions } from '../../store/auth.actions';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';

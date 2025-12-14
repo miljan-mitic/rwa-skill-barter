@@ -1,4 +1,4 @@
-.home-container {
+.dashboard-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,4 +18,8 @@
   p {
     color: #555;
   }
+}
+
+mat-card-title {
+  cursor: pointer;
 }

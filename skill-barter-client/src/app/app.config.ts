@@ -5,24 +5,26 @@ import {
   isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { routes } from './app.routes';
+import { appRoutes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
-import { appReducers } from './state/app.reducer';
-import { appEffects } from './state/app.effects';
-import { AppState } from './state/app.state';
+import { appReducers } from './store/app.reducer';
+import { appEffects } from './store/app.effects';
+import { AppState } from './store/app.state';
 import { provideHttpClient } from '@angular/common/http';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { MessageService } from 'primeng/api';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeuix/themes/lara';
+import { provideSocketIo } from 'ngx-socket-io';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
-    provideRouter(routes),
+    provideRouter(appRoutes),
     provideStore<AppState>(appReducers),
     provideEffects(appEffects),
     provideHttpClient(),
@@ -33,6 +35,10 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Lara,
       },
+    }),
+    provideSocketIo({
+      url: `${environment.api}/call`,
+      options: { transports: ['websocket'], reconnection: true },
     }),
   ],
 };

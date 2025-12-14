@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AuthState } from '../../state/auth.state';
-import { AuthActions } from '../../state/auth.actions';
+import { AuthState } from '../../store/auth.state';
+import { AuthActions } from '../../store/auth.actions';
 import { REG_EX } from '../../../../common/constants/reg-ex.const';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -41,7 +41,7 @@ import { SignupAuthDto } from '../../dtos/signup-auth.dto';
   styleUrl: './signup.scss',
 })
 export class Signup {
-  uploadedImage!: string;
+  uploadedImage: string;
 
   readonly USERNAME_MIN_LENGTH = 6;
   readonly PASSWORD_PATTERN: string = REG_EX.PASSWORD.source;

@@ -1,0 +1,4 @@
+export const PAGINATION_PARAMS_INITIAL = {
+  PAGE: 0,
+  PAGE_SIZE: 5,
+};

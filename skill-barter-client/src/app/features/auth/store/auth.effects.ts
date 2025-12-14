@@ -49,9 +49,9 @@ export class AuthEffects {
         tap(({ accessToken, user: { username }, type }) => {
           if (accessToken) {
             localStorage.setItem(KEYS.ACCESS_TOKEN, accessToken);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/dashboard']);
             const message =
-              type === '[Auth] Signup success'
+              type === AuthActions.loginSuccess.type
                 ? `Congrulations ${username}! You have successfully signed up`
                 : `Logged in successfully`;
             this.notificationService.showMessage(
