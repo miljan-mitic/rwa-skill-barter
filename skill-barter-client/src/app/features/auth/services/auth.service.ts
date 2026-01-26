@@ -14,14 +14,21 @@ export class AuthService {
   signup(signupAuthDto: SignupAuthDto): Observable<{ accessToken: string; user: User }> {
     return this.httpClient.post<{ accessToken: string; user: User }>(
       `${this.apiUrl}/signup`,
-      signupAuthDto
+      signupAuthDto,
     );
   }
 
   login(loginAuthDto: LoginAuthDto): Observable<{ accessToken: string; user: User }> {
     return this.httpClient.post<{ accessToken: string; user: User }>(
       `${this.apiUrl}/login`,
-      loginAuthDto
+      loginAuthDto,
     );
+  }
+
+  loginByToken(token: string) {
+    const headers = { Authorization: `Bearer ${token}` };
+    return this.httpClient.get<{ user: User; accessToken: string }>(`${this.apiUrl}/auto-login`, {
+      headers,
+    });
   }
 }

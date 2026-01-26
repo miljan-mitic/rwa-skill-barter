@@ -15,10 +15,12 @@ export class SkillEffects {
       switchMap(({ skillFilterDto, isAdmin }) => {
         return this.skillService.get(skillFilterDto, isAdmin).pipe(
           tap((response) => console.log('Skills Loading...', response)),
-          map(({ skills, length }) => SkillActions.loadSkillsSuccess({ skills, length })),
-          catchError((error) => of(SkillActions.loadSkillsFailure({ error })))
+          map(({ items, totalPages, totalItems, currentPage }) =>
+            SkillActions.loadSkillsSuccess({ skills: items, length: totalItems }),
+          ),
+          catchError((error) => of(SkillActions.loadSkillsFailure({ error }))),
         );
-      })
-    )
+      }),
+    ),
   );
 }

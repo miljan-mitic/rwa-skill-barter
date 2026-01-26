@@ -12,8 +12,8 @@ export class SkillService {
 
   get(
     skillFilterDto: SkillFilterDto,
-    isAdmin = false
-  ): Observable<{ skills: Skill[]; length: number }> {
+    isAdmin = false,
+  ): Observable<{ items: Skill[]; totalPages: number; totalItems: number; currentPage: number }> {
     let params = new HttpParams();
     Object.keys(skillFilterDto).forEach((key) => {
       const value = skillFilterDto[key as keyof SkillFilterDto];
@@ -21,11 +21,13 @@ export class SkillService {
         params = params.set(key, value.toString());
       }
     });
-    return this.httpClient.get<{ skills: Skill[]; length: number }>(
-      this.apiUrl + (isAdmin ? '/admin' : ''),
-      {
-        params,
-      }
-    );
+    return this.httpClient.get<{
+      items: Skill[];
+      totalPages: number;
+      totalItems: number;
+      currentPage: number;
+    }>(this.apiUrl + (isAdmin ? '/admin' : ''), {
+      params,
+    });
   }
 }

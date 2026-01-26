@@ -10,27 +10,30 @@ import {
   RouterStateSnapshot,
   UrlSegment,
 } from '@angular/router';
-import { selectIsAuthenticated } from '../store/auth.selectors';
-import { map, take } from 'rxjs';
+import { selectAuthStatus } from '../store/auth.selectors';
+import { filter, map, take, tap } from 'rxjs';
+import { AuthStatus } from '../../../common/enums/auth-status.enum';
 
 const authGuard = () => {
   const store = inject(Store<AuthState>);
   const router = inject(Router);
-  return store.select(selectIsAuthenticated).pipe(
+  return store.select(selectAuthStatus).pipe(
+    filter((status) => status !== AuthStatus.IDLE && status !== AuthStatus.LOADING),
     take(1),
-    map((isAuthenticated) => {
+    map((status) => status === AuthStatus.AUTHENTICATED),
+    tap((isAuthenticated) => {
       if (!isAuthenticated) {
         router.navigate(['/login']);
         return false;
       }
       return true;
-    })
+    }),
   );
 };
 
 export const canActivateAuth: CanActivateFn = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ) => {
   return authGuard();
 };

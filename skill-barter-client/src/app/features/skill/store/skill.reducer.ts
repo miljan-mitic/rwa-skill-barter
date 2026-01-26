@@ -27,5 +27,5 @@ export const skillReducer = createReducer(
       ...state,
       length,
     });
-  })
+  }),
 );

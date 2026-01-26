@@ -1,17 +1,27 @@
-<div fxLayout="column" fxLayoutAlign="space-between">
-  <mat-list fxLayout="column" fxLayoutGap="2%">
-    @for (skill of skills$ | async; track skill.id) {
-    <mat-list-item>
-      <app-skill-item [skill]="skill"></app-skill-item>
-    </mat-list-item>
-    }
-  </mat-list>
+@if ((length$ | async) !== 0) {
+  <div fxLayout="column" fxLayoutAlign="space-between">
+    <mat-list fxLayout="column" fxLayoutGap="2%">
+      @for (skill of skills$ | async; track skill.id) {
+        <mat-list-item>
+          <app-skill-item [skill]="skill"></app-skill-item>
+        </mat-list-item>
+      }
+    </mat-list>
 
-  <mat-paginator
-    [length]="length$ | async"
-    [pageSize]="paginationParams.pageSize"
-    [pageIndex]="paginationParams.page"
-    (page)="getData($event)"
-  >
-  </mat-paginator>
+    <mat-paginator
+      [length]="length$ | async"
+      [pageSize]="paginationParams.pageSize"
+      [pageIndex]="paginationParams.page"
+      (page)="getData($event)"
+    >
+    </mat-paginator>
+  </div>
+} @else {
+  <p class="empty-skills">You don't have skills...</p>
+}
+<div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" style="margin-top: 20px">
+  <p>Add new skill</p>
+  <button mat-fab color="primary" aria-label="Add Skill" routerLink="add">
+    <mat-icon>add</mat-icon>
+  </button>
 </div>

@@ -3,12 +3,12 @@ import { AuthState } from './auth.state';
 
 export const selectAuthFeature = createFeatureSelector<AuthState>('auth');
 
-export const selectIsAuthenticated = createSelector(
+export const selectAuthStatus = createSelector(
   selectAuthFeature,
-  (state: AuthState) => state.isAuthenticated
+  (state: AuthState) => state.status,
 );
 
 export const selectToken = createSelector(
   selectAuthFeature,
-  (state: AuthState) => state.accessToken
+  (state: AuthState) => state.accessToken,
 );

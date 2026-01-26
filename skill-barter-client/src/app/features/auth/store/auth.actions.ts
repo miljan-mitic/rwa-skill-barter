@@ -12,6 +12,9 @@ export const AuthActions = createActionGroup({
     Login: props<{ loginAuthDto: LoginAuthDto }>(),
     'Login success': props<{ accessToken: string; user: User }>(),
     'Login failure': props<{ error: any }>(),
+    'Auto Login': props<{ accessToken: string }>(),
+    'Auto Login success': props<{ accessToken: string; user: User }>(),
+    'Auto Login failure': props<{ error: any }>(),
 
     Logout: emptyProps(),
   },

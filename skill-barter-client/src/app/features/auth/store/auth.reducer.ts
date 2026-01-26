@@ -1,21 +1,37 @@
 import { createReducer, on } from '@ngrx/store';
 import { AuthActions } from './auth.actions';
 import { AuthState } from './auth.state';
+import { AuthStatus } from '../../../common/enums/auth-status.enum';
 
 export const initilState: AuthState = {
-  isAuthenticated: false,
+  status: AuthStatus.IDLE,
 };
 
 export const authReducer = createReducer(
   initilState,
-  on(AuthActions.signupSuccess, AuthActions.loginSuccess, (state, { accessToken }) => ({
+  on(AuthActions.autoLogin, AuthActions.login, AuthActions.signup, (state) => ({
     ...state,
-    isAuthenticated: true,
-    accessToken,
+    status: AuthStatus.LOADING,
   })),
-  on(AuthActions.signupFailure, AuthActions.loginFailure, AuthActions.logout, (state) => ({
-    ...state,
-    isAuthenticated: false,
-    accessToken: undefined,
-  }))
+  on(
+    AuthActions.signupSuccess,
+    AuthActions.loginSuccess,
+    AuthActions.autoLoginSuccess,
+    (state, { accessToken }) => ({
+      ...state,
+      status: AuthStatus.AUTHENTICATED,
+      accessToken,
+    }),
+  ),
+  on(
+    AuthActions.signupFailure,
+    AuthActions.loginFailure,
+    AuthActions.autoLoginFailure,
+    AuthActions.logout,
+    (state) => ({
+      ...state,
+      status: AuthStatus.UNAUTHENTICATED,
+      accessToken: undefined,
+    }),
+  ),
 );

@@ -7,7 +7,7 @@
       involved. Just skills.</mat-card-subtitle
     >
     <div fxLayoutAlign="center end" class="signup-button">
-      <button fxFlex="50%" mat-fab extended color="primary" routerLing="/signup">
+      <button fxFlex="50%" mat-fab extended color="primary" routerLink="/signup">
         <mat-icon matPrefix>how_to_reg</mat-icon>
         Sign Up
       </button>
@@ -34,8 +34,8 @@
         <mat-form-field>
           <mat-label>Email</mat-label>
           <input matInput ngModel type="email" name="email" email required #emailInput="ngModel" />
-          @if(emailInput.hasError('email')) {
-          <mat-error>Enter valid email</mat-error>
+          @if (emailInput.hasError('email')) {
+            <mat-error>Enter valid email</mat-error>
           }
         </mat-form-field>
 

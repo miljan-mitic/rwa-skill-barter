@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, filter, Observable, Subscription } from 'rxjs';
 import { Skill } from '../../../../common/models/skill.model';
 import { Store } from '@ngrx/store';
 import { SkillState } from '../../store/skill.state';
@@ -14,10 +14,20 @@ import { MatListModule } from '@angular/material/list';
 import { AsyncPipe } from '@angular/common';
 import { SkillItem } from '../skill-item/skill-item';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-skill-list',
-  imports: [MatListModule, MatPaginatorModule, AsyncPipe, SkillItem, FlexLayoutModule],
+  imports: [
+    MatListModule,
+    MatPaginatorModule,
+    MatIconModule,
+    AsyncPipe,
+    SkillItem,
+    FlexLayoutModule,
+    RouterLink,
+  ],
   templateUrl: './skill-list.html',
   styleUrl: './skill-list.scss',
 })
@@ -36,20 +46,22 @@ export class SkillList implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(
-      SkillActions.changeSkillPaginationFilter({ paginationParams: this.paginationParams })
+      SkillActions.changeSkillPaginationFilter({ paginationParams: this.paginationParams }),
     );
 
     this.filterSubscription = combineLatest([
       this.store.select(selectSkillFilter),
       this.store.select(selectCurrentUser),
-    ]).subscribe(([filter, user]) => {
-      this.store.dispatch(
-        SkillActions.loadSkills({
-          skillFilterDto: filter || {},
-          ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
-        })
-      );
-    });
+    ])
+      .pipe(filter(([_, user]) => !!user))
+      .subscribe(([filter, user]) => {
+        this.store.dispatch(
+          SkillActions.loadSkills({
+            skillFilterDto: filter || {},
+            ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
+          }),
+        );
+      });
 
     this.skills$ = this.store.select(selectSkillList);
     this.length$ = this.store.select(selectSkillLength);
@@ -63,7 +75,7 @@ export class SkillList implements OnInit, OnDestroy {
     this.store.dispatch(
       SkillActions.changeSkillPaginationFilter({
         paginationParams: { page: pageEvent.pageIndex, pageSize: pageEvent.pageSize },
-      })
+      }),
     );
   }
 }

@@ -3,6 +3,7 @@ import {
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
   isDevMode,
+  provideAppInitializer,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { appRoutes } from './app.routes';
@@ -11,7 +12,7 @@ import { provideEffects } from '@ngrx/effects';
 import { appReducers } from './store/app.reducer';
 import { appEffects } from './store/app.effects';
 import { AppState } from './store/app.state';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { MessageService } from 'primeng/api';
 import { provideAnimations } from '@angular/platform-browser/animations';
@@ -19,6 +20,8 @@ import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeuix/themes/lara';
 import { provideSocketIo } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
+import { authenticationInterceptor } from './features/auth/interceptors/auth.interceptor';
+import { authInitializer } from './features/auth/initializers/auth.initializer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,7 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideStore<AppState>(appReducers),
     provideEffects(appEffects),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authenticationInterceptor])),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAnimations(),
     MessageService,
@@ -40,5 +43,6 @@ export const appConfig: ApplicationConfig = {
       url: `${environment.api}/call`,
       options: { transports: ['websocket'], reconnection: true },
     }),
+    provideAppInitializer(authInitializer),
   ],
 };

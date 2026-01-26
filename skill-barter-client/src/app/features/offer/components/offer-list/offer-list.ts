@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, filter, Observable, Subscription } from 'rxjs';
 import { Offer } from '../../../../common/models/offer.model';
 import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '../../../user/state/user.selector';
@@ -36,20 +36,22 @@ export class OfferList implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(
-      OfferActions.changeOfferPaginationFilter({ paginationParams: this.paginationParams })
+      OfferActions.changeOfferPaginationFilter({ paginationParams: this.paginationParams }),
     );
 
     this.filterSubscription = combineLatest([
       this.store.select(selectOfferFilter),
       this.store.select(selectCurrentUser),
-    ]).subscribe(([filter, user]) => {
-      this.store.dispatch(
-        OfferActions.loadOffers({
-          offerFilterDto: filter || {},
-          ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
-        })
-      );
-    });
+    ])
+      .pipe(filter(([_, user]) => !!user))
+      .subscribe(([filter, user]) => {
+        this.store.dispatch(
+          OfferActions.loadOffers({
+            offerFilterDto: filter || {},
+            ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
+          }),
+        );
+      });
 
     this.offers$ = this.store.select(selectOfferList);
     this.length$ = this.store.select(selectOfferLength);
@@ -63,7 +65,7 @@ export class OfferList implements OnInit, OnDestroy {
     this.store.dispatch(
       OfferActions.changeOfferPaginationFilter({
         paginationParams: { page: pageEvent.pageIndex, pageSize: pageEvent.pageSize },
-      })
+      }),
     );
   }
 }

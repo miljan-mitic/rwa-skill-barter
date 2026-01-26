@@ -19,7 +19,7 @@ export class App implements OnInit {
 
   constructor(
     private readonly callService: CallService,
-    private readonly signalingService: SignalingService
+    private readonly signalingService: SignalingService,
   ) {}
 
   ngOnInit(): void {

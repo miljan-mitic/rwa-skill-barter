@@ -1,0 +1,26 @@
+<form fxLayout="column" fxLayoutGap="20px" #skillForm="ngForm" (ngSubmit)="onSubmit(skillForm)">
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <input matInput ngModel type="text" name="category" required #categoryInput="ngModel" />
+    @if (categoryInput.hasError('required')) {
+      <mat-error>Category is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Skill Name</mat-label>
+    <input matInput ngModel type="text" name="skillName" required #skillNameInput="ngModel" />
+    @if (skillNameInput.hasError('required')) {
+      <mat-error>Skill Name is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput ngModel name="description" rows="4" #descriptionInput="ngModel"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="skillForm.invalid">
+    Add Skill
+  </button>
+</form>

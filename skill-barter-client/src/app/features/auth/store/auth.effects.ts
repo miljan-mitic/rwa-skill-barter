@@ -24,10 +24,10 @@ export class AuthEffects {
       switchMap(({ signupAuthDto }) =>
         this.authService.signup(signupAuthDto).pipe(
           map(({ accessToken, user }) => AuthActions.signupSuccess({ accessToken, user })),
-          catchError((error) => of(AuthActions.signupFailure({ error })))
-        )
-      )
-    )
+          catchError((error) => of(AuthActions.signupFailure({ error }))),
+        ),
+      ),
+    ),
   );
 
   login$ = createEffect(() =>
@@ -36,10 +36,10 @@ export class AuthEffects {
       switchMap(({ loginAuthDto }) =>
         this.authService.login(loginAuthDto).pipe(
           map(({ accessToken, user }) => AuthActions.loginSuccess({ accessToken, user })),
-          catchError((error) => of(AuthActions.loginFailure({ error })))
-        )
-      )
-    )
+          catchError((error) => of(AuthActions.loginFailure({ error }))),
+        ),
+      ),
+    ),
   );
 
   saveAccessToken$ = createEffect(
@@ -51,18 +51,41 @@ export class AuthEffects {
             localStorage.setItem(KEYS.ACCESS_TOKEN, accessToken);
             this.router.navigate(['/dashboard']);
             const message =
-              type === AuthActions.loginSuccess.type
+              type === AuthActions.signupSuccess.type
                 ? `Congrulations ${username}! You have successfully signed up`
                 : `Logged in successfully`;
             this.notificationService.showMessage(
               NotificationSeverity.SUCCESS,
               NotificationSummary.SUCCESS,
-              message
+              message,
             );
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
+  );
+
+  autoLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.autoLogin),
+      switchMap(({ accessToken }) =>
+        this.authService.loginByToken(accessToken).pipe(
+          map(({ user, accessToken }) => AuthActions.autoLoginSuccess({ user, accessToken })),
+          catchError((error) => of(AuthActions.autoLoginFailure({ error }))),
+        ),
+      ),
+    ),
+  );
+
+  autoLoginSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.autoLoginSuccess),
+        tap(({ user, accessToken }) => {
+          localStorage.setItem(KEYS.ACCESS_TOKEN, accessToken);
+        }),
+      ),
+    { dispatch: false },
   );
 
   logout$ = createEffect(
@@ -70,9 +93,9 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logout),
         tap(() => {
-          localStorage.removeItem(KEYS.ACCESS_TOKEN), this.router.navigate(['/login']);
-        })
+          (localStorage.removeItem(KEYS.ACCESS_TOKEN), this.router.navigate(['/login']));
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 }
