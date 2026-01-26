@@ -14,6 +14,7 @@ import { OfferRequestModule } from './modules/offer-request/offer-request.module
 import { TransactionModule } from './modules/transaction/transaction.module';
 import { ReviewModule } from './modules/review/review.module';
 import { CallGateway } from './call.gateway';
+import { UserSkillModule } from './modules/user-skill/user-skill.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CallGateway } from './call.gateway';
     OfferRequestModule,
     TransactionModule,
     ReviewModule,
+    UserSkillModule,
   ],
   controllers: [AppController],
   providers: [AppService, CallGateway],

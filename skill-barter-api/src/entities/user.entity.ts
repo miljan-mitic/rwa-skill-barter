@@ -10,6 +10,7 @@ import { Offer } from './offer.entity';
 import { OfferRequest } from './offer-request.entity';
 import { Transaction } from './transaction.entity';
 import { Review } from './review.entity';
+import { UserSkill } from './user-skill.entity';
 
 @Entity()
 export class User {
@@ -42,6 +43,9 @@ export class User {
 
   @Column({ nullable: false, default: 0 })
   ratingAvg: number;
+
+  @OneToMany(() => UserSkill, (userSkill) => userSkill.user)
+  userSkills: UserSkill[];
 
   @OneToMany(() => Offer, (offer) => offer.provider)
   offers: Offer[];

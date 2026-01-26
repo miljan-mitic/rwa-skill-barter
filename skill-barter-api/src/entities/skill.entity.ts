@@ -9,6 +9,7 @@ import {
 import { Offer } from './offer.entity';
 import { Transaction } from './transaction.entity';
 import { Category } from './category.entity';
+import { UserSkill } from './user-skill.entity';
 
 @Entity()
 export class Skill {
@@ -18,7 +19,7 @@ export class Skill {
   @Column({ nullable: false, unique: true })
   name: string;
 
-  @Column({ length: 100 })
+  @Column({ nullable: true, length: 100 })
   description: string;
 
   @CreateDateColumn({ type: 'timestamp', nullable: false })
@@ -28,6 +29,9 @@ export class Skill {
     onDelete: 'CASCADE',
   })
   category: Category;
+
+  @OneToMany(() => UserSkill, (userSkill) => userSkill.skill)
+  userSkills: UserSkill[];
 
   @OneToMany(() => Offer, (offer) => offer.skill)
   offers: Offer[];
