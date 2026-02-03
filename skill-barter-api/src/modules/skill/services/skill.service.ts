@@ -28,9 +28,8 @@ export class SkillService {
     try {
       await this.skillRepository.save(skill);
     } catch (error) {
-      throw new InternalServerErrorException(
-        `Failed to create Skill: ${error}`,
-      );
+      console.warn('SKILL SERVICE - CREATE SKILL:', error);
+      throw new InternalServerErrorException('Unexpected error');
     }
 
     return skill;
@@ -46,6 +45,7 @@ export class SkillService {
 
   async getSkills(filterSkillDto: FilterSkillDto) {
     const {
+      search,
       categoryId,
       page = 0,
       pageSize = 10,
@@ -58,8 +58,11 @@ export class SkillService {
       queryBuilder.andWhere('skill.categoryId = :categoryId', { categoryId });
     }
 
-    queryBuilder.orderBy(`skill.${sortBy}`, sortType);
+    if (search) {
+      queryBuilder.where('skill.name ILIKE :name', { name: `%${search}%` });
+    }
 
+    queryBuilder.orderBy(`skill.${sortBy}`, sortType);
     queryBuilder.skip(page * pageSize).take(pageSize);
 
     const [count, items] = await Promise.all([

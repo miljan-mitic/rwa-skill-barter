@@ -1,5 +1,3 @@
 import { PaginationParams } from '../../../common/interfaces/pagination-params.interface';
 
-export interface SkillFilterDto extends PaginationParams {
-  categoryId?: number;
-}
+export interface CategoryFilterDto extends PaginationParams {}

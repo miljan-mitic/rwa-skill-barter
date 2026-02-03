@@ -1,5 +1,5 @@
 <form fxLayout="column" fxLayoutGap="20px" #skillForm="ngForm" (ngSubmit)="onSubmit(skillForm)">
-  <mat-form-field appearance="fill">
+  <!-- <mat-form-field appearance="fill">
     <mat-label>Category</mat-label>
     <input matInput ngModel type="text" name="category" required #categoryInput="ngModel" />
     @if (categoryInput.hasError('required')) {
@@ -18,7 +18,35 @@
   <mat-form-field appearance="fill">
     <mat-label>Description</mat-label>
     <textarea matInput ngModel name="description" rows="4" #descriptionInput="ngModel"></textarea>
-  </mat-form-field>
+  </mat-form-field> -->
+
+  <app-remote-select
+    [label]="'Category'"
+    [maxPage]="2"
+    [pageSize]="2"
+    [size]="'small'"
+    [fetchFn]="fetchCategoryFn"
+    [displayFn]="categoryLabel"
+    [trackBy]="trackCategory"
+    name="category"
+    [(ngModel)]="category"
+    required
+  />
+
+  <app-remote-select
+    [label]="'Skill'"
+    [maxPage]="2"
+    [pageSize]="2"
+    [size]="'small'"
+    [fetchFn]="fetchSkillFn"
+    [displayFn]="skillLabel"
+    [trackBy]="trackSkill"
+    name="skill"
+    [(ngModel)]="skill"
+    [extraFilters]="skillExtraFilters()"
+    [disabled]="!category()"
+    required
+  />
 
   <button mat-raised-button color="primary" type="submit" [disabled]="skillForm.invalid">
     Add Skill

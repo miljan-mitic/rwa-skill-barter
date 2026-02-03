@@ -1,4 +1,11 @@
-import { IsOptional, IsNumber, Min, IsEnum } from 'class-validator';
+import {
+  IsOptional,
+  IsNumber,
+  Min,
+  IsEnum,
+  IsString,
+  IsNotEmpty,
+} from 'class-validator';
 import { Expose, Type } from 'class-transformer';
 import { SortBy, SortType } from '../enums/sort.enum';
 
@@ -26,4 +33,10 @@ export class PaginationParams {
   @IsEnum(SortType)
   @Expose()
   sortType?: SortType;
+
+  @IsOptional()
+  @IsString()
+  @IsNotEmpty()
+  @Expose()
+  search?: string;
 }

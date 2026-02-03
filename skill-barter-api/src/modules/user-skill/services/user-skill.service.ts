@@ -28,9 +28,8 @@ export class UserSkillService {
     try {
       await this.userSkillRepository.save(userSkill);
     } catch (error) {
-      throw new InternalServerErrorException(
-        `Failed to create UserSkill: ${error}`,
-      );
+      console.warn('USER SKILL SERVICE - CREATE USER SKILL:', error);
+      throw new InternalServerErrorException('Unexpected error');
     }
 
     return userSkill;

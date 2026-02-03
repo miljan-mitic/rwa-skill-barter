@@ -1,0 +1,30 @@
+<mat-form-field appearance="fill" class="full-width">
+  <mat-label>{{ label }}</mat-label>
+
+  <input
+    matInput
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    (input)="onSearch($event.target.value)"
+  />
+
+  <mat-select
+    [value]="value"
+    [disabled]="disabled"
+    [panelClass]="['remote-select-panel', size]"
+    (openedChange)="onOpened($event)"
+    (selectionChange)="onSelectionChange($event.value)"
+  >
+    @for (item of items$ | async; track trackBy(item)) {
+      <mat-option [value]="item">
+        {{ displayFn(item) }}
+      </mat-option>
+    }
+
+    @if (loading$ | async) {
+      <mat-option disabled>
+        <mat-progress-spinner diameter="20" mode="indeterminate"></mat-progress-spinner>
+      </mat-option>
+    }
+  </mat-select>
+</mat-form-field>

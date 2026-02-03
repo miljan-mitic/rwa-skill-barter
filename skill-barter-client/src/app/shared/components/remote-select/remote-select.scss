@@ -1,0 +1,20 @@
+.full-width {
+  width: 100%;
+}
+
+::ng-deep .remote-select-panel {
+  max-height: 150px !important;
+  overflow-y: auto !important;
+}
+
+::ng-deep .remote-select-panel.small {
+  max-height: 100px !important;
+}
+
+::ng-deep .remote-select-panel.medium {
+  max-height: 150px !important;
+}
+
+::ng-deep .remote-select-panel.large {
+  max-height: 200px !important;
+}

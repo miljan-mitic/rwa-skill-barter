@@ -18,7 +18,7 @@ export class LocalStrategy extends PassportStrategy(Strategy, 'local') {
       return user;
     } catch (error) {
       console.warn('LOCAL STRATEGY:', error);
-      throw new UnauthorizedException('You are failed on local validation');
+      throw error;
     }
   }
 }

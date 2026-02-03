@@ -28,16 +28,16 @@ export class CategoryService {
 
   async getCategories(filterCategoryDto: FilterCategoryDto) {
     const {
+      search,
       page = 0,
       pageSize = 10,
-      name,
       sortBy = SortBy.CREATED_AT,
       sortType = SortType.ASC,
     } = filterCategoryDto;
     const queryBuilder = this.categoryRepository.createQueryBuilder('category');
 
-    if (name) {
-      queryBuilder.where('category.name ILIKE :name', { name: `%${name}%` });
+    if (search) {
+      queryBuilder.where('category.name ILIKE :name', { name: `%${search}%` });
     }
 
     queryBuilder.orderBy(`category.${sortBy}`, sortType);

@@ -1,5 +1,6 @@
 import {
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -20,14 +21,28 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string) {
-    const user = await this.userService.getUserByEmail(email, true);
+    let user: User;
+    try {
+      user = await this.userService.getUserByEmail(email, true);
+    } catch (error) {
+      console.warn('AUTH SERVICE - VALIDATE USER:', error);
+      throw new InternalServerErrorException('Unexpected error');
+    }
     if (!user) {
       throw new NotFoundException('Invalid credentials');
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+
+    let isMatch: boolean;
+    try {
+      isMatch = await bcrypt.compare(password, user.password);
+    } catch (error) {
+      console.warn('AUTH SERVICE - BCRYPT COMPARE:', error);
+      throw new InternalServerErrorException('Unexpected error');
+    }
     if (!isMatch) {
       throw new UnauthorizedException('Invalid credentials');
     }
+
     delete user.password;
     return user;
   }

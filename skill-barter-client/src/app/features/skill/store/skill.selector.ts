@@ -11,15 +11,15 @@ export const selectSkillList = createSelector(selectSkillFeature, (state: SkillS
       acc.push(skill);
     }
     return acc;
-  }, [])
+  }, []),
 );
 
 export const selectSkillLength = createSelector(
   selectSkillFeature,
-  (state: SkillState) => state.length
+  (state: SkillState) => state.length,
 );
 
 export const selectSkillFilter = createSelector(
   selectSkillFeature,
-  (state: SkillState) => state.filter
+  (state: SkillState) => state.filter,
 );

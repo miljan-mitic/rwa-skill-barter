@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, filter, Observable, Subscription } from 'rxjs';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { combineLatest, filter, Observable } from 'rxjs';
 import { Skill } from '../../../../common/models/skill.model';
 import { Store } from '@ngrx/store';
 import { SkillState } from '../../store/skill.state';
@@ -16,6 +16,7 @@ import { SkillItem } from '../skill-item/skill-item';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-skill-list',
@@ -31,7 +32,10 @@ import { RouterLink } from '@angular/router';
   templateUrl: './skill-list.html',
   styleUrl: './skill-list.scss',
 })
-export class SkillList implements OnInit, OnDestroy {
+export class SkillList implements OnInit {
+  private store = inject(Store<SkillState>);
+  private destroyRef = inject(DestroyRef);
+
   skills$: Observable<Skill[]>;
   length$: Observable<number>;
 
@@ -40,35 +44,27 @@ export class SkillList implements OnInit, OnDestroy {
     pageSize: PAGINATION_PARAMS_INITIAL.PAGE_SIZE,
   };
 
-  filterSubscription: Subscription;
-
-  constructor(private readonly store: Store<SkillState>) {}
-
   ngOnInit(): void {
     this.store.dispatch(
       SkillActions.changeSkillPaginationFilter({ paginationParams: this.paginationParams }),
     );
 
-    this.filterSubscription = combineLatest([
-      this.store.select(selectSkillFilter),
-      this.store.select(selectCurrentUser),
-    ])
-      .pipe(filter(([_, user]) => !!user))
+    combineLatest([this.store.select(selectSkillFilter), this.store.select(selectCurrentUser)])
+      .pipe(
+        filter(([_, user]) => !!user),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe(([filter, user]) => {
         this.store.dispatch(
           SkillActions.loadSkills({
             skillFilterDto: filter || {},
-            ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
+            ...(user?.role === Role.ADMIN && { isAdmin: true }),
           }),
         );
       });
 
     this.skills$ = this.store.select(selectSkillList);
     this.length$ = this.store.select(selectSkillLength);
-  }
-
-  ngOnDestroy(): void {
-    this.filterSubscription.unsubscribe();
   }
 
   getData(pageEvent: PageEvent) {
