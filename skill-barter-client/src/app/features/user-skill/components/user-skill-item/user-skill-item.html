@@ -1,0 +1,27 @@
+<mat-card fxFlex="100%" [routerLink]="[userSkill.id]">
+  <mat-card-content class="clickable-text">
+    <div
+      fxLayout.gt-xs="row"
+      fxLayout.lt-sm="column"
+      fxLayoutAlign="space-between center"
+      fxLayoutGap="3%"
+    >
+      <mat-card-title>
+        {{ userSkill.skill?.name }}
+      </mat-card-title>
+      @if (userSkill.description) {
+        <div
+          #descriptionEl
+          class="responsive-text"
+          [matTooltip]="showTooltip ? userSkill.description : null"
+          matTooltipPosition="above"
+        >
+          {{ userSkill.description }}
+        </div>
+      }
+      <div>
+        {{ userSkill.createdAt | date: 'MMMM d, y, h:mm a' }}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

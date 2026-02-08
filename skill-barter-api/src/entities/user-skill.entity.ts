@@ -1,4 +1,5 @@
 import {
+  Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
@@ -14,6 +15,9 @@ export class UserSkill {
 
   @CreateDateColumn({ type: 'timestamp', nullable: false })
   createdAt: Date;
+
+  @Column({ nullable: true, length: 100 })
+  description: string;
 
   @ManyToOne(() => User, (user) => user.userSkills, { onDelete: 'CASCADE' })
   user: User;

@@ -1,0 +1,62 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card {
+  padding: 3% 10%;
+}
+
+.details-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-wrap: wrap;
+
+  div.detail-item {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid #ccc;
+    box-shadow:
+      0 4px 8px 0 rgba(0, 0, 0, 0.2),
+      0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 3%;
+    margin-bottom: 3%;
+    transition: transform 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
+
+    button {
+      color: #0044cc;
+      transition: color 0.2s ease;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        color: #003399;
+        transform: scale(1.05);
+      }
+
+      width: 64px;
+      height: 64px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      mat-icon {
+        font-size: 46px;
+        width: 46px;
+        height: 46px;
+        line-height: 1;
+      }
+    }
+  }
+}

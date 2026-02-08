@@ -17,5 +17,7 @@ export const AuthActions = createActionGroup({
     'Auto Login failure': props<{ error: any }>(),
 
     Logout: emptyProps(),
+
+    'Unauthorized access': emptyProps(),
   },
 });

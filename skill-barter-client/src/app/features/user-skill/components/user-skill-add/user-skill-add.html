@@ -1,0 +1,40 @@
+<form fxLayout="column" fxLayoutGap="20px" #skillForm="ngForm" (ngSubmit)="onSubmit(skillForm)">
+  <mat-card-title>Add a new Skill to your collection</mat-card-title>
+
+  <app-remote-searchable-select
+    [label]="'Category'"
+    [maxPage]="2"
+    [pageSize]="2"
+    [size]="'small'"
+    [fetchFn]="fetchCategoryFn"
+    [displayFn]="categoryLabel"
+    [trackBy]="trackCategory"
+    name="category"
+    [(ngModel)]="category"
+    required
+  />
+
+  <app-remote-searchable-select
+    [label]="'Skill'"
+    [maxPage]="2"
+    [pageSize]="2"
+    [size]="'small'"
+    [fetchFn]="fetchSkillFn"
+    [displayFn]="skillLabel"
+    [trackBy]="trackSkill"
+    name="skill"
+    [(ngModel)]="skill"
+    [extraFilters]="skillExtraFilters()"
+    [disabled]="!category()"
+    required
+  />
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput ngModel name="description" rows="4"></textarea>
+  </mat-form-field>
+
+  <button mat-fab extended class="add-button" type="submit" [disabled]="skillForm.invalid">
+    <mat-icon matPrefix fontIcon="add_circle"></mat-icon>ADD SKILL
+  </button>
+</form>

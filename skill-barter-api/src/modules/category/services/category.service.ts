@@ -37,7 +37,9 @@ export class CategoryService {
     const queryBuilder = this.categoryRepository.createQueryBuilder('category');
 
     if (search) {
-      queryBuilder.where('category.name ILIKE :name', { name: `%${search}%` });
+      queryBuilder.andWhere('category.name ILIKE :name', {
+        name: `%${search}%`,
+      });
     }
 
     queryBuilder.orderBy(`category.${sortBy}`, sortType);

@@ -3,6 +3,8 @@ import { SkillService } from '../services/skill.service';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { CreateSkillDto } from '../dtos/create-skill.dto';
 import { FilterSkillDto } from '../dtos/filter-skill.dto';
+import { UserDecorator } from 'src/common/decorators/user.decorator';
+import { User } from 'src/entities/user.entity';
 
 @Controller('skills')
 export class SkillController {
@@ -16,7 +18,10 @@ export class SkillController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  getSkills(@Query() filterSkillDto: FilterSkillDto) {
-    return this.skillService.getSkills(filterSkillDto);
+  getSkills(
+    @UserDecorator() user: User,
+    @Query() filterSkillDto: FilterSkillDto,
+  ) {
+    return this.skillService.getSkills(user, filterSkillDto);
   }
 }

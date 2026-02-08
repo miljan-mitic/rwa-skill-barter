@@ -1,5 +1,5 @@
 import { AuthEffects } from '../features/auth/store/auth.effects';
 import { OfferEffects } from '../features/offer/store/offer.effects';
-import { SkillEffects } from '../features/skill/store/skill.effects';
+import { UserSkillEffects } from '../features/user-skill/store/user-skill.effects';
 
-export const appEffects = [AuthEffects, OfferEffects, SkillEffects];
+export const appEffects = [AuthEffects, OfferEffects, UserSkillEffects];

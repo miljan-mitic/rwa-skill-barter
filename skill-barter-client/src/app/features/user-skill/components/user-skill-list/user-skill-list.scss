@@ -1,9 +1,24 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card {
+  border-radius: none;
+  box-shadow: none;
+}
+
 mat-list mat-list-item {
   height: 100%;
 }
 
 mat-list {
-  padding: 4%;
+  padding: 3% 10%;
+
+  @media screen and (max-width: 850px) {
+    padding-top: 5%;
+  }
 }
 
 mat-list-item {
@@ -16,14 +31,13 @@ mat-list-item {
 }
 
 mat-list-item {
-  cursor: grab;
   transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
-mat-list-item:hover {
-  transform: scale(1.02);
-}
-
-.empty-skills {
+.empty-user-skills {
   padding-left: 20px;
 }

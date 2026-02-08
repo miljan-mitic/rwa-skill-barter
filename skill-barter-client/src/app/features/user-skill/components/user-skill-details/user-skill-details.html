@@ -1,0 +1,44 @@
+@if (userSkill$ | async; as userSkill) {
+  <mat-card fxFlex fxLayout="column">
+    <mat-card-content fxFlex fxLayout="column">
+      <div
+        class="details-container"
+        fxLayout.gt-xs="row"
+        fxLayoutAlign="space-around"
+        fxLayoutGap="3%"
+      >
+        <div class="detail-item">
+          <mat-card-title> Category </mat-card-title>
+          <div>{{ userSkill.skill?.category?.name }}</div>
+        </div>
+        <div class="detail-item">
+          <mat-card-title> Name </mat-card-title>
+          <div>{{ userSkill.skill?.name }}</div>
+        </div>
+        @if (userSkill.description) {
+          <div class="detail-item">
+            <mat-card-title> Description </mat-card-title>
+            <div>{{ userSkill.description }}</div>
+          </div>
+        }
+        <div class="detail-item">
+          <mat-card-title> Created at </mat-card-title>
+          <div>{{ userSkill.createdAt | date: 'MMMM d, y, h:mm a' }}</div>
+        </div>
+
+        <div class="detail-item">
+          <button mat-icon-button color="primary" [routerLink]="['edit']">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+        <div class="detail-item">
+          <button matIconButton color="primary" (click)="deleteUserSkill(userSkill.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+} @else {
+  <p>Loading...</p>
+}

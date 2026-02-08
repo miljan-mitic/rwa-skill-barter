@@ -10,6 +10,8 @@ import { CreateSkillDto } from '../dtos/create-skill.dto';
 import { CategoryService } from 'src/modules/category/services/category.service';
 import { FilterSkillDto } from '../dtos/filter-skill.dto';
 import { SortBy, SortType } from 'src/common/enums/sort.enum';
+import { User } from 'src/entities/user.entity';
+import { UserSkill } from 'src/entities/user-skill.entity';
 
 @Injectable()
 export class SkillService {
@@ -43,10 +45,11 @@ export class SkillService {
     return skill;
   }
 
-  async getSkills(filterSkillDto: FilterSkillDto) {
+  async getSkills(user: User, filterSkillDto: FilterSkillDto) {
     const {
-      search,
       categoryId,
+      userSkills,
+      search,
       page = 0,
       pageSize = 10,
       sortBy = SortBy.CREATED_AT,
@@ -58,8 +61,21 @@ export class SkillService {
       queryBuilder.andWhere('skill.categoryId = :categoryId', { categoryId });
     }
 
+    if (userSkills !== undefined) {
+      queryBuilder
+        .leftJoin(
+          UserSkill,
+          'userSkill',
+          'userSkill.skillId = skill.id AND userSkill.userId = :userId',
+          {
+            userId: user.id,
+          },
+        )
+        .andWhere(`userSkill.id IS ${userSkills ? 'NOT' : ''} NULL`);
+    }
+
     if (search) {
-      queryBuilder.where('skill.name ILIKE :name', { name: `%${search}%` });
+      queryBuilder.andWhere('skill.name ILIKE :name', { name: `%${search}%` });
     }
 
     queryBuilder.orderBy(`skill.${sortBy}`, sortType);

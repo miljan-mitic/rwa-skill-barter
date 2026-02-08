@@ -1,0 +1,25 @@
+mat-card {
+  cursor: pointer;
+}
+
+mat-card-title {
+  color: #333333;
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mat-mdc-card-title {
+  color: inherit;
+}
+
+.clickable-text:hover {
+  color: #0044cc;
+}
+
+.responsive-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

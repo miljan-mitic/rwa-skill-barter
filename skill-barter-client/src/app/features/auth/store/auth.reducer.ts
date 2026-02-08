@@ -28,6 +28,7 @@ export const authReducer = createReducer(
     AuthActions.loginFailure,
     AuthActions.autoLoginFailure,
     AuthActions.logout,
+    AuthActions.unauthorizedAccess,
     (state) => ({
       ...state,
       status: AuthStatus.UNAUTHENTICATED,

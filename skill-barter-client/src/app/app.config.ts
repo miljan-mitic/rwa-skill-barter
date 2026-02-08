@@ -22,6 +22,7 @@ import { provideSocketIo } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
 import { authenticationInterceptor } from './features/auth/interceptors/auth.interceptor';
 import { authInitializer } from './features/auth/initializers/auth.initializer';
+import { provideRouterStore } from '@ngrx/router-store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes),
     provideStore<AppState>(appReducers),
     provideEffects(appEffects),
+    provideRouterStore(),
     provideHttpClient(withInterceptors([authenticationInterceptor])),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideAnimations(),
@@ -44,5 +46,6 @@ export const appConfig: ApplicationConfig = {
       options: { transports: ['websocket'], reconnection: true },
     }),
     provideAppInitializer(authInitializer),
+    provideRouterStore(),
   ],
 };

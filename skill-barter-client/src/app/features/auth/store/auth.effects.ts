@@ -91,10 +91,26 @@ export class AuthEffects {
   logout$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(AuthActions.logout),
+        ofType(AuthActions.logout, AuthActions.unauthorizedAccess),
         tap(() => {
+          console.log('Logging out user...');
           (localStorage.removeItem(KEYS.ACCESS_TOKEN), this.router.navigate(['/login']));
         }),
+      ),
+    { dispatch: false },
+  );
+
+  authFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.loginFailure),
+        tap(({ error }) =>
+          this.notificationService.showMessage(
+            NotificationSeverity.ERROR,
+            NotificationSummary.ERROR,
+            error.error?.message || 'Invalid credentials. Please try again.',
+          ),
+        ),
       ),
     { dispatch: false },
   );

@@ -1,4 +1,13 @@
-import { Component, DestroyRef, forwardRef, inject, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  DestroyRef,
+  forwardRef,
+  inject,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   BehaviorSubject,
@@ -30,7 +39,7 @@ import { PageResponse } from '../../../common/interfaces/page-result.interface';
 import { FilterParams } from '../../../common/types/filter-params.type';
 
 @Component({
-  selector: 'app-remote-select',
+  selector: 'app-remote-searchable-select',
   imports: [
     MatFormFieldModule,
     MatInputModule,
@@ -41,14 +50,16 @@ import { FilterParams } from '../../../common/types/filter-params.type';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RemoteSelect),
+      useExisting: forwardRef(() => RemoteSearchableSelect),
       multi: true,
     },
   ],
-  templateUrl: './remote-select.html',
-  styleUrl: './remote-select.scss',
+  templateUrl: './remote-searchable-select.html',
+  styleUrl: './remote-searchable-select.scss',
 })
-export class RemoteSelect<T, K extends PaginationParams> implements ControlValueAccessor, OnInit {
+export class RemoteSearchableSelect<T, K extends PaginationParams>
+  implements OnInit, ControlValueAccessor
+{
   @Input({ required: true }) label: string;
   @Input() placeholder = 'Search...';
   @Input() maxPage = 5;
@@ -71,6 +82,8 @@ export class RemoteSelect<T, K extends PaginationParams> implements ControlValue
   get extraFilters(): Partial<K> | null {
     return this._extraFilters;
   }
+
+  @Input({ transform: booleanAttribute }) required = false;
 
   /**
    * Function to fetch data from the API.
