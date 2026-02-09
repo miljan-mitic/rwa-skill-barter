@@ -1,0 +1,19 @@
+@if (confirmDialog$ | async; as confirmDialog) {
+  @if (confirmDialog.isOpen) {
+    <div class="confirm-backdrop">
+      <div class="confirm-dialog">
+
+        <h2>{{ confirmDialog.title }}</h2>
+        <p>{{ confirmDialog.message }}</p>
+
+        <div class="actions">
+          <button mat-button (click)="cancel()">Cancel</button>
+          <button mat-flat-button color="warn" (click)="confirm()">
+            Delete
+          </button>
+        </div>
+
+      </div>
+    </div>
+  }
+}

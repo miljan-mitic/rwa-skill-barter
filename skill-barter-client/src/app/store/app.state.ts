@@ -3,6 +3,7 @@ import { AuthState } from '../features/auth/store/auth.state';
 import { OfferState } from '../features/offer/store/offer.state';
 import { UserSkillState } from '../features/user-skill/store/user-skill.state';
 import { UserState } from '../features/user/state/user.state';
+import { ConfirmDialogState } from '../shared/confirm-dialog/store/confirm-dialog.state';
 
 export interface AppState {
   auth: AuthState;
@@ -10,4 +11,5 @@ export interface AppState {
   offer: OfferState;
   userSkill: UserSkillState;
   router: RouterReducerState;
+  confirmDialog: ConfirmDialogState;
 }

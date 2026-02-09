@@ -1,4 +1,20 @@
 <form fxLayout="column" fxLayoutGap="20px" #skillForm="ngForm" (ngSubmit)="onSubmit(skillForm)">
+  <!-- <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <input matInput ngModel type="text" name="category" required #categoryInput="ngModel" />
+    @if (categoryInput.hasError('required')) {
+      <mat-error>Category is required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Skill Name</mat-label>
+    <input matInput ngModel type="text" name="skillName" required #skillNameInput="ngModel" />
+    @if (skillNameInput.hasError('required')) {
+      <mat-error>Skill Name is required</mat-error>
+    }
+  </mat-form-field>-->
+
   <mat-card-title>Add a new Skill to your collection</mat-card-title>
 
   <app-remote-searchable-select
@@ -31,10 +47,28 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Description</mat-label>
-    <textarea matInput ngModel name="description" rows="4"></textarea>
+    <textarea
+      matInput
+      ngModel
+      #descriptionInput="ngModel"
+      name="description"
+      rows="4"
+      maxlength="100"
+    ></textarea>
+    <mat-hint align="end">{{ descriptionInput.value?.length || 0 }}/100 </mat-hint>
+    @if (descriptionInput.hasError('maxlength')) {
+      <mat-error>Description is too long (max 100 characters)</mat-error>
+    }
   </mat-form-field>
 
-  <button mat-fab extended class="add-button" type="submit" [disabled]="skillForm.invalid">
+  <button
+    mat-fab
+    extended
+    class="add-button"
+    color="primary"
+    type="submit"
+    [disabled]="skillForm.invalid"
+  >
     <mat-icon matPrefix fontIcon="add_circle"></mat-icon>ADD SKILL
   </button>
 </form>

@@ -3,6 +3,7 @@ import { authReducer } from '../features/auth/store/auth.reducer';
 import { offerReducer } from '../features/offer/store/offer.reducer';
 import { userSkillReducer } from '../features/user-skill/store/user-skill.reducer';
 import { userReducer } from '../features/user/state/user.reducer';
+import { confirmDialogReducer } from '../shared/confirm-dialog/store/confirm-dialog.reducer';
 
 export const appReducers = {
   auth: authReducer,
@@ -10,4 +11,5 @@ export const appReducers = {
   offer: offerReducer,
   userSkill: userSkillReducer,
   router: routerReducer,
+  confirmDialog: confirmDialogReducer,
 };

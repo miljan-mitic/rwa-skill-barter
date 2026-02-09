@@ -22,6 +22,7 @@ import { Store } from '@ngrx/store';
 import { UserSkillState } from '../../store/user-skill.state';
 import { UserSkillActions } from '../../store/user-skill.actions';
 import { UserSkillDto } from '../../dtos/user-skill.dto';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-user-skill-add',
@@ -36,6 +37,7 @@ import { UserSkillDto } from '../../dtos/user-skill.dto';
     FlexLayoutModule,
     CommonModule,
     RemoteSearchableSelect,
+    MatMenuModule,
   ],
   templateUrl: './user-skill-add.html',
   styleUrl: './user-skill-add.scss',

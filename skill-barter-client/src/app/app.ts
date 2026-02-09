@@ -5,10 +5,11 @@ import { ToastModule } from 'primeng/toast';
 import { Footer } from './layout/components/footer/footer';
 import { CallService } from './call.service';
 import { SignalingService } from './signaling.service';
+import { ConfirmDialog } from './shared/confirm-dialog/components/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Header, ToastModule, Footer],
+  imports: [RouterOutlet, Header, ToastModule, Footer, ConfirmDialog],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

@@ -58,7 +58,7 @@ export class UserSkillEffects {
           map(({ items, totalItems }) =>
             UserSkillActions.loadUserSkillsSuccess({ userSkills: items, length: totalItems }),
           ),
-          catchError((error) => of(UserSkillActions.loadUserSkillsFailure({ error }))),
+          catchError((error) => of(UserSkillActions.loadUserSkillsFailure(error))),
         );
       }),
     ),
@@ -70,10 +70,50 @@ export class UserSkillEffects {
       switchMap(({ id, isAdmin }) =>
         this.userSkillService.getById(id, isAdmin).pipe(
           map((userSkill) => UserSkillActions.loadUserSkillSuccess({ userSkill })),
-          catchError((error) => of(UserSkillActions.loadUserSkillFailure({ error }))),
+          catchError((error) => of(UserSkillActions.loadUserSkillFailure(error))),
         ),
       ),
     ),
+  );
+
+  updateUserSkill$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserSkillActions.updateUserSkill),
+      switchMap(({ id, userSkillUpdateDto }) =>
+        this.userSkillService.update(id, userSkillUpdateDto).pipe(
+          map((userSkill) => UserSkillActions.updateUserSkillSuccess({ userSkill })),
+          catchError((error) => of(UserSkillActions.updateUserSkillFailure(error))),
+        ),
+      ),
+    ),
+  );
+
+  deleteUserSkill$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserSkillActions.deleteUserSkill),
+      switchMap(({ id }) =>
+        this.userSkillService.delete(id).pipe(
+          map(() => UserSkillActions.deleteUserSkillSuccess()),
+          catchError((error) => of(UserSkillActions.deleteUserSkillFailure(error))),
+        ),
+      ),
+    ),
+  );
+
+  deleteUserSkillSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserSkillActions.deleteUserSkillSuccess),
+        tap(() => {
+          this.router.navigate(['/dashboard/skills']);
+          this.notificationService.showMessage(
+            NotificationSeverity.SUCCESS,
+            NotificationSummary.SUCCESS,
+            'Skill deleted successfully',
+          );
+        }),
+      ),
+    { dispatch: false },
   );
 
   userSkillFailure$ = createEffect(() =>
@@ -82,8 +122,11 @@ export class UserSkillEffects {
         UserSkillActions.createUserSkillFailure,
         UserSkillActions.loadUserSkillsFailure,
         UserSkillActions.loadUserSkillFailure,
+        UserSkillActions.updateUserSkillFailure,
+        UserSkillActions.deleteUserSkillFailure,
       ),
       mergeMap(({ error }) => {
+        console.error('User Skill Error:', error);
         if (error?.statusCode === HttpStatusCode.Unauthorized) {
           return of(AuthActions.unauthorizedAccess());
         }

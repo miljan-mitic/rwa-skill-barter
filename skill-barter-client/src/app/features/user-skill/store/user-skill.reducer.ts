@@ -31,10 +31,14 @@ export const userSkillReducer = createReducer(
       length,
     });
   }),
-  on(UserSkillActions.loadUserSkillSuccess, (state: UserSkillState, { userSkill }) => {
-    return {
-      ...state,
-      detailedUserSkill: userSkill,
-    };
-  }),
+  on(
+    UserSkillActions.loadUserSkillSuccess,
+    UserSkillActions.updateUserSkillSuccess,
+    (state: UserSkillState, { userSkill }) => {
+      return {
+        ...state,
+        detailedUserSkill: userSkill,
+      };
+    },
+  ),
 );

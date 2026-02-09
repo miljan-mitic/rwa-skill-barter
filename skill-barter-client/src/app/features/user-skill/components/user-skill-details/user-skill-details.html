@@ -1,42 +1,72 @@
 @if (userSkill$ | async; as userSkill) {
   <mat-card fxFlex fxLayout="column">
     <mat-card-content fxFlex fxLayout="column">
-      <div
+      <form
+        [formGroup]="userSkillForm"
         class="details-container"
         fxLayout.gt-xs="row"
-        fxLayoutAlign="space-around"
-        fxLayoutGap="3%"
+        fxLayoutAlign="space-between"
       >
         <div class="detail-item">
           <mat-card-title> Category </mat-card-title>
-          <div>{{ userSkill.skill?.category?.name }}</div>
-        </div>
-        <div class="detail-item">
-          <mat-card-title> Name </mat-card-title>
-          <div>{{ userSkill.skill?.name }}</div>
-        </div>
-        @if (userSkill.description) {
-          <div class="detail-item">
-            <mat-card-title> Description </mat-card-title>
-            <div>{{ userSkill.description }}</div>
-          </div>
-        }
-        <div class="detail-item">
-          <mat-card-title> Created at </mat-card-title>
-          <div>{{ userSkill.createdAt | date: 'MMMM d, y, h:mm a' }}</div>
+          <div class="responsive-text">{{ userSkill.skill?.category?.name }}</div>
         </div>
 
         <div class="detail-item">
-          <button mat-icon-button color="primary" [routerLink]="['edit']">
-            <mat-icon>edit</mat-icon>
+          <mat-card-title> Name </mat-card-title>
+          <div class="responsive-text">{{ userSkill.skill?.name }}</div>
+        </div>
+
+        <div class="detail-item textarea-div">
+          <mat-card-title> Description </mat-card-title>
+          @if (!isEditMode()) {
+            <div class="responsive-text">{{ userSkill.description }}</div>
+          } @else {
+            <mat-form-field appearance="fill" class="textarea-form-field">
+              <mat-label>Description</mat-label>
+              <textarea
+                matInput
+                formControlName="description"
+                rows="4"
+                class="resizable-textarea"
+              ></textarea>
+              <mat-hint align="end"
+                >{{ userSkillForm.get('description')?.value?.length || 0 }}/100
+              </mat-hint>
+              @if (userSkillForm.get('description')?.hasError('maxlength')) {
+                <mat-error> Description cannot be longer than 100 characters. </mat-error>
+              }
+            </mat-form-field>
+          }
+        </div>
+
+        <div class="detail-item">
+          <mat-card-title> Created at </mat-card-title>
+          <div class="responsive-text">{{ userSkill.createdAt | date: 'MMMM d, y, h:mm a' }}</div>
+        </div>
+
+        <div class="detail-item">
+          <button
+            mat-icon-button
+            [matTooltip]="isEditMode() ? 'Save changes' : 'Edit'"
+            [color]="isEditMode() ? 'primary' : 'accent'"
+            [disabled]="isEditMode() && (userSkillForm.invalid || isSaving())"
+            (click)="toggleEditMode()"
+          >
+            @if (isSaving()) {
+              <mat-progress-spinner diameter="24" mode="indeterminate"></mat-progress-spinner>
+            } @else {
+              <mat-icon>{{ isEditMode() ? 'save' : 'edit' }}</mat-icon>
+            }
           </button>
         </div>
+
         <div class="detail-item">
-          <button matIconButton color="primary" (click)="deleteUserSkill(userSkill.id)">
+          <button mat-icon-button matTooltip="Delete" color="warn" (click)="deleteUserSkill()">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
-      </div>
+      </form>
     </mat-card-content>
   </mat-card>
 } @else {

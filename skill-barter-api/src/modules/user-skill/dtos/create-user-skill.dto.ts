@@ -19,5 +19,5 @@ export class CreateUserSkillDto {
   @IsString({ message: 'DESCRIPTION_WRONG_TYPE' })
   @IsNotEmpty({ message: 'DESCRIPTION_EMPTY' })
   @Expose()
-  description: string;
+  description?: string;
 }

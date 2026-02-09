@@ -11,6 +11,7 @@ import { User } from 'src/entities/user.entity';
 import { SkillService } from 'src/modules/skill/services/skill.service';
 import { FilterUserSkillDto } from '../dtos/filter-user-skill.dto';
 import { SortBy, SortType } from 'src/common/enums/sort.enum';
+import { UpdateUserSkillDto } from '../dtos/update-user-skill.dto';
 
 @Injectable()
 export class UserSkillService {
@@ -46,6 +47,34 @@ export class UserSkillService {
       throw new InternalServerErrorException('Unexpected error');
     }
     return newUserSkill;
+  }
+
+  async updateUserSkill(
+    user: User,
+    id: number,
+    updateUserSkillDto: UpdateUserSkillDto,
+  ) {
+    const { description } = updateUserSkillDto;
+
+    const userSkill = await this.userSkillRepository.findOneBy({
+      id,
+      user: { id: user.id },
+    });
+
+    if (!userSkill) {
+      throw new BadRequestException('User skill not found');
+    }
+
+    userSkill.description = description;
+
+    try {
+      await this.userSkillRepository.save(userSkill);
+    } catch (error) {
+      console.warn('USER SKILL SERVICE - UPDATE USER SKILL:', error);
+      throw new InternalServerErrorException('Unexpected error');
+    }
+
+    return userSkill;
   }
 
   async getUserSkills(user: User, filterUserSkillDto: FilterUserSkillDto) {
@@ -94,5 +123,9 @@ export class UserSkillService {
     }
 
     return userSkill;
+  }
+
+  deleteUserSkill(user: User, id: number) {
+    return this.userSkillRepository.delete({ id, user: { id: user.id } });
   }
 }
