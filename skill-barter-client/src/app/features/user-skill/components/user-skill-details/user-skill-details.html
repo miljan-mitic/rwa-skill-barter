@@ -69,6 +69,6 @@
       </form>
     </mat-card-content>
   </mat-card>
-} @else {
-  <p>Loading...</p>
+} @else if (loading$ | async) {
+  <app-loader [overlay]="false"></app-loader>
 }

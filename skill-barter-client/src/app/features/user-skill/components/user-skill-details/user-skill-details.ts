@@ -8,7 +8,7 @@ import { UserSkillActions } from '../../store/user-skill.actions';
 import { Role } from '../../../../common/enums/role.enum';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserSkill } from '../../../../common/models/user-skill.model';
-import { selectDetailedUserSkill } from '../../store/user-skill.selector';
+import { selectDetailedUserSkill, selectUserSkillLoading } from '../../store/user-skill.selector';
 import { MatCardModule } from '@angular/material/card';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -20,6 +20,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmDialogActions } from '../../../../shared/confirm-dialog/store/confirm-dialog.actions';
+import { Loader } from '../../../../shared/components/loader/loader';
 
 @Component({
   selector: 'app-user-skill-details',
@@ -35,18 +36,19 @@ import { ConfirmDialogActions } from '../../../../shared/confirm-dialog/store/co
     AsyncPipe,
     DatePipe,
     FlexLayoutModule,
+    Loader,
   ],
   templateUrl: './user-skill-details.html',
   styleUrl: './user-skill-details.scss',
 })
 export class UserSkillDetails implements OnInit {
   userSkillForm: FormGroup;
-  // descriptionControl = new FormControl({ value: '', disabled: false }, [Validators.maxLength(100)]);
 
   isEditMode = signal<boolean>(false);
   isSaving = signal<boolean>(false);
 
   userSkill$: Observable<UserSkill | undefined>;
+  loading$: Observable<boolean>;
   userSkill: UserSkill;
 
   private store = inject(Store<UserSkillState>);
@@ -55,6 +57,7 @@ export class UserSkillDetails implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadUserSkill();
+    this.loading$ = this.store.select(selectUserSkillLoading);
   }
 
   private initForm() {

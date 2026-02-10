@@ -1,0 +1,37 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.empty {
+  height: 100%;
+  min-height: 300px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+  color: #666;
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    color: #b0bec5;
+  }
+
+  h3 {
+    margin: 0 0 8px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  p {
+    margin: 0 0 24px;
+    max-width: 320px;
+  }
+}

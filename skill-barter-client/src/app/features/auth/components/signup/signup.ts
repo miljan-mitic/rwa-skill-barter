@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth.state';
@@ -25,14 +25,14 @@ import { SignupAuthDto } from '../../dtos/signup-auth.dto';
 @Component({
   selector: 'app-signup',
   imports: [
-    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    FlexLayoutModule,
     MatToolbarModule,
     MatIconModule,
+    FormsModule,
+    FlexLayoutModule,
     FileUploadModule,
     AvatarModule,
     AvatarGroupModule,
@@ -41,6 +41,9 @@ import { SignupAuthDto } from '../../dtos/signup-auth.dto';
   styleUrl: './signup.scss',
 })
 export class Signup {
+  hidePassword = signal<boolean>(true);
+  hideConfirmPassword = signal<boolean>(true);
+
   uploadedImage: string;
 
   readonly USERNAME_MIN_LENGTH = 6;
@@ -83,6 +86,16 @@ export class Signup {
       return IMAGES_URL + `/${ImageType.PROFILE_PICTURE}/` + imgPath;
     } else {
       return DEFAULT.USER.IMAGE;
+    }
+  }
+
+  toogleVisibilityPassword(hideSignal: WritableSignal<boolean>) {
+    hideSignal.update((v) => !v);
+  }
+
+  resetVisibilityPasswordIfEmpty(value: string, hideSignal: WritableSignal<boolean>) {
+    if (!value) {
+      hideSignal.set(true);
     }
   }
 }

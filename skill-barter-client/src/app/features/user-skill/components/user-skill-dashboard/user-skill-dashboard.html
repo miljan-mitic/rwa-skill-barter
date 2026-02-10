@@ -1,8 +1,14 @@
 <mat-card fxFlex fxLayout="column">
-  <div class="add-skill-button-container" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-    <button mat-fab extended color="primary" routerLink="add">
-      <mat-icon>add</mat-icon>ADD SKILL
-    </button>
-  </div>
-  <app-user-skill-list></app-user-skill-list>
+  <app-user-skill-list>
+    <div
+      class="add-skill-button-container"
+      fxLayout="row"
+      fxLayoutAlign="center"
+      fxLayoutGap="10px"
+    >
+      <button mat-fab extended color="primary" routerLink="add">
+        <mat-icon>add</mat-icon>ADD SKILL
+      </button>
+    </div>
+  </app-user-skill-list>
 </mat-card>

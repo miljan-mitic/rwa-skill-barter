@@ -8,11 +8,18 @@ const adapter = createEntityAdapter<UserSkill>();
 
 export const initialState: UserSkillState = adapter.getInitialState({
   length: 0,
+  loading: false,
   filter: {},
 });
 
 export const userSkillReducer = createReducer(
   initialState,
+  on(UserSkillActions.loadUserSkills, UserSkillActions.loadUserSkill, (state: UserSkillState) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
   on(
     UserSkillActions.changeUserSkillPaginationFilter,
     (state: UserSkillState, { paginationParams }) => {
@@ -29,6 +36,7 @@ export const userSkillReducer = createReducer(
     return adapter.setAll(userSkills, {
       ...state,
       length,
+      loading: false,
     });
   }),
   on(
@@ -38,6 +46,17 @@ export const userSkillReducer = createReducer(
       return {
         ...state,
         detailedUserSkill: userSkill,
+        loading: false,
+      };
+    },
+  ),
+  on(
+    UserSkillActions.loadUserSkillsFailure,
+    UserSkillActions.loadUserSkillFailure,
+    (state: UserSkillState) => {
+      return {
+        ...state,
+        loading: false,
       };
     },
   ),

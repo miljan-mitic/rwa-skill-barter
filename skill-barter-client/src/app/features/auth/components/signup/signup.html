@@ -51,12 +51,13 @@
           <mat-hint
             >Please enter a username with at least {{ USERNAME_MIN_LENGTH }} characters.</mat-hint
           >
-          @if(usernameInput.hasError('required')) {
-          <mat-error>Username is required</mat-error>
-          } @if(usernameInput.hasError('minlength')) {
-          <mat-error
-            >Username must be at least {{ USERNAME_MIN_LENGTH }} characters long.</mat-error
-          >
+          @if (usernameInput.hasError('required')) {
+            <mat-error>Username is required</mat-error>
+          }
+          @if (usernameInput.hasError('minlength')) {
+            <mat-error
+              >Username must be at least {{ USERNAME_MIN_LENGTH }} characters long.</mat-error
+            >
           }
         </mat-form-field>
 
@@ -64,48 +65,83 @@
           <mat-label>Email</mat-label>
           <mat-icon matPrefix fontIcon="email"></mat-icon>
           <input matInput ngModel type="email" name="email" required #emailInput="ngModel" />
-          @if(emailInput.hasError('required')) {
-          <mat-error>Email is required</mat-error>
-          } @if(emailInput.hasError('email')) {
-          <mat-error>Enter valid email</mat-error>
+          @if (emailInput.hasError('required')) {
+            <mat-error>Email is required</mat-error>
+          }
+          @if (emailInput.hasError('email')) {
+            <mat-error>Enter valid email</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Password</mat-label>
           <mat-icon matPrefix fontIcon="password"></mat-icon>
+
           <input
             matInput
             ngModel
-            type="password"
+            [type]="hidePassword() ? 'password' : 'text'"
             name="password"
             [pattern]="PASSWORD_PATTERN"
             required
             #passwordInput="ngModel"
+            (ngModelChange)="resetVisibilityPasswordIfEmpty($event, hidePassword)"
           />
-          @if(passwordInput.hasError('required')) {
-          <mat-error>Password is required</mat-error>
-          } @if(passwordInput.hasError('pattern')) {
-          <mat-error
-            >Password must contain uppercase and lowercase letters, a number, a special character,
-            and be at least 8 characters long.</mat-error
-          >
+
+          @if (passwordInput.value) {
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="toogleVisibilityPassword(hidePassword)"
+              [attr.aria-label]="'Toggle password visibility'"
+              [attr.aria-password]="!hidePassword()"
+            >
+              <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          }
+
+          @if (passwordInput.hasError('required')) {
+            <mat-error>Password is required</mat-error>
+          }
+          @if (passwordInput.hasError('pattern')) {
+            <mat-error
+              >Password must contain uppercase and lowercase letters, a number, a special character,
+              and be at least 8 characters long.</mat-error
+            >
           }
         </mat-form-field>
 
         <mat-form-field>
           <mat-label>Confirm password</mat-label>
           <mat-icon matPrefix fontIcon="password"></mat-icon>
+
           <input
             matInput
             ngModel
-            type="password"
+            [type]="hideConfirmPassword() ? 'password' : 'text'"
             name="confirmPassword"
+            placeholder="Enter confirm password"
             required
             #confirmPasswordInput="ngModel"
+            (ngModelChange)="resetVisibilityPasswordIfEmpty($event, hideConfirmPassword)"
           />
-          @if(passwordInput.hasError('required')) {
-          <mat-error>Confirm password is required</mat-error>
+
+          @if (confirmPasswordInput.value) {
+            <button
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="toogleVisibilityPassword(hideConfirmPassword)"
+              [attr.aria-label]="'Toggle password visibility'"
+              [attr.aria-password]="!hideConfirmPassword()"
+            >
+              <mat-icon>{{ hideConfirmPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          }
+
+          @if (confirmPasswordInput.hasError('required')) {
+            <mat-error>Confirm password is required</mat-error>
           }
         </mat-form-field>
 

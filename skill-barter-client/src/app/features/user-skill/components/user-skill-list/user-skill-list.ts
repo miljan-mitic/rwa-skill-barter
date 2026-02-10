@@ -14,16 +14,33 @@ import {
   selectUserSkillFilter,
   selectUserSkillLength,
   selectUserSkillList,
+  selectUserSkillLoading,
 } from '../../store/user-skill.selector';
 import { selectCurrentUser } from '../../../user/state/user.selector';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Role } from '../../../../common/enums/role.enum';
 import { UserSkillItem } from '../user-skill-item/user-skill-item';
 import { SortBy, SortType } from '../../../../common/enums/sort.enum';
+import { MatIconModule } from '@angular/material/icon';
+import { Loader } from '../../../../shared/components/loader/loader';
+import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-user-skill-list',
-  imports: [MatListModule, MatPaginatorModule, AsyncPipe, UserSkillItem, FlexLayoutModule],
+  imports: [
+    MatListModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatButtonModule,
+    AsyncPipe,
+    UserSkillItem,
+    FlexLayoutModule,
+    RouterLink,
+    Loader,
+    EmptyState,
+  ],
   templateUrl: './user-skill-list.html',
   styleUrl: './user-skill-list.scss',
 })
@@ -33,6 +50,7 @@ export class UserSkillList implements OnInit {
 
   userSkills$: Observable<UserSkill[]>;
   length$: Observable<number>;
+  loading$: Observable<boolean>;
 
   paginationParams: PaginationParams = {
     page: PAGINATION_PARAMS_INITIAL.PAGE,
@@ -62,6 +80,7 @@ export class UserSkillList implements OnInit {
 
     this.userSkills$ = this.store.select(selectUserSkillList);
     this.length$ = this.store.select(selectUserSkillLength);
+    this.loading$ = this.store.select(selectUserSkillLoading);
   }
 
   getData(pageEvent: PageEvent) {

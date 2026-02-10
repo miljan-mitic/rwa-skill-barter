@@ -19,6 +19,11 @@ export const selectUserSkillLength = createSelector(
   (state: UserSkillState) => state.length,
 );
 
+export const selectUserSkillLoading = createSelector(
+  selectUserSkillFeature,
+  (state: UserSkillState) => state.loading,
+);
+
 export const selectUserSkillFilter = createSelector(
   selectUserSkillFeature,
   (state: UserSkillState) => state.filter,

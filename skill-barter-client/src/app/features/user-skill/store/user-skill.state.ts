@@ -7,6 +7,7 @@ import { UserSkillFilterDto } from '../dtos/user-skill-filter.dto';
 export interface UserSkillState extends EntityState<UserSkill> {
   filter?: UserSkillFilter;
   length: number;
+  loading: boolean;
   detailedUserSkill?: UserSkill;
 }
 

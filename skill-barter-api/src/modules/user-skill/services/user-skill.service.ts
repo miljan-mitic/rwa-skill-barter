@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  NotFoundException,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -62,7 +63,7 @@ export class UserSkillService {
     });
 
     if (!userSkill) {
-      throw new BadRequestException('User skill not found');
+      throw new NotFoundException('User skill not found');
     }
 
     userSkill.description = description;
@@ -119,7 +120,7 @@ export class UserSkillService {
     });
 
     if (!userSkill) {
-      throw new BadRequestException('User skill not found');
+      throw new NotFoundException('User skill not found');
     }
 
     return userSkill;

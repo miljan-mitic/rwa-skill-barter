@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AuthState } from '../../store/auth.state';
@@ -30,12 +30,24 @@ import { LoginAuthDto } from '../../dtos/login-auth.dto';
   styleUrl: './login.scss',
 })
 export class Login {
+  hidePassword = signal<boolean>(true);
+
   constructor(private store: Store<AuthState>) {}
 
   onSubmit(form: NgForm): void {
     if (form.valid) {
       const loginAuthDto: LoginAuthDto = form.value;
       this.store.dispatch(AuthActions.login({ loginAuthDto }));
+    }
+  }
+
+  toogleVisibilityPassword(hideSignal: WritableSignal<boolean>) {
+    hideSignal.update((v) => !v);
+  }
+
+  resetVisibilityPasswordIfEmpty(value: string, hideSignal: WritableSignal<boolean>) {
+    if (!value) {
+      hideSignal.set(true);
     }
   }
 }

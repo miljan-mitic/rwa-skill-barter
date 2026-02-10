@@ -38,6 +38,21 @@ mat-list-item {
   }
 }
 
-.empty-user-skills {
-  padding-left: 20px;
+app-empty-state {
+  button {
+    font-weight: bold;
+    color: #fff;
+    background-color: #0044cc;
+    transition: background-color 0.2s ease;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      background-color: #003399;
+      transform: scale(1.05);
+    }
+
+    box-shadow:
+      0 4px 8px 0 rgba(0, 0, 0, 0.2),
+      0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
 }
