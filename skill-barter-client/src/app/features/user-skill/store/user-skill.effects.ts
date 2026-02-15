@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, concatMap, EMPTY, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { catchError, concatMap, EMPTY, exhaustMap, map, mergeMap, of, switchMap, tap } from 'rxjs';
 import { UserSkillService } from '../services/user-skill.service';
 import { UserSkillActions } from './user-skill.actions';
 import { Router } from '@angular/router';
@@ -22,14 +22,12 @@ export class UserSkillEffects {
   createUserSkill$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserSkillActions.createUserSkill),
-      switchMap(({ userSkillDto }) => {
-        return this.userSkillService.create(userSkillDto).pipe(
-          concatMap((userSkill) => {
-            return [UserSkillActions.createUserSkillSuccess({ userSkill })];
-          }),
+      exhaustMap(({ userSkillDto }) =>
+        this.userSkillService.create(userSkillDto).pipe(
+          map((userSkill) => UserSkillActions.createUserSkillSuccess({ userSkill })),
           catchError((error) => of(UserSkillActions.createUserSkillFailure(error))),
-        );
-      }),
+        ),
+      ),
     ),
   );
 
@@ -52,15 +50,14 @@ export class UserSkillEffects {
   loadUserSkills$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserSkillActions.loadUserSkills),
-      switchMap(({ userSkillFilterDto, isAdmin }) => {
-        return this.userSkillService.get(userSkillFilterDto, isAdmin).pipe(
-          tap((response) => console.log('User Skills Loading...', response)),
+      switchMap(({ userSkillFilterDto, isAdmin }) =>
+        this.userSkillService.get(userSkillFilterDto, isAdmin).pipe(
           map(({ items, totalItems }) =>
             UserSkillActions.loadUserSkillsSuccess({ userSkills: items, length: totalItems }),
           ),
           catchError((error) => of(UserSkillActions.loadUserSkillsFailure(error))),
-        );
-      }),
+        ),
+      ),
     ),
   );
 
@@ -79,7 +76,7 @@ export class UserSkillEffects {
   updateUserSkill$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserSkillActions.updateUserSkill),
-      switchMap(({ id, userSkillUpdateDto }) =>
+      concatMap(({ id, userSkillUpdateDto }) =>
         this.userSkillService.update(id, userSkillUpdateDto).pipe(
           map((userSkill) => UserSkillActions.updateUserSkillSuccess({ userSkill })),
           catchError((error) => of(UserSkillActions.updateUserSkillFailure(error))),
@@ -91,7 +88,7 @@ export class UserSkillEffects {
   deleteUserSkill$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserSkillActions.deleteUserSkill),
-      switchMap(({ id }) =>
+      mergeMap(({ id }) =>
         this.userSkillService.delete(id).pipe(
           map(() => UserSkillActions.deleteUserSkillSuccess()),
           catchError((error) => of(UserSkillActions.deleteUserSkillFailure(error))),

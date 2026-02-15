@@ -1,0 +1,91 @@
+<form fxLayout="column" fxLayoutGap="20px" #offerForm="ngForm" (ngSubmit)="onSubmit(offerForm)">
+  <mat-card-title>Create a new Offer from any of your Skills</mat-card-title>
+
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+
+    <input
+      matInput
+      ngModel
+      #titleModel="ngModel"
+      type="text"
+      name="title"
+      maxlength="30"
+      required
+    />
+    @if (titleModel.hasError('required')) {
+      <mat-error>Title s required</mat-error>
+    }
+  </mat-form-field>
+
+  <app-remote-searchable-select
+    [label]="'Your skill'"
+    [pageSize]="2"
+    [size]="'small'"
+    [fetchFn]="fetchUserSkillFn"
+    [displayFn]="userSkillLabel"
+    [trackBy]="trackUserSkill"
+    name="userSkill"
+    ngModel
+    #skillModel="ngModel"
+    [extraFilters]="userSkillExtraFilters()"
+    required
+  />
+
+  <mat-card>
+    <mat-card-header fxLayout="row" fxLayoutAlign="center">
+      <mat-card-title>Meeting type</mat-card-title>
+      <mat-card-subtitle>Choose how this skill will be delivered</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <mat-radio-group
+        class="meeting-type-group"
+        [ngModel]="meetingType.ONLINE"
+        #meetingTypeModel="ngModel"
+        name="meetingType"
+        fxLayout="row"
+        fxLayoutAlign="center"
+      >
+        <mat-radio-button [value]="meetingType.ONLINE">
+          <mat-icon class="meeting-type-icon">public</mat-icon>
+          {{ meetingType.ONLINE }}</mat-radio-button
+        >
+
+        <mat-radio-button [value]="meetingType.IN_PERSON">
+          <mat-icon class="meeting-type-icon">place</mat-icon>
+          {{ meetingType.IN_PERSON }}</mat-radio-button
+        >
+      </mat-radio-group>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      ngModel
+      #descriptionInput="ngModel"
+      name="description"
+      rows="4"
+      maxlength="100"
+    ></textarea>
+    <mat-hint align="end">{{ descriptionInput.value?.length || 0 }}/100 </mat-hint>
+    @if (descriptionInput.hasError('maxlength')) {
+      <mat-error>Description is too long (max 100 characters)</mat-error>
+    }
+  </mat-form-field>
+
+  <button
+    mat-fab
+    extended
+    class="add-button"
+    color="primary"
+    type="submit"
+    [disabled]="offerForm.invalid"
+  >
+    <mat-icon matPrefix fontIcon="create"></mat-icon>Submit
+  </button>
+</form>

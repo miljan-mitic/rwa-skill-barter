@@ -1,5 +1,5 @@
 import { Category } from './category.model';
-import { Offer } from './offer.model';
+import { UserSkill } from './user-skill.model';
 
 export interface Skill {
   id: number;
@@ -7,6 +7,6 @@ export interface Skill {
   description?: string;
   createdAt: Date;
   category?: Category;
-  offers?: Offer[];
+  userSkills?: UserSkill[];
   // transactions?: Transaction[];
 }

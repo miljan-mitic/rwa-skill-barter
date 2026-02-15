@@ -1,4 +1,4 @@
-export enum OFFER_STATUS {
+export enum OfferStatus {
   ACTIVE = 'Active',
   PAUSED = 'Paused',
   ARCHIVED = 'Archived',

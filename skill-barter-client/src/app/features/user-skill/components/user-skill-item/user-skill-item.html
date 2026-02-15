@@ -10,17 +10,12 @@
         {{ userSkill.skill?.name }}
       </mat-card-title>
       @if (userSkill.description) {
-        <div
-          #descriptionEl
-          class="responsive-text"
-          [matTooltip]="showTooltip ? userSkill.description : null"
-          matTooltipPosition="above"
-        >
+        <div class="responsive-text" [appOverflowTooltip]="userSkill.description">
           {{ userSkill.description }}
         </div>
       }
       <div>
-        {{ userSkill.createdAt | date: 'MMMM d, y, h:mm a' }}
+        {{ userSkill.createdAt | date: dateFormat }}
       </div>
     </div>
   </mat-card-content>

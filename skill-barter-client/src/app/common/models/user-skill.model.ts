@@ -1,3 +1,4 @@
+import { Offer } from './offer.model';
 import { Skill } from './skill.model';
 import { User } from './user.model';
 
@@ -7,4 +8,5 @@ export interface UserSkill {
   description?: string;
   user?: User;
   skill?: Skill;
+  offers?: Offer[];
 }

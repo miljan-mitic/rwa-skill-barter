@@ -19,7 +19,16 @@ mat-card-title {
 }
 
 .responsive-text {
+  max-width: 100%;
+  min-width: 20%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media screen and (max-width: 600px) {
+    text-align: center;
+    white-space: normal;
+    overflow: visible;
+    word-break: break-word;
+  }
 }

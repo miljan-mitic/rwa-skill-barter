@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -7,7 +6,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
 import { RemoteSearchableSelect } from '../../../../shared/components/remote-select/remote-searchable-select';
 import { Category } from '../../../../common/models/category.model';
 import { Skill } from '../../../../common/models/skill.model';
@@ -22,7 +20,6 @@ import { Store } from '@ngrx/store';
 import { UserSkillState } from '../../store/user-skill.state';
 import { UserSkillActions } from '../../store/user-skill.actions';
 import { UserSkillDto } from '../../dtos/user-skill.dto';
-import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-user-skill-add',
@@ -30,14 +27,11 @@ import { MatMenuModule } from '@angular/material/menu';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatListModule,
     MatCardModule,
     MatIconModule,
     FormsModule,
     FlexLayoutModule,
-    CommonModule,
     RemoteSearchableSelect,
-    MatMenuModule,
   ],
   templateUrl: './user-skill-add.html',
   styleUrl: './user-skill-add.scss',

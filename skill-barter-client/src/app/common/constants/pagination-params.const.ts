@@ -1,4 +1,9 @@
-export const PAGINATION_PARAMS_INITIAL = {
-  PAGE: 0,
-  PAGE_SIZE: 5,
+export const PAGINATION_PARAMS = {
+  DEFAULT: {
+    PAGE: 0,
+    PAGE_SIZE: 5,
+  },
+  OFFER: {
+    PAGE_SIZE: 6,
+  },
 };

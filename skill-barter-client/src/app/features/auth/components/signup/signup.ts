@@ -15,7 +15,7 @@ import { FileUpload, FileUploadModule } from 'primeng/fileupload';
 import {
   IMAGES_URL,
   UPLOAD_IMAGES_URL,
-  DEFAULT,
+  UPLOAD_IMAGE_DEFAULT,
 } from '../../../../common/constants/upload-image.consts';
 import { ImageType } from '../../../../common/enums/image-type.enum';
 import { AvatarModule } from 'primeng/avatar';
@@ -85,7 +85,7 @@ export class Signup {
     if (imgPath) {
       return IMAGES_URL + `/${ImageType.PROFILE_PICTURE}/` + imgPath;
     } else {
-      return DEFAULT.USER.IMAGE;
+      return UPLOAD_IMAGE_DEFAULT.USER.IMAGE;
     }
   }
 

@@ -29,7 +29,7 @@ export const selectUserSkillFilter = createSelector(
   (state: UserSkillState) => state.filter,
 );
 
-export const selectDetailedUserSkill = createSelector(
+export const selectUserSkillDetailed = createSelector(
   selectUserSkillFeature,
   (state: UserSkillState) => state.detailedUserSkill,
 );

@@ -1,6 +1,6 @@
 import { environment } from '../../../environments/environment';
 
-export const DEFAULT = {
+export const UPLOAD_IMAGE_DEFAULT = {
   USER: {
     IMAGE: '/images/default-user.jpg',
   },

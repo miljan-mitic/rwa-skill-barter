@@ -4,11 +4,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Store } from '@ngrx/store';
-import { UserSkillState } from '../../store/user-skill.state';
+import { UserSkillFilter, UserSkillState } from '../../store/user-skill.state';
 import { combineLatest, filter, Observable } from 'rxjs';
 import { UserSkill } from '../../../../common/models/user-skill.model';
-import { PaginationParams } from '../../../../common/interfaces/pagination-params.interface';
-import { PAGINATION_PARAMS_INITIAL } from '../../../../common/constants/pagination-params.const';
 import { UserSkillActions } from '../../store/user-skill.actions';
 import {
   selectUserSkillFilter,
@@ -20,7 +18,6 @@ import { selectCurrentUser } from '../../../user/state/user.selector';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Role } from '../../../../common/enums/role.enum';
 import { UserSkillItem } from '../user-skill-item/user-skill-item';
-import { SortBy, SortType } from '../../../../common/enums/sort.enum';
 import { MatIconModule } from '@angular/material/icon';
 import { Loader } from '../../../../shared/components/loader/loader';
 import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
@@ -50,20 +47,10 @@ export class UserSkillList implements OnInit {
 
   userSkills$: Observable<UserSkill[]>;
   length$: Observable<number>;
+  filter$: Observable<UserSkillFilter>;
   loading$: Observable<boolean>;
 
-  paginationParams: PaginationParams = {
-    page: PAGINATION_PARAMS_INITIAL.PAGE,
-    pageSize: PAGINATION_PARAMS_INITIAL.PAGE_SIZE,
-    sortBy: SortBy.CREATED_AT,
-    sortType: SortType.DESC,
-  };
-
   ngOnInit(): void {
-    this.store.dispatch(
-      UserSkillActions.changeUserSkillPaginationFilter({ paginationParams: this.paginationParams }),
-    );
-
     combineLatest([this.store.select(selectUserSkillFilter), this.store.select(selectCurrentUser)])
       .pipe(
         filter(([_, user]) => !!user),
@@ -72,7 +59,7 @@ export class UserSkillList implements OnInit {
       .subscribe(([filter, user]) => {
         this.store.dispatch(
           UserSkillActions.loadUserSkills({
-            userSkillFilterDto: filter || {},
+            userSkillFilterDto: { ...filter, userId: user?.id },
             ...(user?.role === Role.ADMIN && { isAdmin: true }),
           }),
         );
@@ -80,6 +67,7 @@ export class UserSkillList implements OnInit {
 
     this.userSkills$ = this.store.select(selectUserSkillList);
     this.length$ = this.store.select(selectUserSkillLength);
+    this.filter$ = this.store.select(selectUserSkillFilter);
     this.loading$ = this.store.select(selectUserSkillLoading);
   }
 

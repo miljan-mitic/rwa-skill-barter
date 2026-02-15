@@ -11,15 +11,25 @@ export const selectOfferList = createSelector(selectOfferFeature, (state: OfferS
       acc.push(offer);
     }
     return acc;
-  }, [])
+  }, []),
 );
 
 export const selectOfferLength = createSelector(
   selectOfferFeature,
-  (state: OfferState) => state.length
+  (state: OfferState) => state.length,
 );
 
 export const selectOfferFilter = createSelector(
   selectOfferFeature,
-  (state: OfferState) => state.filter
+  (state: OfferState) => state.filter,
+);
+
+export const selectOfferLoading = createSelector(
+  selectOfferFeature,
+  (state: OfferState) => state.loading,
+);
+
+export const selectOfferDetailed = createSelector(
+  selectOfferFeature,
+  (state: OfferState) => state.detailedOffer,
 );

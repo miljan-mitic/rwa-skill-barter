@@ -1,33 +1,34 @@
 <mat-toolbar color="primary">
-  <a routerLink="/">
+  <a [routerLink]="(user | async) ? '/dashboard' : '/login'">
     <img fxFlex.gt-xs="150px" fxFlex.lt-sm="150px" fxLayout src="/images/skill-barter-logo-5.png" />
   </a>
 
   <div fxHide.xs fxFlex fxLayout fxLayoutAlign="flex-end">
-    @if(user | async) {
-    <ng-container>
-      <ul fxLayout class="navigation-items">
-        <li>
-          <button mat-button routerLink="/skills">
-            <mat-icon matPrefix fontIcon="build"></mat-icon>
-            Skills
-          </button>
-        </li>
-        <li>
-          <button mat-button routerLink="/user/profile">
-            <mat-icon matPrefix fontIcon="account_circle"></mat-icon>
-            User
-          </button>
-        </li>
-        <li>
-          <button mat-button (click)="logout()">
-            <mat-icon matPrefix fontIcon="logout"></mat-icon>
-            Logout
-          </button>
-        </li>
-      </ul>
-    </ng-container>
-    } @else { <ng-container *ngTemplateOutlet="notLoggedIn"></ng-container>
+    @if (user | async) {
+      <ng-container>
+        <ul fxLayout class="navigation-items">
+          <li>
+            <button mat-button routerLink="/skills">
+              <mat-icon matPrefix fontIcon="build"></mat-icon>
+              Skills
+            </button>
+          </li>
+          <li>
+            <button mat-button routerLink="/user/profile">
+              <mat-icon matPrefix fontIcon="account_circle"></mat-icon>
+              User
+            </button>
+          </li>
+          <li>
+            <button mat-button (click)="logout()">
+              <mat-icon matPrefix fontIcon="logout"></mat-icon>
+              Logout
+            </button>
+          </li>
+        </ul>
+      </ng-container>
+    } @else {
+      <ng-container *ngTemplateOutlet="notLoggedIn"></ng-container>
     }
   </div>
 
@@ -36,22 +37,23 @@
       <mat-icon matPrefix fontIcon="menu"></mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      @if(user |async) {
-      <ng-container>
-        <button mat-menu-item routerLink="/skills">
-          <mat-icon matPrefix fontIcon="build"></mat-icon>
-          Skills
-        </button>
-        <button mat-menu-item routerLink="/user/profile">
-          <mat-icon matPrefix fontIcon="account_circle"></mat-icon>
-          User
-        </button>
-        <button mat-menu-item (click)="logout()">
-          <mat-icon matPrefix fontIcon="exit_to_app"></mat-icon>
-          Logout
-        </button>
-      </ng-container>
-      } @else { <ng-container *ngTemplateOutlet="notLoggedInMenu"></ng-container>
+      @if (user | async) {
+        <ng-container>
+          <button mat-menu-item routerLink="/skills">
+            <mat-icon matPrefix fontIcon="build"></mat-icon>
+            Skills
+          </button>
+          <button mat-menu-item routerLink="/user/profile">
+            <mat-icon matPrefix fontIcon="account_circle"></mat-icon>
+            User
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon matPrefix fontIcon="exit_to_app"></mat-icon>
+            Logout
+          </button>
+        </ng-container>
+      } @else {
+        <ng-container *ngTemplateOutlet="notLoggedInMenu"></ng-container>
       }
     </mat-menu>
   </div>
@@ -69,7 +71,7 @@
     <li>
       <button mat-button routerLink="/signup">
         <mat-icon matPrefix fontIcon="how_to_reg"></mat-icon>
-        Signup
+        Sign up
       </button>
     </li>
   </ul>
@@ -82,6 +84,6 @@
   </button>
   <button mat-menu-item routerLink="/signup">
     <mat-icon matPrefix fontIcon="how_to_reg"></mat-icon>
-    Signup
+    Sign up
   </button>
 </ng-template>

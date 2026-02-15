@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../services/auth.service';
 import { AuthActions } from './auth.actions';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification.service';
 import {
@@ -21,7 +21,7 @@ export class AuthEffects {
   signup$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signup),
-      switchMap(({ signupAuthDto }) =>
+      exhaustMap(({ signupAuthDto }) =>
         this.authService.signup(signupAuthDto).pipe(
           map(({ accessToken, user }) => AuthActions.signupSuccess({ accessToken, user })),
           catchError((error) => of(AuthActions.signupFailure({ error }))),
@@ -33,7 +33,7 @@ export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      switchMap(({ loginAuthDto }) =>
+      exhaustMap(({ loginAuthDto }) =>
         this.authService.login(loginAuthDto).pipe(
           map(({ accessToken, user }) => AuthActions.loginSuccess({ accessToken, user })),
           catchError((error) => of(AuthActions.loginFailure({ error }))),
@@ -68,7 +68,7 @@ export class AuthEffects {
   autoLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.autoLogin),
-      switchMap(({ accessToken }) =>
+      exhaustMap(({ accessToken }) =>
         this.authService.loginByToken(accessToken).pipe(
           map(({ user, accessToken }) => AuthActions.autoLoginSuccess({ user, accessToken })),
           catchError((error) => of(AuthActions.autoLoginFailure({ error }))),
@@ -93,7 +93,6 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.logout, AuthActions.unauthorizedAccess),
         tap(() => {
-          console.log('Logging out user...');
           (localStorage.removeItem(KEYS.ACCESS_TOKEN), this.router.navigate(['/login']));
         }),
       ),

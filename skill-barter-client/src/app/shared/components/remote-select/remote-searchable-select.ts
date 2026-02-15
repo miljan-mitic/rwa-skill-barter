@@ -62,7 +62,7 @@ export class RemoteSearchableSelect<T, K extends PaginationParams>
 {
   @Input({ required: true }) label: string;
   @Input() placeholder = 'Search...';
-  @Input() maxPage = 5;
+  @Input() maxPage: number;
   @Input() pageSize = 5;
   @Input() size: 'small' | 'medium' | 'large' = 'medium';
 
@@ -190,7 +190,8 @@ export class RemoteSearchableSelect<T, K extends PaginationParams>
 
             const currentPage = this.page + 1;
             const canLoadMore =
-              currentPage < this.maxPage && currentPage * this.pageSize < this.totalItems;
+              ((this.maxPage && currentPage < this.maxPage) || true) &&
+              currentPage * this.pageSize < this.totalItems;
 
             return isAtBottom && !this.loading$.value && canLoadMore;
           }),

@@ -1,0 +1,120 @@
+@if (offer$ | async; as offer) {
+  <mat-card fxFlex fxLayout="column">
+    <mat-card-content fxFlex fxLayout="column">
+      <form
+        [formGroup]="offerForm"
+        class="details-container"
+        fxLayout.gt-xs="row"
+        fxLayoutAlign="space-between"
+      >
+        <div class="detail-item">
+          <mat-card-title> Title </mat-card-title>
+          @if (!isEditMode()) {
+            <div class="responsive-text">{{ offer.title }}</div>
+          } @else {
+            <mat-form-field appearance="fill" class="textarea-form-field">
+              <mat-label>Title</mat-label>
+              <input matInput formControlName="title" />
+              <mat-hint align="end">{{ offerForm.get('title')?.value?.length || 0 }}/30 </mat-hint>
+              @if (offerForm.get('title')?.hasError('required')) {
+                <mat-error> Title is required. </mat-error>
+              }
+              @if (offerForm.get('title')?.hasError('maxlength')) {
+                <mat-error> Title cannot be longer than 30 characters. </mat-error>
+              }
+            </mat-form-field>
+          }
+        </div>
+
+        <div class="detail-item">
+          <mat-card-title> Category </mat-card-title>
+          <div class="responsive-text">{{ offer.userSkill?.skill?.category?.name }}</div>
+        </div>
+
+        <div class="detail-item">
+          <mat-card-title> Skill </mat-card-title>
+          <div class="responsive-text">{{ offer.userSkill?.skill?.name }}</div>
+        </div>
+
+        <div class="detail-item">
+          <mat-card-title> Meeting type </mat-card-title>
+          @if (!isEditMode()) {
+            <div class="responsive-text">{{ offer.meetingType }}</div>
+          } @else {
+            <mat-card-content>
+              <mat-radio-group
+                class="meeting-type-group"
+                formControlName="meetingType"
+                name="meetingType"
+                fxLayout="row"
+                fxLayoutAlign="center"
+              >
+                <mat-radio-button [value]="meetingType.ONLINE">
+                  <mat-icon class="meeting-type-icon">public</mat-icon>
+                  {{ meetingType.ONLINE }}</mat-radio-button
+                >
+
+                <mat-radio-button [value]="meetingType.IN_PERSON">
+                  <mat-icon class="meeting-type-icon">place</mat-icon>
+                  {{ meetingType.IN_PERSON }}</mat-radio-button
+                >
+              </mat-radio-group>
+            </mat-card-content>
+          }
+        </div>
+
+        <div class="detail-item textarea-div">
+          <mat-card-title> Description </mat-card-title>
+          @if (!isEditMode()) {
+            <div class="responsive-text">{{ offer.description }}</div>
+          } @else {
+            <mat-form-field appearance="fill" class="textarea-form-field">
+              <mat-label>Description</mat-label>
+              <textarea
+                matInput
+                formControlName="description"
+                rows="4"
+                class="resizable-textarea"
+              ></textarea>
+              <mat-hint align="end"
+                >{{ offerForm.get('description')?.value?.length || 0 }}/100
+              </mat-hint>
+              @if (offerForm.get('description')?.hasError('maxlength')) {
+                <mat-error> Description cannot be longer than 100 characters. </mat-error>
+              }
+            </mat-form-field>
+          }
+        </div>
+
+        <div class="detail-item">
+          <mat-card-title> Created at </mat-card-title>
+          <div class="responsive-text">{{ offer.createdAt | date: dateFormat }}</div>
+        </div>
+
+        <div class="detail-item">
+          <button
+            mat-icon-button
+            [matTooltip]="isEditMode() ? 'Save changes' : 'Edit'"
+            [color]="isEditMode() ? 'primary' : 'accent'"
+            [disabled]="isEditMode() && (offerForm.invalid || isSaving())"
+            (click)="toggleEditMode()"
+          >
+            @if (isSaving()) {
+              <mat-progress-spinner diameter="24" mode="indeterminate"></mat-progress-spinner>
+            } @else {
+              <mat-icon>{{ isEditMode() ? 'save' : 'edit' }}</mat-icon>
+            }
+          </button>
+        </div>
+
+        <div class="detail-item">
+          <button mat-icon-button matTooltip="Delete" color="warn" (click)="deleteOffer()">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+} @else if (loading$ | async) {
+  <app-loader [overlay]="false"></app-loader>
+}

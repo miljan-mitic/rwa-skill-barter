@@ -1,5 +1,6 @@
-import { OFFER_STATUS } from '../enums/offer-status.enum';
-import { Skill } from './skill.model';
+import { OfferMeetingType } from '../enums/offer-meeting-type.enum';
+import { OfferStatus } from '../enums/offer-status.enum';
+import { UserSkill } from './user-skill.model';
 import { User } from './user.model';
 
 export interface Offer {
@@ -7,11 +8,11 @@ export interface Offer {
   title: string;
   description?: string;
   barterCredits: number;
-  availability: string;
-  status: OFFER_STATUS;
+  meetingType: OfferMeetingType;
+  status: OfferStatus;
   createdAt: Date;
   provider?: User;
-  skill?: Skill;
+  userSkill?: UserSkill;
   // offerRequests?: OfferRequest[];
   // transactions?: Transaction[];
 }

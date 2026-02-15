@@ -1,4 +1,4 @@
-@if (length$ | async; as length) {
+@if (length$ | async) {
   <ng-content></ng-content>
 
   <div fxFlex fxLayout="column" fxLayoutAlign="space-between">
@@ -12,8 +12,8 @@
 
     <mat-paginator
       [length]="length$ | async"
-      [pageSize]="paginationParams.pageSize"
-      [pageIndex]="paginationParams.page"
+      [pageSize]="(filter$ | async)!.pageSize"
+      [pageIndex]="(filter$ | async)!.page"
       (page)="getData($event)"
     >
     </mat-paginator>

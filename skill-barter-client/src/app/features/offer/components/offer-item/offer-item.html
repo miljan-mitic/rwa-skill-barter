@@ -1,37 +1,23 @@
-<mat-card
-  [routerLink]="['/offer', offer.id]"
-  fxLayout="row"
-  fxLayoutAlign.gt-xs="start center"
-  fxLayoutAlign.lt-sm="center center"
->
-  <mat-card-content fxLayout.gt-xs="row" fxLayout.lt-sm="column" fxFlex="100%">
-    <div fxFlex="100%" fxLayoutGap="3%" fxLayout.gt-xs="row" fxLayout.lt-sm="column">
-      <div fxLayout="column" fxLayoutALign="start end" fxFlex.gt-xs="40%" fxFlexOrder.gt-xs="2">
-        <div fxLayout="column" fxLayoutAlign="end">User-Avatar</div>
-        <div fxLayout="column" fxLayoutAlign="end end" fxFlex fxHide.lt-sm>
-          Date-Display Date-Display
-        </div>
-      </div>
-      <a [routerLink]="['/offer', offer.id]" fxLayoutAlign="center center"></a>
-      <div
-        fxLayout="column"
-        class="text-container"
-        fxFlex.gt-xs="60%"
-        fxLayoutAlign.lt-sm="center center"
-        fxLayoutAlign.gt-xs="start start"
-      >
-        <mat-card-title class="clickable-text" [routerLink]="['/offer', offer.id]">
-          <a fxLayoutAlign="center center">{{ offer.title }}</a>
-          <mat-chip>
-            <!-- {{offer?.skill?.category?.name || ''}} -->
-          </mat-chip>
-          Price
-          <mat-card-subtitle fxFlex="100%" fxLayout="column" fxLayoutAlign="flex-end">
-            <div fxLayout fxLayoutAlign="start end" fxFlex="100%">
-              <button [routerLink]="['/offer', offer.id]">See more</button>
-            </div>
-          </mat-card-subtitle>
+<mat-card fxFlex fxLayout="column" fxLayoutAlign="center" [routerLink]="[offer.id]">
+  <mat-card-content class="clickable-text">
+    <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="20%">
+      <div fxFlex="100%" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="3%">
+        <mat-card-title fxFlex="70%">
+          {{ offer.title }}
         </mat-card-title>
+        <mat-card-title fxFlex="30%">
+          {{ offer.meetingType }}
+        </mat-card-title>
+      </div>
+      <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5%">
+        @if (offer.description) {
+          <div fxFlex="60%" class="responsive-text" [appOverflowTooltip]="offer.description">
+            {{ offer.description }}
+          </div>
+        }
+        <div fxFlex="40%">
+          {{ offer.createdAt | date: dateFormat }}
+        </div>
       </div>
     </div>
   </mat-card-content>

@@ -8,7 +8,7 @@ import { UserSkillActions } from '../../store/user-skill.actions';
 import { Role } from '../../../../common/enums/role.enum';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserSkill } from '../../../../common/models/user-skill.model';
-import { selectDetailedUserSkill, selectUserSkillLoading } from '../../store/user-skill.selector';
+import { selectUserSkillDetailed, selectUserSkillLoading } from '../../store/user-skill.selector';
 import { MatCardModule } from '@angular/material/card';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -21,6 +21,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ConfirmDialogActions } from '../../../../shared/confirm-dialog/store/confirm-dialog.actions';
 import { Loader } from '../../../../shared/components/loader/loader';
+import { DATE_FORMAT } from '../../../../common/constants/date-format.const';
 
 @Component({
   selector: 'app-user-skill-details',
@@ -42,6 +43,8 @@ import { Loader } from '../../../../shared/components/loader/loader';
   styleUrl: './user-skill-details.scss',
 })
 export class UserSkillDetails implements OnInit {
+  dateFormat = DATE_FORMAT.DEFAULT;
+
   userSkillForm: FormGroup;
 
   isEditMode = signal<boolean>(false);
@@ -84,7 +87,7 @@ export class UserSkillDetails implements OnInit {
         );
       });
 
-    this.userSkill$ = this.store.select(selectDetailedUserSkill);
+    this.userSkill$ = this.store.select(selectUserSkillDetailed);
 
     this.userSkill$
       .pipe(
@@ -142,8 +145,5 @@ export class UserSkillDetails implements OnInit {
         confirmAction: UserSkillActions.deleteUserSkill({ id: this.userSkill.id }),
       }),
     );
-    // if (confirm('Are you sure you want to delete this skill?')) {
-    //   this.store.dispatch(UserSkillActions.deleteUserSkill({ id: this.userSkill.id }));
-    // }
   }
 }
