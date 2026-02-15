@@ -24,8 +24,8 @@ export class UserSkillController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(
-    @Body() createUserSkillDto: CreateUserSkillDto,
     @UserDecorator() user: User,
+    @Body() createUserSkillDto: CreateUserSkillDto,
   ) {
     return this.userSkillService.create(user, createUserSkillDto);
   }

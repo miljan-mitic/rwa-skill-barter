@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Skill } from './skill.entity';
 import { User } from './user.entity';
+import { Offer } from './offer.entity';
 
 @Entity()
 export class UserSkill {
@@ -26,4 +28,7 @@ export class UserSkill {
     onDelete: 'CASCADE',
   })
   skill: Skill;
+
+  @OneToMany(() => Offer, (offer) => offer.userSkill)
+  offers: Offer[];
 }

@@ -6,7 +6,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Offer } from './offer.entity';
 import { Transaction } from './transaction.entity';
 import { Category } from './category.entity';
 import { UserSkill } from './user-skill.entity';
@@ -32,9 +31,6 @@ export class Skill {
 
   @OneToMany(() => UserSkill, (userSkill) => userSkill.skill)
   userSkills: UserSkill[];
-
-  @OneToMany(() => Offer, (offer) => offer.skill)
-  offers: Offer[];
 
   @OneToMany(() => Transaction, (transaction) => transaction.skill)
   transactions: Transaction[];

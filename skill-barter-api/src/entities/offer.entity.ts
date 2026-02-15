@@ -7,27 +7,33 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Skill } from './skill.entity';
 import { User } from './user.entity';
 import { OfferRequest } from './offer-request.entity';
 import { Transaction } from './transaction.entity';
+import { OFFER_MEETING_TYPE } from 'src/common/enums/offer-meeting-type.enum';
+import { UserSkill } from './user-skill.entity';
 
 @Entity()
 export class Offer {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, length: 30 })
   title: string;
 
-  @Column({ length: 100 })
+  @Column({ nullable: true, length: 100 })
   description: string;
 
   @Column({ nullable: false, default: 0 })
   barterCredits: number;
 
-  @Column({ nullable: false })
-  availability: string;
+  @Column({
+    type: 'enum',
+    enum: OFFER_MEETING_TYPE,
+    nullable: false,
+    default: OFFER_MEETING_TYPE.ONLINE,
+  })
+  meetingType: OFFER_MEETING_TYPE;
 
   @Column({
     type: 'enum',
@@ -46,8 +52,10 @@ export class Offer {
   @ManyToOne(() => User, (user) => user.offers, { onDelete: 'CASCADE' })
   provider: User;
 
-  @ManyToOne(() => Skill, (skill) => skill.offers, { onDelete: 'CASCADE' })
-  skill: Skill;
+  @ManyToOne(() => UserSkill, (userSkill) => userSkill.offers, {
+    onDelete: 'CASCADE',
+  })
+  userSkill: UserSkill;
 
   @OneToMany(() => OfferRequest, (offerRequest) => offerRequest.offer)
   offerRequests: OfferRequest[];
