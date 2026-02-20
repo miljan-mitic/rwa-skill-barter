@@ -6,7 +6,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Transaction } from './transaction.entity';
 import { Category } from './category.entity';
 import { UserSkill } from './user-skill.entity';
 
@@ -27,11 +26,8 @@ export class Skill {
   @ManyToOne(() => Category, (category) => category.skills, {
     onDelete: 'CASCADE',
   })
-  category: Category;
+  category?: Category;
 
   @OneToMany(() => UserSkill, (userSkill) => userSkill.skill)
-  userSkills: UserSkill[];
-
-  @OneToMany(() => Transaction, (transaction) => transaction.skill)
-  transactions: Transaction[];
+  userSkills?: UserSkill[];
 }

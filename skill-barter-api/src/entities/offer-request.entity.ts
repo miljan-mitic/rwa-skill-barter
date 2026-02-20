@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Offer } from './offer.entity';
-import { User } from './user.entity';
+import { UserSkill } from './user-skill.entity';
 
 @Entity()
 export class OfferRequest {
@@ -16,9 +16,6 @@ export class OfferRequest {
 
   @Column({ nullable: false })
   message: string;
-
-  @Column({ type: 'timestamp', nullable: false })
-  desiredDate: Date;
 
   @Column({
     type: 'enum',
@@ -34,11 +31,13 @@ export class OfferRequest {
   })
   createdAt: Date;
 
-  @ManyToOne(() => User, (user) => user.offerRequests, { onDelete: 'CASCADE' })
-  receiver: User;
+  @ManyToOne(() => UserSkill, (userSkill) => userSkill.offerRequests, {
+    onDelete: 'CASCADE',
+  })
+  userSkill?: UserSkill;
 
   @ManyToOne(() => Offer, (offer) => offer.offerRequests, {
     onDelete: 'CASCADE',
   })
-  offer: Offer;
+  offer?: Offer;
 }

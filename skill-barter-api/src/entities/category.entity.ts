@@ -25,5 +25,5 @@ export class Category {
   createdAt: Date;
 
   @OneToMany(() => Skill, (skill) => skill.category)
-  skills: Skill[];
+  skills?: Skill[];
 }

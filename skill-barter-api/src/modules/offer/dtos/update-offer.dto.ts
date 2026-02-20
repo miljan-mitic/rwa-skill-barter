@@ -1,6 +1,7 @@
 import { Expose } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { OFFER_MEETING_TYPE } from 'src/common/enums/offer-meeting-type.enum';
+import { OFFER_STATUS } from 'src/common/enums/offer-status.enum';
 
 export class UpdateOfferDto {
   @IsOptional()
@@ -10,13 +11,19 @@ export class UpdateOfferDto {
   title?: string;
 
   @IsOptional()
+  @IsNotEmpty({ message: 'MEETING_EMPTY' })
   @IsEnum(OFFER_MEETING_TYPE, { message: 'MEETING_WRONG_TYPE' })
   @Expose()
   meetingType?: OFFER_MEETING_TYPE;
 
   @IsOptional()
   @IsString({ message: 'DESCRIPTION_WRONG_TYPE' })
-  @IsNotEmpty({ message: 'DESCRIPTION_EMPTY' })
   @Expose()
   description?: string;
+
+  @IsOptional()
+  @IsNotEmpty({ message: 'MEETING_EMPTY' })
+  @IsEnum(OFFER_STATUS, { message: 'STATUS_WRONG_TYPE' })
+  @Expose()
+  status?: OFFER_STATUS;
 }

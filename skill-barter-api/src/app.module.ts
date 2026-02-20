@@ -11,7 +11,7 @@ import { CategoryModule } from './modules/category/category.module';
 import { SkillModule } from './modules/skill/skill.module';
 import { OfferModule } from './modules/offer/offer.module';
 import { OfferRequestModule } from './modules/offer-request/offer-request.module';
-import { TransactionModule } from './modules/transaction/transaction.module';
+import { BarterModule } from './modules/barter/barter.module';
 import { ReviewModule } from './modules/review/review.module';
 import { CallGateway } from './call.gateway';
 import { UserSkillModule } from './modules/user-skill/user-skill.module';
@@ -27,7 +27,7 @@ import { UserSkillModule } from './modules/user-skill/user-skill.module';
     SkillModule,
     OfferModule,
     OfferRequestModule,
-    TransactionModule,
+    BarterModule,
     ReviewModule,
     UserSkillModule,
   ],

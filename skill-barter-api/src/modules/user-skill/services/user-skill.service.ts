@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserSkill } from 'src/entities/user-skill.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsRelations, Repository } from 'typeorm';
 import { CreateUserSkillDto } from '../dtos/create-user-skill.dto';
 import { User } from 'src/entities/user.entity';
 import { SkillService } from 'src/modules/skill/services/skill.service';
@@ -58,8 +58,11 @@ export class UserSkillService {
     return newUserSkill;
   }
 
-  async findById(id: number) {
-    const userSkill = await this.userSkillRepository.findOneBy({ id });
+  async findById(id: number, relations?: FindOptionsRelations<UserSkill>) {
+    const userSkill = await this.userSkillRepository.findOne({
+      where: { id },
+      relations,
+    });
     if (!userSkill) {
       throw new NotFoundException(`User skill with ID ${id} not found`);
     }
@@ -111,7 +114,8 @@ export class UserSkillService {
 
     const queryBuilder = this.userSkillRepository
       .createQueryBuilder('userSkill')
-      .leftJoinAndSelect('userSkill.skill', 'skill');
+      .leftJoinAndSelect('userSkill.skill', 'skill')
+      .leftJoinAndSelect('skill.category', 'category');
 
     if (userId) {
       queryBuilder.andWhere('userSkill.userId = :userId', { userId: user.id });

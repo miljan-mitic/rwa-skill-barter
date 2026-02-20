@@ -1,4 +1,6 @@
 import {
+  BadRequestException,
+  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -12,6 +14,8 @@ import { CreateOfferDto } from '../dtos/create-offer.dto';
 import { User } from 'src/entities/user.entity';
 import { UserSkillService } from 'src/modules/user-skill/services/user-skill.service';
 import { UpdateOfferDto } from '../dtos/update-offer.dto';
+import { removeUndefinedAttributes } from 'src/common/utils/remove-undefined-attributes';
+import { OFFER_STATUS } from 'src/common/enums/offer-status.enum';
 
 @Injectable()
 export class OfferService {
@@ -24,11 +28,19 @@ export class OfferService {
   async create(user: User, createOfferDto: CreateOfferDto) {
     const { userSkillId, ...createOfferData } = createOfferDto;
 
-    const userSkill = await this.userSkillService.findById(userSkillId);
+    const userSkill = await this.userSkillService.findById(userSkillId, {
+      user: true,
+      skill: {
+        category: true,
+      },
+    });
+
+    if (userSkill.user.id !== user.id) {
+      throw new ForbiddenException('Access denied');
+    }
 
     const newOffer = this.offerRepository.create({
       ...createOfferData,
-      provider: user,
       userSkill,
     });
 
@@ -42,22 +54,28 @@ export class OfferService {
   }
 
   async updateOffer(user: User, id: number, updateOfferDto: UpdateOfferDto) {
-    const result = await this.offerRepository.update(
-      {
-        id,
-        provider: { id: user.id },
-      },
-      updateOfferDto,
-    );
+    const offer = await this.offerRepository.findOne({
+      where: { id, userSkill: { user: { id: user.id } } },
+      relations: { userSkill: { skill: { category: true } } }, // ['userSkill.skill.category'],
+    });
 
-    if (!result.affected) {
+    if (!offer) {
       throw new NotFoundException('Offer not found');
     }
 
-    const offer = await this.offerRepository.findOne({
-      where: { id, provider: { id: user.id } },
-      relations: ['userSkill.skill.category'],
-    });
+    if (offer.status === OFFER_STATUS.ARCHIVED) {
+      throw new BadRequestException('Archived offer cannot be updated');
+    }
+
+    const filteredDto = removeUndefinedAttributes(updateOfferDto);
+    Object.assign(offer, filteredDto);
+
+    try {
+      await this.offerRepository.save(offer);
+    } catch (error) {
+      console.warn('OFFER SERVICE - UPDATE OFFER:', error);
+      throw new InternalServerErrorException('Unexpected error');
+    }
 
     return offer;
   }
@@ -74,7 +92,7 @@ export class OfferService {
 
     const queryBuilder = this.offerRepository
       .createQueryBuilder('offer')
-      .leftJoin('offer.userSkill', 'userSkill')
+      .leftJoinAndSelect('offer.userSkill', 'userSkill')
       .leftJoinAndSelect('userSkill.skill', 'skill')
       .leftJoinAndSelect('skill.category', 'category');
 
@@ -105,7 +123,7 @@ export class OfferService {
 
   async getOfferById(user: User, id: number) {
     const offer = await this.offerRepository.findOne({
-      where: { id, provider: { id: user.id } },
+      where: { id, userSkill: { user: { id: user.id } } },
       relations: ['userSkill.skill.category'],
     });
 
@@ -117,7 +135,10 @@ export class OfferService {
   }
 
   async deleteOffer(user: User, id: number) {
-    return this.offerRepository.delete({ id, provider: { id: user.id } });
+    return this.offerRepository.delete({
+      id,
+      userSkill: { user: { id: user.id } },
+    });
   }
 
   async deleteMany(findOptionsWhere: FindOptionsWhere<Offer>) {

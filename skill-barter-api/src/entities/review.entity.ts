@@ -5,12 +5,14 @@ import {
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
-import { Transaction } from './transaction.entity';
+import { Barter } from './barter.entity';
 import { User } from './user.entity';
 
 @Entity()
 @Check(`"rating" IN (1, 2, 3, 4, 5)`)
+@Unique(['barter', 'reviewer'])
 export class Review {
   @PrimaryGeneratedColumn()
   id: number;
@@ -27,18 +29,13 @@ export class Review {
   })
   createdAt: Date;
 
-  @ManyToOne(() => Transaction, (transaction) => transaction.reviews, {
+  @ManyToOne(() => Barter, (barter) => barter.reviews, {
     onDelete: 'CASCADE',
   })
-  transaction: Transaction;
+  barter?: Barter;
 
   @ManyToOne(() => User, (user) => user.writtenReviews, {
     onDelete: 'CASCADE',
   })
-  reviewer: User;
-
-  @ManyToOne(() => User, (user) => user.receivedReviews, {
-    onDelete: 'CASCADE',
-  })
-  reviewee: User;
+  reviewer?: User;
 }
