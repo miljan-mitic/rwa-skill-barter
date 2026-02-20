@@ -8,5 +8,5 @@ export interface Skill {
   createdAt: Date;
   category?: Category;
   userSkills?: UserSkill[];
-  // transactions?: Transaction[];
+  // barters?: Barter[];
 }

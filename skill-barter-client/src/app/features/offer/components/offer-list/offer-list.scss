@@ -6,12 +6,12 @@
 
 .offers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 300px));
+  grid-template-columns: repeat(auto-fill, minmax(350px, 450px));
   gap: 25px;
   justify-content: center;
 
   height: 100%;
-  padding: 3% 10%;
+  padding: 3%;
 
   @media screen and (max-width: 850px) {
     padding-top: 5%;
@@ -19,8 +19,8 @@
 }
 
 .offer-card {
-  min-height: 250px;
-  max-height: 250px;
+  min-height: 300px;
+  max-height: 500px;
   padding: 5%;
   border: 1px solid #ccc;
   box-shadow:
@@ -36,6 +36,27 @@
   &:hover {
     transform: scale(1.02);
   }
+}
+
+/* ACTIVE */
+.status-active {
+  box-shadow:
+    0 4px 8px 0 rgba(36, 100, 40, 0.8),
+    0 6px 20px 0 rgba(36, 100, 40, 0.7);
+}
+
+/* PAUSED */
+.status-paused {
+  box-shadow:
+    0 4px 8px 0 rgba(196, 132, 29, 0.8),
+    0 6px 20px 0 rgba(196, 132, 29, 0.7);
+}
+
+/* ARCHIVED */
+.status-archived {
+  box-shadow:
+    0 4px 8px 0 rgba(80, 79, 79, 0.8),
+    0 6px 20px 0 rgba(80, 79, 79, 0.7);
 }
 
 app-empty-state {

@@ -1,30 +1,11 @@
 <mat-card fxFlex fxLayout="column">
   <mat-card-header>
     <div fxFlex fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5%">
-      <mat-card-title routerLink="skills">My skills</mat-card-title>
-      <mat-card-title routerLink="offers">My offers</mat-card-title>
-      <mat-card-title routerLink="offers">Offers</mat-card-title>
+      <mat-card-title (click)="restartSkillsFilter()" routerLink="skills">My skills</mat-card-title>
+      <mat-card-title (click)="restartOffersFilter()" routerLink="offers">My offers</mat-card-title>
+      <mat-card-title (click)="restartOffersFilter()" routerLink="offers">Offers</mat-card-title>
       <!-- <mat-card-title routerLink="requests">Requests</mat-card-title> -->
     </div>
   </mat-card-header>
-  <!-- <img matCardImage src="Card wide image source" />
-  <mat-card-content> Text content </mat-card-content> -->
   <router-outlet></router-outlet>
-  <!-- <mat-card-actions align="start">
-    <button mat-button (click)="(onAction1)">Action1</button>
-  </mat-card-actions>
-  <mat-card-footer> Footer </mat-card-footer> -->
 </mat-card>
-<!-- <div class="dashboard-container">
-  <p-card class="welcome-card">
-    <h2>Welcome to back {{ userName }}</h2>
-    <p>This is dashboard page of your SkillBarter application.</p>
-
-    <button
-      pButton
-      label="Searching skills"
-      icon="pi pi-compass"
-      class="p-button-raised p-button-info"
-    ></button>
-  </p-card>
-</div> -->

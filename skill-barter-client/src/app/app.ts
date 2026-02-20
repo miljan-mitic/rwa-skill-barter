@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './layout/components/header/header';
 import { ToastModule } from 'primeng/toast';
@@ -6,6 +6,7 @@ import { Footer } from './layout/components/footer/footer';
 import { CallService } from './call.service';
 import { SignalingService } from './signaling.service';
 import { ConfirmDialog } from './shared/confirm-dialog/components/confirm-dialog/confirm-dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -21,10 +22,14 @@ export class App implements OnInit {
   constructor(
     private readonly callService: CallService,
     private readonly signalingService: SignalingService,
+    private readonly destroyRef: DestroyRef,
   ) {}
 
   ngOnInit(): void {
-    this.signalingService.getMessages().subscribe((payload) => this._handleMessage(payload));
+    this.signalingService
+      .getMessages()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((payload) => this._handleMessage(payload));
   }
 
   public async makeCall(): Promise<void> {

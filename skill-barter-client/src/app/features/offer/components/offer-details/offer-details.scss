@@ -127,14 +127,52 @@ mat-card {
   width: 100%;
 }
 
-.meeting-type-group {
-  display: flex;
-  gap: 32px;
-  margin-top: 16px;
+.status-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
 }
 
-.meeting-type-icon {
-  margin-right: 6px;
-  font-size: 18px;
-  vertical-align: middle;
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* ACTIVE */
+.status-active .status-dot {
+  background-color: #2e7d32;
+}
+
+.status-active .status-text {
+  color: #2e7d32;
+}
+
+/* PAUSED */
+.status-paused .status-dot {
+  background-color: #f9a825;
+}
+
+.status-paused .status-text {
+  color: #f9a825;
+}
+
+/* ARCHIVED */
+.status-archived .status-dot {
+  background-color: #757575;
+}
+
+.status-archived .status-text {
+  color: #757575;
+}
+
+/* STATUS-BUTTON */
+
+.status-button-active {
+  color: #f9a825;
+}
+
+.status-button-paused {
+  color: #2e7d32;
 }

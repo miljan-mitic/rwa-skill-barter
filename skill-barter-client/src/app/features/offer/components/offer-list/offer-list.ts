@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '../../../user/state/user.selector';
 import { Role } from '../../../../common/enums/role.enum';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { OfferFilter, OfferState } from '../../store/offer.state';
 import { OfferActions } from '../../store/offer.actions';
 import {
@@ -23,6 +23,7 @@ import { Loader } from '../../../../shared/components/loader/loader';
 import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
+import { OFFER_STATUS_CLASSES } from '../../../../common/constants/offer-status.consts';
 
 @Component({
   selector: 'app-offer-list',
@@ -32,6 +33,7 @@ import { MatCardModule } from '@angular/material/card';
     MatButtonModule,
     MatIconModule,
     AsyncPipe,
+    NgClass,
     FlexLayoutModule,
     RouterLink,
     OfferItem,
@@ -42,6 +44,8 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './offer-list.scss',
 })
 export class OfferList implements OnInit {
+  statusClasses = OFFER_STATUS_CLASSES;
+
   private store = inject(Store<OfferState>);
   private destroyRef = inject(DestroyRef);
 

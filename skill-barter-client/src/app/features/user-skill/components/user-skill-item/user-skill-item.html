@@ -3,19 +3,50 @@
     <div
       fxLayout.gt-xs="row"
       fxLayout.lt-sm="column"
-      fxLayoutAlign="space-between center"
+      fxLayoutAlign="space-around center"
       fxLayoutGap="3%"
     >
-      <mat-card-title>
-        {{ userSkill.skill?.name }}
-      </mat-card-title>
+      <div fxFlex="25%" fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Name </mat-card-title>
+          <mat-icon matSuffix color="warn">build</mat-icon>
+        </div>
+        <span>
+          {{ userSkill.skill?.name }}
+        </span>
+      </div>
+
+      <div fxFlex="25%" fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Category </mat-card-title>
+          <mat-icon matSuffix color="warn">category</mat-icon>
+        </div>
+        <span>
+          {{ userSkill.skill?.category?.name }}
+        </span>
+      </div>
+
       @if (userSkill.description) {
-        <div class="responsive-text" [appOverflowTooltip]="userSkill.description">
-          {{ userSkill.description }}
+        <div fxFlex="25%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Description </mat-card-title>
+            <mat-icon matSuffix color="warn">description</mat-icon>
+          </div>
+
+          <div class="responsive-text" [appOverflowTooltip]="userSkill.description">
+            {{ userSkill.description }}
+          </div>
         </div>
       }
-      <div>
-        {{ userSkill.createdAt | date: dateFormat }}
+
+      <div fxFlex="25%" fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Created at </mat-card-title>
+          <mat-icon matSuffix color="warn">access_time_filled</mat-icon>
+        </div>
+        <span>
+          {{ userSkill.createdAt | date: dateFormat }}
+        </span>
       </div>
     </div>
   </mat-card-content>

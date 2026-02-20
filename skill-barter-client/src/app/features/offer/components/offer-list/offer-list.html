@@ -4,7 +4,7 @@
   <div fxFlex fxLayout="column" fxLayoutAlign="space-between">
     <div class="offers-grid">
       @for (offer of offers$ | async; track offer.id) {
-        <mat-card class="offer-card">
+        <mat-card class="offer-card" [ngClass]="statusClasses[offer.status]">
           <app-offer-item [offer]="offer"></app-offer-item>
         </mat-card>
       }

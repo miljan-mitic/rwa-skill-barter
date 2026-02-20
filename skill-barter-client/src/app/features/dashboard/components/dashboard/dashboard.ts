@@ -1,7 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../store/app.state';
+import { UserSkillActions } from '../../../user-skill/store/user-skill.actions';
+import { OfferActions } from '../../../offer/store/offer.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +14,13 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './dashboard.scss',
 })
 export class Dashboard {
-  readonly userName = 'Miljan';
+  private store = inject(Store<AppState>);
 
-  onAction1() {}
+  restartSkillsFilter() {
+    this.store.dispatch(UserSkillActions.restartUserSkillFilter());
+  }
+
+  restartOffersFilter() {
+    this.store.dispatch(OfferActions.restartOfferFilter());
+  }
 }

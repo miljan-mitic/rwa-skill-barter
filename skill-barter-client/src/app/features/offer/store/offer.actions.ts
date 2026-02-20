@@ -15,6 +15,8 @@ export const OfferActions = createActionGroup({
     'Load offers': props<{ offerFilterDto: OfferFilterDto; isAdmin?: boolean }>(),
     'Load offers success': props<{ offers: Offer[]; length: number }>(),
     'Load offers failure': props<{ error: any }>(),
+
+    'Restart offer filter': emptyProps(),
     'Change offer pagination filter': props<{ paginationParams: PaginationParams }>(),
 
     'Load offer': props<{ id: number; isAdmin?: boolean }>(),

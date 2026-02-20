@@ -63,6 +63,16 @@
           }
         </div>
 
+        <div class="detail-item">
+          <mat-card-title> Meeting at </mat-card-title>
+          <div class="responsive-text">{{ offer.meetingAt | date: dateFormat }}</div>
+        </div>
+
+        <div class="detail-item">
+          <mat-card-title> Duration in minutes </mat-card-title>
+          <div class="responsive-text">{{ offer.durationMinutes }}</div>
+        </div>
+
         <div class="detail-item textarea-div">
           <mat-card-title> Description </mat-card-title>
           @if (!isEditMode()) {
@@ -92,20 +102,43 @@
         </div>
 
         <div class="detail-item">
-          <button
-            mat-icon-button
-            [matTooltip]="isEditMode() ? 'Save changes' : 'Edit'"
-            [color]="isEditMode() ? 'primary' : 'accent'"
-            [disabled]="isEditMode() && (offerForm.invalid || isSaving())"
-            (click)="toggleEditMode()"
-          >
-            @if (isSaving()) {
-              <mat-progress-spinner diameter="24" mode="indeterminate"></mat-progress-spinner>
-            } @else {
-              <mat-icon>{{ isEditMode() ? 'save' : 'edit' }}</mat-icon>
-            }
-          </button>
+          <mat-card-title> Status </mat-card-title>
+          <div class="status-wrapper" [ngClass]="statusClasses[offer.status]">
+            <span class="status-dot"></span>
+            <span class="status-text">{{ offer.status }}</span>
+          </div>
         </div>
+
+        @if (offer.status !== offerStatus.ARCHIVED) {
+          <div class="detail-item">
+            <button
+              mat-icon-button
+              [matTooltip]="offer.status === offerStatus.ACTIVE ? 'Pause' : 'Activate'"
+              [ngClass]="statusButtonClasses[offer.status]"
+              (click)="updateStatus()"
+            >
+              <mat-icon>{{
+                offer.status === offerStatus.ACTIVE ? 'pause' : 'play_arrow'
+              }}</mat-icon>
+            </button>
+          </div>
+
+          <div class="detail-item">
+            <button
+              mat-icon-button
+              [matTooltip]="isEditMode() ? 'Save changes' : 'Edit'"
+              [color]="isEditMode() ? 'primary' : 'accent'"
+              [disabled]="isEditMode() && (offerForm.invalid || isSaving())"
+              (click)="toggleEditMode()"
+            >
+              @if (isSaving()) {
+                <mat-progress-spinner diameter="24" mode="indeterminate"></mat-progress-spinner>
+              } @else {
+                <mat-icon>{{ isEditMode() ? 'save' : 'edit' }}</mat-icon>
+              }
+            </button>
+          </div>
+        }
 
         <div class="detail-item">
           <button mat-icon-button matTooltip="Delete" color="warn" (click)="deleteOffer()">

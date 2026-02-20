@@ -6,10 +6,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { DatePipe } from '@angular/common';
 import { OverflowTooltip } from '../../../../shared/directives/overflow-tooltip';
 import { DATE_FORMAT } from '../../../../common/constants/date-format.const';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-skill-item',
-  imports: [MatCardModule, RouterLink, FlexLayoutModule, DatePipe, OverflowTooltip],
+  imports: [MatCardModule, MatIconModule, RouterLink, FlexLayoutModule, DatePipe, OverflowTooltip],
   templateUrl: './user-skill-item.html',
   styleUrl: './user-skill-item.scss',
 })

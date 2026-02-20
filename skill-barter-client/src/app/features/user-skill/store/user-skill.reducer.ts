@@ -1,5 +1,5 @@
 import { createEntityAdapter } from '@ngrx/entity';
-import { UserSkillState } from './user-skill.state';
+import { UserSkillFilter, UserSkillState } from './user-skill.state';
 import { createReducer, on } from '@ngrx/store';
 import { UserSkillActions } from './user-skill.actions';
 import { UserSkill } from '../../../common/models/user-skill.model';
@@ -8,15 +8,17 @@ import { SortBy, SortType } from '../../../common/enums/sort.enum';
 
 const adapter = createEntityAdapter<UserSkill>();
 
+const initialStateFilter: UserSkillFilter = {
+  page: PAGINATION_PARAMS.DEFAULT.PAGE,
+  pageSize: PAGINATION_PARAMS.DEFAULT.PAGE_SIZE,
+  sortBy: SortBy.CREATED_AT,
+  sortType: SortType.DESC,
+};
+
 export const initialState: UserSkillState = adapter.getInitialState({
   length: 0,
   loading: false,
-  filter: {
-    page: PAGINATION_PARAMS.DEFAULT.PAGE,
-    pageSize: PAGINATION_PARAMS.DEFAULT.PAGE_SIZE,
-    sortBy: SortBy.CREATED_AT,
-    sortType: SortType.DESC,
-  },
+  filter: initialStateFilter,
 });
 
 export const userSkillReducer = createReducer(
@@ -26,6 +28,9 @@ export const userSkillReducer = createReducer(
       ...state,
       loading: true,
     };
+  }),
+  on(UserSkillActions.restartUserSkillFilter, (state: UserSkillState) => {
+    return { ...state, filter: initialStateFilter };
   }),
   on(
     UserSkillActions.changeUserSkillPaginationFilter,

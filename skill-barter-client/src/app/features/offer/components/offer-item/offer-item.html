@@ -1,22 +1,98 @@
-<mat-card fxFlex fxLayout="column" fxLayoutAlign="center" [routerLink]="[offer.id]">
+<mat-card
+  [ngClass]="statusClasses[offer.status]"
+  fxFlex
+  fxLayout="column"
+  fxLayoutAlign="center"
+  [routerLink]="[offer.id]"
+>
   <mat-card-content class="clickable-text">
-    <div fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="20%">
-      <div fxFlex="100%" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="3%">
-        <mat-card-title fxFlex="70%">
-          {{ offer.title }}
-        </mat-card-title>
-        <mat-card-title fxFlex="30%">
-          {{ offer.meetingType }}
-        </mat-card-title>
+    <div fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="2%">
+      <div fxFlex="25%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
+        <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Skill </mat-card-title>
+            <mat-icon matSuffix color="warn">build</mat-icon>
+          </div>
+          <span>
+            {{ offer.userSkill?.skill?.name }}
+          </span>
+        </div>
+
+        <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Category </mat-card-title>
+            <mat-icon matSuffix color="warn">category</mat-icon>
+          </div>
+          <span>
+            {{ offer.userSkill?.skill?.category?.name }}
+          </span>
+        </div>
       </div>
-      <div fxFlex="100%" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5%">
+
+      <div fxFlex="25%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
+        <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Title </mat-card-title>
+            <mat-icon matSuffix color="warn">title</mat-icon>
+          </div>
+          <span>
+            {{ offer.title }}
+          </span>
+        </div>
+
+        <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Meeting type </mat-card-title>
+            <mat-icon matSuffix color="warn">location_pin</mat-icon>
+          </div>
+          <span>
+            {{ offer.meetingType }}
+          </span>
+        </div>
+      </div>
+
+      <div fxFlex="25%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
+        <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Meeting at </mat-card-title>
+            <mat-icon matSuffix color="warn">calendar_month</mat-icon>
+          </div>
+          <span>
+            {{ offer.meetingAt | date: dateFormat }}
+          </span>
+        </div>
+
+        <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Duration </mat-card-title>
+            <mat-icon matSuffix color="warn">schedule</mat-icon>
+          </div>
+          <span> {{ offer.durationMinutes }} minutes </span>
+        </div>
+      </div>
+
+      <div fxFlex="25%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5%">
         @if (offer.description) {
-          <div fxFlex="60%" class="responsive-text" [appOverflowTooltip]="offer.description">
-            {{ offer.description }}
+          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+              <mat-card-title class="title"> Description </mat-card-title>
+              <mat-icon matSuffix color="warn">description</mat-icon>
+            </div>
+
+            <div class="responsive-text" [appOverflowTooltip]="offer.description">
+              {{ offer.description }}
+            </div>
           </div>
         }
-        <div fxFlex="40%">
-          {{ offer.createdAt | date: dateFormat }}
+
+        <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Created at </mat-card-title>
+            <mat-icon matSuffix color="warn">access_time_filled</mat-icon>
+          </div>
+          <span>
+            {{ offer.createdAt | date: dateFormat }}
+          </span>
         </div>
       </div>
     </div>

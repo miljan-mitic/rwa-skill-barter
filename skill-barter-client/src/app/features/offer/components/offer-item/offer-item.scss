@@ -9,7 +9,6 @@ mat-card {
 }
 
 mat-card-title {
-  color: 333333;
   font-weight: bold;
   font-size: 20px;
   text-decoration: none;
@@ -18,6 +17,10 @@ mat-card-title {
 
 .mat-mdc-card-title {
   color: inherit;
+}
+
+.title {
+  color: rgb(211, 33, 33);
 }
 
 .clickable-text:hover {
@@ -37,4 +40,28 @@ mat-card-title {
     overflow: visible;
     word-break: break-word;
   }
+}
+
+/* ACTIVE */
+.status-active {
+  background-color: rgba(0, 218, 11, 0.85);
+  box-shadow:
+    0 0 8px 5px rgba(36, 100, 40, 0.85),
+    0 0 20px 10px rgba(36, 100, 40, 0.7);
+}
+
+/* PAUSED */
+.status-paused {
+  background-color: #ffb237;
+  box-shadow:
+    0 0 8px 5px rgba(196, 132, 29, 0.85),
+    0 0 20px 10px rgba(196, 132, 29, 0.7);
+}
+
+/* ARCHIVED */
+.status-archived {
+  background-color: #969292;
+  box-shadow:
+    0 0 8px 5px rgba(80, 79, 79, 0.85),
+    0 0 20px 10px rgba(80, 79, 79, 0.7);
 }

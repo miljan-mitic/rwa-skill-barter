@@ -18,13 +18,19 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, NgClass } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Loader } from '../../../../shared/components/loader/loader';
 import { DATE_FORMAT } from '../../../../common/constants/date-format.const';
 import { OfferUpdateDto } from '../../dtos/offer-update.dto';
 import { MatRadioModule } from '@angular/material/radio';
 import { OfferMeetingType } from '../../../../common/enums/offer-meeting-type.enum';
+import {
+  OFFER_STATUS_CLASSES,
+  OFFER_STATUS_BUTTON_CLASSES,
+  OFFER_CHANGE_STATUS,
+} from '../../../../common/constants/offer-status.consts';
+import { OfferStatus } from '../../../../common/enums/offer-status.enum';
 
 @Component({
   selector: 'app-offer-details',
@@ -38,6 +44,7 @@ import { OfferMeetingType } from '../../../../common/enums/offer-meeting-type.en
     MatProgressSpinnerModule,
     MatRadioModule,
     ReactiveFormsModule,
+    NgClass,
     AsyncPipe,
     DatePipe,
     FlexLayoutModule,
@@ -48,7 +55,10 @@ import { OfferMeetingType } from '../../../../common/enums/offer-meeting-type.en
 })
 export class OfferDetails {
   dateFormat = DATE_FORMAT.DEFAULT;
+  statusClasses = OFFER_STATUS_CLASSES;
+  statusButtonClasses = OFFER_STATUS_BUTTON_CLASSES;
   meetingType = OfferMeetingType;
+  offerStatus = OfferStatus;
 
   offerForm: FormGroup;
 
@@ -127,6 +137,17 @@ export class OfferDetails {
     }
   }
 
+  updateStatus() {
+    this.store.dispatch(
+      OfferActions.updateOffer({
+        id: this.offer.id,
+        offerUpdateDto: {
+          status: OFFER_CHANGE_STATUS[this.offer.status],
+        },
+      }),
+    );
+  }
+
   save() {
     if (this.offerForm?.invalid) {
       this.offerForm.markAsTouched();
@@ -138,7 +159,7 @@ export class OfferDetails {
     Object.keys(this.offerForm.controls).forEach((key) => {
       const control = this.offerForm.get(key);
       if (control && control.dirty) {
-        changedValues[key as keyof OfferUpdateDto] = control.value;
+        changedValues[key as keyof OfferUpdateDto] = control.value === '' ? null : control.value;
       }
     });
 

@@ -4,5 +4,7 @@ export interface OfferDto {
   title: string;
   userSkillId: number;
   meetingType?: OfferMeetingType;
+  meetingAt: Date;
+  durationMinutes: number;
   description?: string;
 }

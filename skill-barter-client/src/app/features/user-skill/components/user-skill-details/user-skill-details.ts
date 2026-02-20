@@ -118,8 +118,8 @@ export class UserSkillDetails implements OnInit {
       return;
     }
 
-    const original = this.userSkill.description?.trim() || '';
-    const edited = descriptionControl?.value?.trim() || '';
+    const original = this.userSkill.description?.trim() || null;
+    const edited = descriptionControl?.value?.trim() || null;
 
     if (original === edited) {
       this.isEditMode.set(false);

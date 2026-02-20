@@ -52,8 +52,9 @@ mat-card-title {
     0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.meeting-type-group {
+.meeting-group {
   display: flex;
+  flex-wrap: wrap;
   gap: 32px;
   margin-top: 16px;
 }
@@ -62,4 +63,8 @@ mat-card-title {
   margin-right: 6px;
   font-size: 18px;
   vertical-align: middle;
+}
+
+.meeting-date .meeting-time .meeting-duration {
+  min-width: 30%;
 }
