@@ -29,8 +29,11 @@ export class OfferController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  getOffers(@Query() filterOfferDto: FilterOfferDto) {
-    return this.offerService.getOffers(filterOfferDto);
+  getOffers(
+    @UserDecorator() user: User,
+    @Query() filterOfferDto: FilterOfferDto,
+  ) {
+    return this.offerService.getOffers(user, filterOfferDto);
   }
 
   @UseGuards(JwtAuthGuard)

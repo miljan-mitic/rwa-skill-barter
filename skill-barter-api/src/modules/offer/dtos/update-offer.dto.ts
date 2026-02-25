@@ -11,8 +11,8 @@ export class UpdateOfferDto {
   title?: string;
 
   @IsOptional()
-  @IsNotEmpty({ message: 'MEETING_EMPTY' })
-  @IsEnum(OFFER_MEETING_TYPE, { message: 'MEETING_WRONG_TYPE' })
+  @IsNotEmpty({ message: 'MEETING_TYPE_EMPTY' })
+  @IsEnum(OFFER_MEETING_TYPE, { message: 'MEETING_TYPE_WRONG_TYPE' })
   @Expose()
   meetingType?: OFFER_MEETING_TYPE;
 
@@ -22,7 +22,7 @@ export class UpdateOfferDto {
   description?: string;
 
   @IsOptional()
-  @IsNotEmpty({ message: 'MEETING_EMPTY' })
+  @IsNotEmpty({ message: 'STATUS_EMPTY' })
   @IsEnum(OFFER_STATUS, { message: 'STATUS_WRONG_TYPE' })
   @Expose()
   status?: OFFER_STATUS;

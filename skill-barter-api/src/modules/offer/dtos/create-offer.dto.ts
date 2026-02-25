@@ -53,6 +53,7 @@ export class CreateOfferDto {
 
   @IsDefined({ message: 'DURATION_MINUTES_REQUIRED' })
   @IsNotEmpty({ message: 'DURATION_MINUTES_EMPTY' })
+  @Type(() => Number)
   @IsInt({ message: 'DURATION_MINUTES_WRONG_TYPE' })
   @Min(45, { message: 'DURATION_MINUTES_MINIMUM_45' })
   @Max(180, { message: 'DURATION_MINUTES_MAXIMUM_180' })

@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Offer } from 'src/entities/offer.entity';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { FilterOfferDto } from '../dtos/filter-offer.dto';
 import { SortBy, SortType } from 'src/common/enums/sort.enum';
 import { CreateOfferDto } from '../dtos/create-offer.dto';
@@ -16,6 +16,8 @@ import { UserSkillService } from 'src/modules/user-skill/services/user-skill.ser
 import { UpdateOfferDto } from '../dtos/update-offer.dto';
 import { removeUndefinedAttributes } from 'src/common/utils/remove-undefined-attributes';
 import { OFFER_STATUS } from 'src/common/enums/offer-status.enum';
+import { UserSkill } from 'src/entities/user-skill.entity';
+import { OFFER_REQUEST_STATUS } from 'src/common/enums/offer-request-status.enum';
 
 @Injectable()
 export class OfferService {
@@ -53,6 +55,17 @@ export class OfferService {
     return newOffer;
   }
 
+  async findById(id: number, relations?: FindOptionsRelations<Offer>) {
+    const offer = await this.offerRepository.findOne({
+      where: { id },
+      relations,
+    });
+    if (!offer) {
+      throw new NotFoundException(`Offer with ID ${id} not found`);
+    }
+    return offer;
+  }
+
   async updateOffer(user: User, id: number, updateOfferDto: UpdateOfferDto) {
     const offer = await this.offerRepository.findOne({
       where: { id, userSkill: { user: { id: user.id } } },
@@ -80,10 +93,13 @@ export class OfferService {
     return offer;
   }
 
-  async getOffers(filterOfferDto: FilterOfferDto) {
+  async getOffers(user: User, filterOfferDto: FilterOfferDto) {
     const {
+      userOffers,
       skillId,
       categoryId,
+      status,
+      meetingType,
       page = 0,
       pageSize = 10,
       sortBy = SortBy.CREATED_AT,
@@ -93,8 +109,31 @@ export class OfferService {
     const queryBuilder = this.offerRepository
       .createQueryBuilder('offer')
       .leftJoinAndSelect('offer.userSkill', 'userSkill')
+      .leftJoinAndSelect('userSkill.user', 'user')
       .leftJoinAndSelect('userSkill.skill', 'skill')
       .leftJoinAndSelect('skill.category', 'category');
+    if (userOffers !== undefined) {
+      if (!userOffers) {
+        queryBuilder
+          .addSelect(
+            `
+    EXISTS (
+      SELECT 1
+      FROM offer_request orq
+      JOIN user_skill us ON us.id = orq."userSkillId"
+      WHERE orq."offerId" = offer.id
+        AND us."userId" = :currentUserId
+    )
+  `,
+            'hasCurrentUserRequest',
+          )
+          .setParameter('currentUserId', user.id);
+      }
+      queryBuilder.andWhere(
+        `${userOffers ? 'userSkill.userId = :userId' : 'userSkill.userId != :userId'}`,
+        { userId: user.id },
+      );
+    }
 
     if (skillId) {
       queryBuilder.andWhere('skill.id = :skillId', { skillId });
@@ -104,14 +143,29 @@ export class OfferService {
       queryBuilder.andWhere('category.id = :categoryId', { categoryId });
     }
 
+    if (status) {
+      queryBuilder.andWhere('offer.status = :status', { status });
+    }
+
+    if (meetingType) {
+      queryBuilder.andWhere('offer.meetingType = :meetingType', {
+        meetingType,
+      });
+    }
+
     queryBuilder.orderBy(`offer.${sortBy}`, sortType);
 
     queryBuilder.skip(page * pageSize).take(pageSize);
 
-    const [count, items] = await Promise.all([
+    const [count, { entities, raw }] = await Promise.all([
       queryBuilder.getCount(),
-      queryBuilder.getMany(),
+      queryBuilder.getRawAndEntities(),
     ]);
+
+    const items = entities.map((offer, index) => ({
+      ...offer,
+      hasCurrentUserRequest: raw[index].hasCurrentUserRequest,
+    }));
 
     return {
       items,
@@ -122,16 +176,37 @@ export class OfferService {
   }
 
   async getOfferById(user: User, id: number) {
-    const offer = await this.offerRepository.findOne({
-      where: { id, userSkill: { user: { id: user.id } } },
-      relations: ['userSkill.skill.category'],
-    });
+    const { entities, raw } = await this.offerRepository
+      .createQueryBuilder('offer')
+      .leftJoinAndSelect('offer.userSkill', 'userSkill')
+      .leftJoinAndSelect('userSkill.skill', 'skill')
+      .leftJoinAndSelect('skill.category', 'category')
+      .addSelect(
+        `
+  EXISTS (
+    SELECT 1
+    FROM offer_request orq
+    WHERE orq."offerId" = offer.id
+    AND orq.status = :status
+  )
+`,
+        'hasAcceptedRequest',
+      )
+      .setParameter('status', OFFER_REQUEST_STATUS.ACCEPTED)
+      .where('offer.id = :id', { id })
+      .andWhere('userSkill.userId = :userId', { userId: user.id })
+      .getRawAndEntities();
+
+    const offer = entities[0];
 
     if (!offer) {
       throw new NotFoundException('Offer not found');
     }
 
-    return offer;
+    return {
+      ...offer,
+      hasAcceptedRequest: raw[0].hasAcceptedRequest,
+    };
   }
 
   async deleteOffer(user: User, id: number) {

@@ -14,8 +14,8 @@ export class OfferRequest {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false })
-  message: string;
+  @Column({ nullable: true, length: 100 })
+  message?: string;
 
   @Column({
     type: 'enum',
@@ -24,6 +24,21 @@ export class OfferRequest {
     default: OFFER_REQUEST_STATUS.PENDING,
   })
   status: OFFER_REQUEST_STATUS;
+
+  @Column({
+    type: 'int',
+    nullable: false,
+    generatedType: 'STORED',
+    asExpression: `
+        CASE status
+          WHEN '${OFFER_REQUEST_STATUS.ACCEPTED}' THEN 1
+          WHEN '${OFFER_REQUEST_STATUS.PENDING}' THEN 2
+          WHEN '${OFFER_REQUEST_STATUS.REJECTED}' THEN 3
+          ELSE 4
+        END
+      `,
+  })
+  statusOrder: number;
 
   @CreateDateColumn({
     type: 'timestamptz',
