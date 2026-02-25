@@ -31,6 +31,7 @@ import {
   OFFER_CHANGE_STATUS,
 } from '../../../../common/constants/offer-status.consts';
 import { OfferStatus } from '../../../../common/enums/offer-status.enum';
+import { OfferRequestList } from '../../../offer-request/components/offer-request-list/offer-request-list';
 
 @Component({
   selector: 'app-offer-details',
@@ -49,6 +50,7 @@ import { OfferStatus } from '../../../../common/enums/offer-status.enum';
     DatePipe,
     FlexLayoutModule,
     Loader,
+    OfferRequestList,
   ],
   templateUrl: './offer-details.html',
   styleUrl: './offer-details.scss',

@@ -1,0 +1,53 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-list mat-list-item {
+  height: 100%;
+}
+
+mat-list {
+  padding: 3% 0;
+
+  @media screen and (max-width: 850px) {
+    padding-top: 5%;
+  }
+}
+
+mat-list-item {
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+mat-list-item {
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* PENDING */
+.status-pending {
+  box-shadow:
+    0 4px 8px 0 rgba(196, 132, 29, 0.8),
+    0 6px 20px 0 rgba(196, 132, 29, 0.7);
+}
+
+/* ACCEPTED */
+.status-accepted {
+  box-shadow:
+    0 4px 8px 0 rgba(36, 100, 40, 0.8),
+    0 6px 20px 0 rgba(36, 100, 40, 0.7);
+}
+
+/* REJECTED */
+.status-rejected {
+  box-shadow:
+    0 4px 8px 0 rgba(167, 3, 3, 0.8),
+    0 6px 20px 0 rgba(167, 3, 3, 0.7);
+}

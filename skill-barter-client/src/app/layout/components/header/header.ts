@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { filter } from 'rxjs';
 import { User } from '../../../common/models/user.model';
 import { AuthActions } from '../../../features/auth/store/auth.actions';
 import { RouterLink } from '@angular/router';
@@ -9,10 +9,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { selectCurrentUser } from '../../../features/user/state/user.selector';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { UserState } from '../../../features/user/state/user.state';
+import { AppState } from '../../../store/app.state';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OfferActions } from '../../../features/offer/store/offer.actions';
+import { initialStateOfferFilter } from '../../../features/offer/store/offer.reducer';
+import { OfferStatus } from '../../../common/enums/offer-status.enum';
 
 @Component({
   selector: 'app-header',
@@ -25,18 +29,39 @@ import { UserState } from '../../../features/user/state/user.state';
     MatMenuModule,
     NgTemplateOutlet,
     MatFormFieldModule,
-    AsyncPipe,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header implements OnInit {
-  user: Observable<User | undefined>;
+  user: User;
 
-  constructor(private readonly store: Store<UserState>) {}
+  private store = inject(Store<AppState>);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.user = this.store.select(selectCurrentUser);
+    this.store
+      .select(selectCurrentUser)
+      .pipe(
+        filter((user) => !!user),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((user) => {
+        this.user = user;
+      });
+  }
+
+  resetOfferFilter() {
+    this.store.dispatch(
+      OfferActions.changeOfferFilter({
+        filter: {
+          ...initialStateOfferFilter,
+          global: true,
+          userOffers: false,
+          status: OfferStatus.ACTIVE,
+        },
+      }),
+    );
   }
 
   logout() {

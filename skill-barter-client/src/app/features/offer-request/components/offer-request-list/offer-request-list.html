@@ -1,0 +1,24 @@
+@if (length$ | async) {
+  <div fxFlex fxLayout="column" fxLayoutAlign="space-between">
+    <mat-list fxLayout="column" fxLayoutGap="3%">
+      @for (offerRequest of offerRequests$ | async; track offerRequest.id) {
+        <mat-list-item [ngClass]="statusClasses[offerRequest.status]">
+          <app-offer-request-item [offerRequest]="offerRequest"></app-offer-request-item>
+        </mat-list-item>
+      }
+    </mat-list>
+
+    <mat-paginator
+      [length]="length$ | async"
+      [pageSize]="(paginationParams$ | async)!.pageSize"
+      [pageIndex]="(paginationParams$ | async)!.page"
+      (page)="getData($event)"
+    >
+    </mat-paginator>
+  </div>
+} @else if (loading$ | async) {
+  <app-loader [overlay]="false"></app-loader>
+} @else {
+  <app-empty-state title="No offer requests yet." message="There are no offer requests available.">
+  </app-empty-state>
+}

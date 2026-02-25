@@ -1,0 +1,60 @@
+mat-card {
+  border-radius: 12px;
+  height: 100%;
+}
+
+mat-card-title {
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.request-container {
+  flex-wrap: wrap;
+}
+
+.mat-mdc-card-title {
+  color: inherit;
+}
+
+.title {
+  color: #0044cc;
+
+  &:hover {
+    color: #003399;
+  }
+}
+
+.clickable-text:hover {
+  color: #0044cc;
+}
+
+.responsive-text {
+  max-width: 100%;
+  min-width: 20%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media screen and (max-width: 600px) {
+    text-align: center;
+    white-space: normal;
+    overflow: visible;
+    word-break: break-word;
+  }
+}
+
+/* PENDING */
+.status-pending {
+  background-color: rgba(255, 251, 0, 0.658);
+}
+
+/* ACCEPTED */
+.status-accepted {
+  background-color: rgba(0, 179, 9, 0.651);
+}
+
+/* REJECTED */
+.status-rejected {
+  background-color: rgba(255, 0, 0, 0.767);
+}

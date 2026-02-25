@@ -40,7 +40,7 @@ export class OfferEffects {
           this.notificationService.showMessage(
             NotificationSeverity.SUCCESS,
             NotificationSummary.SUCCESS,
-            'Offfer created successfully',
+            'Offer created successfully',
           );
         }),
       ),

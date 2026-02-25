@@ -17,4 +17,6 @@ export interface Offer {
   userSkill?: UserSkill;
   offerRequests?: OfferRequest[];
   barters: Barter;
+  hasCurrentUserRequest?: boolean;
+  hasAcceptedRequest?: boolean;
 }

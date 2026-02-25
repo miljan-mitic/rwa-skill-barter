@@ -11,23 +11,18 @@ import {
   UrlSegment,
 } from '@angular/router';
 import { selectAuthStatus } from '../store/auth.selectors';
-import { filter, map, take, tap } from 'rxjs';
+import { filter, map, take } from 'rxjs';
 import { AuthStatus } from '../../../common/enums/auth-status.enum';
 
 const authGuard = () => {
   const store = inject(Store<AuthState>);
   const router = inject(Router);
   return store.select(selectAuthStatus).pipe(
-    filter((status) => status !== AuthStatus.IDLE && status !== AuthStatus.LOADING),
+    filter((status) => status !== AuthStatus.LOADING),
     take(1),
-    map((status) => status === AuthStatus.AUTHENTICATED),
-    tap((isAuthenticated) => {
-      if (!isAuthenticated) {
-        router.navigate(['/login']);
-        return false;
-      }
-      return true;
-    }),
+    map((status) =>
+      status !== AuthStatus.AUTHENTICATED ? router.createUrlTree(['/login']) : true,
+    ),
   );
 };
 

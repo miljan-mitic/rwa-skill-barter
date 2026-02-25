@@ -5,20 +5,27 @@ import { createReducer, on } from '@ngrx/store';
 import { OfferActions } from './offer.actions';
 import { PAGINATION_PARAMS } from '../../../common/constants/pagination-params.const';
 import { SortBy, SortType } from '../../../common/enums/sort.enum';
+import { OfferStatus } from '../../../common/enums/offer-status.enum';
 
 const adapter = createEntityAdapter<Offer>();
 
-const initialStateFilter: OfferFilter = {
+export const initialStateOfferFilter: OfferFilter = {
+  global: true,
   page: PAGINATION_PARAMS.DEFAULT.PAGE,
   pageSize: PAGINATION_PARAMS.OFFER.PAGE_SIZE,
   sortBy: SortBy.CREATED_AT,
   sortType: SortType.DESC,
+  userOffers: false,
+  status: OfferStatus.ACTIVE,
+  skillId: undefined,
+  categoryId: undefined,
+  meetingType: undefined,
 };
 
 export const initialState: OfferState = adapter.getInitialState({
   length: 0,
   loading: false,
-  filter: initialStateFilter,
+  filter: initialStateOfferFilter,
 });
 
 export const offerReducer = createReducer(
@@ -29,18 +36,12 @@ export const offerReducer = createReducer(
       loading: true,
     };
   }),
-  on(OfferActions.restartOfferFilter, (state: OfferState) => {
-    return {
-      ...state,
-      filter: initialStateFilter,
-    };
-  }),
-  on(OfferActions.changeOfferPaginationFilter, (state: OfferState, { paginationParams }) => {
+  on(OfferActions.changeOfferFilter, (state: OfferState, { filter }) => {
     return {
       ...state,
       filter: {
         ...state.filter,
-        ...paginationParams,
+        ...filter,
       },
     };
   }),

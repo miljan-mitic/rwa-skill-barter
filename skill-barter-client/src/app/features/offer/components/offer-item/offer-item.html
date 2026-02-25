@@ -3,11 +3,13 @@
   fxFlex
   fxLayout="column"
   fxLayoutAlign="center"
-  [routerLink]="[offer.id]"
+  [routerLink]="!global ? [offer.id] : undefined"
+  [fragment]="!global ? 'offer-requests-section' : undefined"
+  (click)="global && openRequestDialog($event)"
 >
   <mat-card-content class="clickable-text">
     <div fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="2%">
-      <div fxFlex="25%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
+      <div fxFlex="20%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
         <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
             <mat-card-title class="title"> Skill </mat-card-title>
@@ -29,7 +31,7 @@
         </div>
       </div>
 
-      <div fxFlex="25%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
+      <div fxFlex="20%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
         <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
             <mat-card-title class="title"> Title </mat-card-title>
@@ -51,7 +53,7 @@
         </div>
       </div>
 
-      <div fxFlex="25%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
+      <div fxFlex="20%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="3%">
         <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
             <mat-card-title class="title"> Meeting at </mat-card-title>
@@ -71,7 +73,7 @@
         </div>
       </div>
 
-      <div fxFlex="25%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5%">
+      <div fxFlex="20%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5%">
         @if (offer.description) {
           <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
             <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
@@ -94,6 +96,34 @@
             {{ offer.createdAt | date: dateFormat }}
           </span>
         </div>
+      </div>
+
+      <div fxFlex="20%" fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5%">
+        @if (global) {
+          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+              <mat-card-title class="title"> User </mat-card-title>
+              <mat-icon matSuffix color="warn">person</mat-icon>
+            </div>
+
+            <span>
+              {{ offer.userSkill?.user?.username }}
+            </span>
+          </div>
+
+          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <button mat-fab extended color="primary" (click)="openRequestDialog($event)">
+              <mat-icon>send</mat-icon
+              >{{ offer.hasCurrentUserRequest ? 'RESEND REQUEST' : 'SEND REQUEST' }}
+            </button>
+          </div>
+        } @else {
+          <div fxFlex="100%" fxLayout="column" fxLayoutAlign="center center">
+            <button mat-fab extended color="primary">
+              <mat-icon>view_list</mat-icon>SEE REQUESTS
+            </button>
+          </div>
+        }
       </div>
     </div>
   </mat-card-content>

@@ -1,7 +1,6 @@
 import { EntityState } from '@ngrx/entity';
 import { Offer } from '../../../common/models/offer.model';
 import { OfferFilterDto } from '../dtos/offer-filter.dto';
-import { Category } from '../../../common/models/category.model';
 
 export interface OfferState extends EntityState<Offer> {
   length: number;
@@ -11,5 +10,5 @@ export interface OfferState extends EntityState<Offer> {
 }
 
 export interface OfferFilter extends OfferFilterDto {
-  selectedCategory?: Category;
+  global?: boolean;
 }

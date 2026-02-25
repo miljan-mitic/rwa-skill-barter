@@ -4,7 +4,7 @@ import { OfferDetails } from './components/offer-details/offer-details';
 import { OfferDashboard } from './components/offer-dashboard/offer-dashboard';
 
 export const offerRoutes: Routes = [
-  { path: '', component: OfferDashboard },
+  { path: '', component: OfferDashboard, data: { global: true } },
   {
     path: 'create',
     component: OfferCreate,

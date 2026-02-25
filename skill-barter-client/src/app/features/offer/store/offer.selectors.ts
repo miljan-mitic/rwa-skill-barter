@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { OfferState } from './offer.state';
+import { OfferFilter, OfferState } from './offer.state';
 import { Offer } from '../../../common/models/offer.model';
 
 export const selectOfferFeature = createFeatureSelector<OfferState>('offer');
@@ -29,7 +29,22 @@ export const selectOfferLoading = createSelector(
   (state: OfferState) => state.loading,
 );
 
+export const selectOfferGlobal = createSelector(
+  selectOfferFilter,
+  (state: OfferFilter) => state.global,
+);
+
+export const selectOfferPaginationParamas = createSelector(
+  selectOfferFilter,
+  (state: OfferFilter) => ({ page: state.page, pageSize: state.pageSize }),
+);
+
 export const selectOfferDetailed = createSelector(
   selectOfferFeature,
   (state: OfferState) => state.detailedOffer,
+);
+
+export const selectAcceptedRequest = createSelector(
+  selectOfferDetailed,
+  (state: Offer | undefined) => state?.hasAcceptedRequest,
 );

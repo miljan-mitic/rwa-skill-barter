@@ -4,7 +4,7 @@ import { AuthState } from './auth.state';
 import { AuthStatus } from '../../../common/enums/auth-status.enum';
 
 export const initilState: AuthState = {
-  status: AuthStatus.IDLE,
+  status: AuthStatus.UNAUTHENTICATED,
 };
 
 export const authReducer = createReducer(

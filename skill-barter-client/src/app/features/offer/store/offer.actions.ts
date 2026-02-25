@@ -1,9 +1,9 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { PaginationParams } from '../../../common/interfaces/pagination-params.interface';
 import { OfferFilterDto } from '../dtos/offer-filter.dto';
 import { Offer } from '../../../common/models/offer.model';
 import { OfferDto } from '../dtos/offer.dto';
 import { OfferUpdateDto } from '../dtos/offer-update.dto';
+import { OfferFilter } from './offer.state';
 
 export const OfferActions = createActionGroup({
   source: 'Offer',
@@ -16,8 +16,7 @@ export const OfferActions = createActionGroup({
     'Load offers success': props<{ offers: Offer[]; length: number }>(),
     'Load offers failure': props<{ error: any }>(),
 
-    'Restart offer filter': emptyProps(),
-    'Change offer pagination filter': props<{ paginationParams: PaginationParams }>(),
+    'Change offer filter': props<{ filter: OfferFilter }>(),
 
     'Load offer': props<{ id: number; isAdmin?: boolean }>(),
     'Load offer success': props<{ offer: Offer }>(),

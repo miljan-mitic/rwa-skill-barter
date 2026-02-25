@@ -1,0 +1,109 @@
+<mat-card fxFlex="100%" [ngClass]="statusClasses[offerRequest.status]">
+  <mat-card-content class="clickable-text">
+    <div
+      fxLayout.gt-xs="row"
+      fxLayoutAlign="space-around center"
+      fxLayoutGap="3%"
+      class="request-container"
+    >
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Skill </mat-card-title>
+          <mat-icon matSuffix>lightbulb</mat-icon>
+        </div>
+        <span>
+          {{ offerRequest.userSkill?.skill?.name }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Username </mat-card-title>
+          <mat-icon matSuffix>person</mat-icon>
+        </div>
+        <span>
+          {{ offerRequest.userSkill?.user?.username }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Email </mat-card-title>
+          <mat-icon matSuffix>email</mat-icon>
+        </div>
+        <span>
+          {{ offerRequest.userSkill?.user?.email }}
+        </span>
+      </div>
+
+      @if (offerRequest.message) {
+        <div fxFlex="10%" fxFlex.lt-lg="20%" fxFlex.lt-md="30" fxFlex.lt-sm="100%" fxLayout="column" fxLayoutAlign="center center">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <mat-card-title class="title"> Message </mat-card-title>
+            <mat-icon matSuffix>message</mat-icon>
+          </div>
+
+          <div class="responsive-text" [appOverflowTooltip]="offerRequest.message">
+            {{ offerRequest.message }}
+          </div>
+        </div>
+      }
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Status </mat-card-title>
+          <mat-icon matSuffix>{{ statusIcon[offerRequest.status] }}</mat-icon>
+        </div>
+        <span>
+          {{ offerRequest.status }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Sent </mat-card-title>
+          <mat-icon matSuffix>access_time_filled</mat-icon>
+        </div>
+        <span>
+          {{ offerRequest.createdAt | createdAgo }}
+        </span>
+      </div>
+
+      @switch (offerRequest.status) {
+        @case (statusEnum.ACCEPTED) {
+          <div fxLayoutAlign="center center">
+            <button
+              mat-fab
+              extended
+              class="status-rejected"
+              (click)="onChangeStatus(statusEnum.REJECTED)"
+            >
+              <mat-icon matPrefix>cancel</mat-icon>CANCEL
+            </button>
+          </div>
+        }
+        @case (statusEnum.PENDING) {
+          @if (!(hasAccepted$ | async)) {
+            <div fxLayoutAlign="center center">
+              <button
+                mat-fab
+                extended
+                class="status-accepted"
+                (click)="onChangeStatus(statusEnum.ACCEPTED)"
+              >
+                <mat-icon matPrefix>check_circle</mat-icon>ACCEPT
+              </button>
+            </div>
+
+            <div fxLayoutAlign="center center">
+              <button mat-fab extended color="warn" (click)="onChangeStatus(statusEnum.REJECTED)">
+                <mat-icon matPreffix>cancel</mat-icon>REJECT
+              </button>
+            </div>
+          }
+        }
+        @default {}
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,10 +1,14 @@
 import { Role } from '../enums/role.enum';
+import { UserSkill } from './user-skill.model';
 
 export interface User {
   id: number;
-  username: string;
   email: string;
+  username: string;
   role: Role;
-  profilePicture: string;
-  registartionDate: Date;
+  createdAt: Date;
+  profilePicture?: string;
+  ratingAvg: number;
+  ratingCount: number;
+  userSkills?: UserSkill[];
 }

@@ -1,14 +1,14 @@
 <mat-toolbar color="primary">
-  <a [routerLink]="(user | async) ? '/dashboard' : '/login'">
+  <a [routerLink]="user ? '/dashboard' : '/login'" (click)="user && resetOfferFilter()">
     <img fxFlex.gt-xs="150px" fxFlex.lt-sm="150px" fxLayout src="/images/skill-barter-logo-5.png" />
   </a>
 
   <div fxHide.xs fxFlex fxLayout fxLayoutAlign="flex-end">
-    @if (user | async) {
+    @if (user) {
       <ng-container>
         <ul fxLayout class="navigation-items">
           <li>
-            <button mat-button routerLink="/skills">
+            <button mat-button routerLink="/dashboard/skills">
               <mat-icon matPrefix fontIcon="build"></mat-icon>
               Skills
             </button>
@@ -37,7 +37,7 @@
       <mat-icon matPrefix fontIcon="menu"></mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-      @if (user | async) {
+      @if (user) {
         <ng-container>
           <button mat-menu-item routerLink="/skills">
             <mat-icon matPrefix fontIcon="build"></mat-icon>

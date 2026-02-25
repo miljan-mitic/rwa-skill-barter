@@ -102,3 +102,13 @@ button {
 .scaling-up:hover {
   transform: scale(1.02);
 }
+
+.cdk-overlay-backdrop {
+  backdrop-filter: blur(2px);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.offer-request-dialog .mat-mdc-dialog-surface {
+  border-radius: 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+}

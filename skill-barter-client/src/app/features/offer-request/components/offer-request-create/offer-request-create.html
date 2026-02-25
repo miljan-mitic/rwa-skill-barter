@@ -1,0 +1,62 @@
+<mat-card fxFlex="100%" fxLayout="column" fxLayoutAlign="space-between">
+  <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+    <mat-card-title fxFlex>{{ createLabel() }}</mat-card-title>
+    <button mat-icon-button (click)="close()">✖</button>
+  </mat-card-header>
+
+  <form
+    fxFlex="100%"
+    fxLayout="column"
+    fxLayoutAlign="space-between"
+    #offerRequestForm="ngForm"
+    (ngSubmit)="onSubmit(offerRequestForm)"
+  >
+    <mat-card-content fxFlex="100%" fxLayout="row">
+      <mat-dialog-content>
+        <app-remote-searchable-select
+          [label]="'Your skill'"
+          [pageSize]="2"
+          [size]="'small'"
+          [fetchFn]="fetchUserSkillFn"
+          [displayFn]="userSkillLabel"
+          [trackBy]="trackUserSkill"
+          name="userSkill"
+          ngModel
+          #skillModel="ngModel"
+          [extraFilters]="userSkillExtraFilters()"
+          required
+        />
+
+        <mat-form-field appearance="fill">
+          <mat-label> Message </mat-label>
+
+          <textarea
+            matInput
+            ngModel
+            #messageModel="ngModel"
+            name="message"
+            rows="4"
+            maxlength="100"
+          ></textarea>
+          <mat-hint align="end">{{ messageModel.value?.length || 0 }}/100 </mat-hint>
+          @if (messageModel.hasError('maxlength')) {
+            <mat-error>Message is too long (max 100 characters)</mat-error>
+          }
+        </mat-form-field>
+      </mat-dialog-content>
+    </mat-card-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button class="cancel-button" (click)="close()">Cancel</button>
+      <button
+        mat-raised-button
+        class="submit-button"
+        color="primary"
+        type="submit"
+        [disabled]="offerRequestForm.invalid"
+      >
+        Submit
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-card>

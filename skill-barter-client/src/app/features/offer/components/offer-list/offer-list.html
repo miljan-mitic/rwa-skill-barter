@@ -1,6 +1,4 @@
 @if (length$ | async) {
-  <ng-content></ng-content>
-
   <div fxFlex fxLayout="column" fxLayoutAlign="space-between">
     <div class="offers-grid">
       @for (offer of offers$ | async; track offer.id) {
@@ -12,14 +10,19 @@
 
     <mat-paginator
       [length]="length$ | async"
-      [pageSize]="(filter$ | async)!.pageSize"
-      [pageIndex]="(filter$ | async)!.page"
+      [pageSize]="(paginationParams$ | async)!.pageSize"
+      [pageIndex]="(paginationParams$ | async)!.page"
       (page)="getData($event)"
     >
     </mat-paginator>
   </div>
 } @else if (loading$ | async) {
   <app-loader [overlay]="false"></app-loader>
+} @else if (global$ | async) {
+  <app-empty-state
+    title="No offers yet."
+    message="There are no offers available."
+  ></app-empty-state>
 } @else {
   <app-empty-state title="No offers yet." message="You haven't created any offers.">
     <button mat-fab extended color="primary" routerLink="create">

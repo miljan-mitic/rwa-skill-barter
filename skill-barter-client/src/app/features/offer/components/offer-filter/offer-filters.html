@@ -1,0 +1,61 @@
+<mat-card fxFlex="100%" fxLayout="column">
+  <mat-card-title fxLayoutAlign="center"> FILTERS </mat-card-title>
+
+  <mat-card-content fxFlex="100%" fxLayout="row">
+    <div
+      fxFlex="100%"
+      class="filter-container"
+      fxLayout="row"
+      fxLayout.lt-md="column"
+      fxLayoutAlign="center center"
+      fxLayoutGap="2%"
+    >
+      <app-remote-searchable-select
+        fxFlex="35%"
+        [label]="'Category'"
+        [maxPage]="2"
+        [pageSize]="2"
+        [size]="'small'"
+        [fetchFn]="fetchCategoryFn"
+        [displayFn]="categoryLabel"
+        [trackBy]="trackCategory"
+        name="category"
+        [(ngModel)]="category"
+        required
+      />
+
+      <app-remote-searchable-select
+        fxFlex="35%"
+        [label]="'Skill'"
+        [maxPage]="2"
+        [pageSize]="2"
+        [size]="'small'"
+        [fetchFn]="fetchSkillFn"
+        [displayFn]="skillLabel"
+        [trackBy]="trackSkill"
+        name="skill"
+        [(ngModel)]="skill"
+        required
+      />
+
+      <mat-form-field fxFlex="30%">
+        <mat-label>Meeting type</mat-label>
+        <mat-select #meetingTypeSelect (selectionChange)="changeMeetingType($event.value)">
+          @for (meetingType of meetingTypes; track meetingType) {
+            <mat-option [value]="meetingType">{{ meetingType }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-fab extended color="primary" (click)="clearFilters()">
+        <mat-icon>clear</mat-icon>CLEAR FILTERS
+      </button>
+
+      @if (!(global$ | async)) {
+        <button mat-fab extended color="primary" routerLink="create">
+          <mat-icon>create</mat-icon>CREATE OFFER
+        </button>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

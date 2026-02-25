@@ -17,7 +17,7 @@ export const authenticationInterceptor: HttpInterceptorFn = (
 
   const store = inject(Store<AppState>);
   return store.select(selectAuthStatus).pipe(
-    filter((status) => status !== AuthStatus.IDLE && status !== AuthStatus.LOADING),
+    filter((status) => status !== AuthStatus.UNAUTHENTICATED && status !== AuthStatus.LOADING),
     take(1),
     switchMap(() => store.select(selectToken).pipe(take(1))),
     switchMap((accessToken) => {

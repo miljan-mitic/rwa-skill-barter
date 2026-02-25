@@ -8,6 +8,19 @@ mat-card {
   padding: 3% 10%;
 }
 
+mat-card-title {
+  font-size: 34px;
+
+  color: #0044cc;
+  transition: color 0.2s ease;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    color: #003399;
+    transform: scale(1.05);
+  }
+}
+
 .details-container {
   flex: 1 1 auto;
   display: flex;
@@ -42,15 +55,6 @@ mat-card {
     mat-card-title {
       font-size: 24px;
       margin-bottom: 10px;
-
-      color: #0044cc;
-      transition: color 0.2s ease;
-      transition: transform 0.2s ease;
-
-      &:hover {
-        color: #003399;
-        transform: scale(1.05);
-      }
     }
 
     button {
