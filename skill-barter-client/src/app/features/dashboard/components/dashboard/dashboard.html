@@ -1,5 +1,5 @@
 <mat-card fxFlex fxLayout="column">
-  <mat-card-header>
+  <mat-card-header fxFlex class="header-toolbar">
     <div fxFlex fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5%">
       <mat-card-title
         (click)="restartSkillsFilter()"
@@ -26,8 +26,8 @@
         (click)="restartOffersFilter(true)"
         >Offers</mat-card-title
       >
-      <!-- <mat-card-title routerLink="requests">Requests</mat-card-title> -->
     </div>
   </mat-card-header>
+  <div class="header-padding"></div>
   <router-outlet></router-outlet>
 </mat-card>

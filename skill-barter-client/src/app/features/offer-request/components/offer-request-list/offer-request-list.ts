@@ -43,7 +43,6 @@ import { selectIdFromRouteParams } from '../../../../store/app.selector';
   styleUrl: './offer-request-list.scss',
 })
 export class OfferRequestList implements OnInit {
-  // @Input({ required: true }) offerId: number;
   statusClasses = OFFER_REQUEST_STATUS_CLASSES;
 
   offerRequests$: Observable<OfferRequest[]>;

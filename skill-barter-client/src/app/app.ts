@@ -3,10 +3,10 @@ import { RouterOutlet } from '@angular/router';
 import { Header } from './layout/components/header/header';
 import { ToastModule } from 'primeng/toast';
 import { Footer } from './layout/components/footer/footer';
-import { CallService } from './call.service';
-import { SignalingService } from './signaling.service';
+import { CallService } from './shared/services/call.service';
 import { ConfirmDialog } from './shared/confirm-dialog/components/confirm-dialog/confirm-dialog';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { SocketManagerService } from './shared/socket/services/socket-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -21,12 +21,12 @@ export class App implements OnInit {
 
   constructor(
     private readonly callService: CallService,
-    private readonly signalingService: SignalingService,
+    private readonly socketManagerService: SocketManagerService,
     private readonly destroyRef: DestroyRef,
   ) {}
 
   ngOnInit(): void {
-    this.signalingService
+    this.socketManagerService
       .getMessages()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((payload) => this._handleMessage(payload));

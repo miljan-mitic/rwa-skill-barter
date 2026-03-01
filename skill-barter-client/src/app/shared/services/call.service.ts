@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { SignalingService } from './signaling.service';
+import { SocketManagerService } from '../socket/services/socket-manager.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class CallService {
 
   connection: RTCPeerConnection;
 
-  constructor(private signalingService: SignalingService) {}
+  constructor(private socketManagerService: SocketManagerService) {}
 
   private async _initConnection(remoteVideo: ElementRef): Promise<void> {
     this.connection = new RTCPeerConnection(this.configuration);
@@ -33,7 +33,7 @@ export class CallService {
 
     await this.connection.setLocalDescription(offer);
 
-    this.signalingService.sendMessage({ type: 'offer', offer });
+    this.socketManagerService.sendMessage({ type: 'offer', offer });
   }
 
   public async handleOffer(offer: RTCSessionDescription, remoteVideo: ElementRef): Promise<void> {
@@ -45,7 +45,7 @@ export class CallService {
 
     await this.connection.setLocalDescription(answer);
 
-    this.signalingService.sendMessage({ type: 'answer', answer });
+    this.socketManagerService.sendMessage({ type: 'answer', answer });
   }
 
   public async handleAnswer(answer: RTCSessionDescription): Promise<void> {
@@ -80,7 +80,7 @@ export class CallService {
           type: 'candidate',
           candidate: event.candidate.toJSON(),
         };
-        this.signalingService.sendMessage(payload);
+        this.socketManagerService.sendMessage(payload);
       }
     };
   }

@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="header-toolbar" color="primary">
   <a [routerLink]="user ? '/dashboard' : '/login'" (click)="user && resetOfferFilter()">
     <img fxFlex.gt-xs="150px" fxFlex.lt-sm="150px" fxLayout src="/images/skill-barter-logo-5.png" />
   </a>
@@ -8,15 +8,24 @@
       <ng-container>
         <ul fxLayout class="navigation-items">
           <li>
-            <button mat-button routerLink="/dashboard/skills">
-              <mat-icon matPrefix fontIcon="build"></mat-icon>
-              Skills
-            </button>
+            <a fxFlex="100%" class="notification-button" routerLink="/dashboard/notifications-or">
+              <mat-icon
+                fxFlex="100%"
+                class="notification-icon"
+                matPrefix
+                fontIcon="notifications"
+                [matBadge]="displayNumberUnseen"
+                [matBadgeHidden]="displayNumberUnseen === '0'"
+                matBadgePosition="before"
+                matBadgeColor="warn"
+                [class.pulse]="pulse$ | async"
+              ></mat-icon>
+            </a>
           </li>
           <li>
             <button mat-button routerLink="/user/profile">
               <mat-icon matPrefix fontIcon="account_circle"></mat-icon>
-              User
+              Account
             </button>
           </li>
           <li>
@@ -39,13 +48,25 @@
     <mat-menu #menu="matMenu">
       @if (user) {
         <ng-container>
-          <button mat-menu-item routerLink="/skills">
-            <mat-icon matPrefix fontIcon="build"></mat-icon>
-            Skills
+          <button
+            mat-menu-item
+            class="notification-button"
+            routerLink="/dashboard/notifications-or"
+          >
+            <mat-icon
+              matPrefix
+              fontIcon="notifications"
+              [matBadge]="displayNumberUnseen"
+              [matBadgeHidden]="displayNumberUnseen === '0'"
+              matBadgePosition="before"
+              matBadgeColor="warn"
+              [class.pulse]="pulse$ | async"
+            ></mat-icon>
+            Notifications
           </button>
           <button mat-menu-item routerLink="/user/profile">
             <mat-icon matPrefix fontIcon="account_circle"></mat-icon>
-            User
+            Account
           </button>
           <button mat-menu-item (click)="logout()">
             <mat-icon matPrefix fontIcon="exit_to_app"></mat-icon>

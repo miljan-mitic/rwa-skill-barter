@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class SignalingService {
+export class CallSocketService {
   constructor(private socket: Socket) {}
 
   getMessages(): Observable<any> {

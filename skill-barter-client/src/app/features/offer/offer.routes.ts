@@ -4,7 +4,7 @@ import { OfferDetails } from './components/offer-details/offer-details';
 import { OfferDashboard } from './components/offer-dashboard/offer-dashboard';
 
 export const offerRoutes: Routes = [
-  { path: '', component: OfferDashboard, data: { global: true } },
+  { path: '', component: OfferDashboard },
   {
     path: 'create',
     component: OfferCreate,
@@ -13,4 +13,5 @@ export const offerRoutes: Routes = [
     path: ':id',
     component: OfferDetails,
   },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

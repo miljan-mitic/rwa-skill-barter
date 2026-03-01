@@ -1,0 +1,74 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+mat-card {
+  padding: 3% 10%;
+}
+
+mat-card-title {
+  font-size: 34px;
+
+  color: #0044cc;
+  transition: color 0.2s ease;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    color: #003399;
+    transform: scale(1.05);
+  }
+}
+
+mat-list mat-list-item {
+  height: 100%;
+}
+
+mat-list {
+  padding: 3% 0;
+
+  @media screen and (max-width: 850px) {
+    padding-top: 5%;
+  }
+}
+
+mat-list-item {
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #fff;
+}
+
+button {
+  min-width: 150px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  background-color: #0044cc;
+  transition: background-color 0.2s ease;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    background-color: #003399;
+    transform: scale(1.05);
+  }
+
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* SEEN */
+.seen-class {
+  transition: none;
+}
+
+/* UNSEEN */
+.unseen-class {
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}

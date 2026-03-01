@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { SkillService } from '../../../skill/services/skill.service';
 import { CategoryService } from '../../../category/category.service';
 import { OfferFilter, OfferState } from '../../store/offer.state';
@@ -45,6 +45,11 @@ export class OfferFilters implements OnInit {
 
   category = signal<Category | null>(null);
   skill = signal<Skill | null>(null);
+  skillExtraFilters = computed(
+    (): Partial<SkillFilterDto> => ({
+      categoryId: this.category()?.id,
+    }),
+  );
 
   global$: Observable<boolean | undefined>;
 
@@ -69,7 +74,8 @@ export class OfferFilters implements OnInit {
         return;
       }
 
-      this.changeFilter({ categoryId: category.id });
+      this.changeFilter({ categoryId: category.id, skillId: undefined });
+      this.skill.set(null);
     });
   }
 

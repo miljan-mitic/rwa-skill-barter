@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, Input, OnInit } from '@angular/core';
 import { Offer } from '../../../../common/models/offer.model';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DatePipe, NgClass } from '@angular/common';
@@ -44,6 +44,7 @@ export class OfferItem implements OnInit {
   private destroyRef = inject(DestroyRef);
   private store = inject(Store<OfferState>);
   private dialog = inject(MatDialog);
+  private router = inject(Router);
 
   ngOnInit(): void {
     this.store
@@ -68,6 +69,13 @@ export class OfferItem implements OnInit {
         offerId: this.offer.id,
         hasCurrentUserRequest: this.offer.hasCurrentUserRequest,
       },
+    });
+  }
+
+  onRequests(event: MouseEvent) {
+    event.stopPropagation();
+    this.router.navigate(['dashboard/offers', this.offer.id], {
+      fragment: 'offer-requests-section',
     });
   }
 }

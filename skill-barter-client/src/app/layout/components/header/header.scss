@@ -1,6 +1,6 @@
-@media screen and (min-width: 1024px) {
-  .mat-toolbar {
-    padding-inline: 10%;
+mat-toolbar {
+  @media screen and (min-width: 600px) {
+    padding-inline: 9% 10%;
   }
 }
 
@@ -8,4 +8,32 @@
   list-style: none;
   padding: 0px;
   margin: 0px;
+}
+
+a {
+  align-items: center;
+  text-decoration: none;
+}
+
+.notification-icon {
+  color: white;
+}
+
+.notification-button .pulse {
+  animation: pulse-animation 1s ease-in-out;
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.3);
+  }
+  60% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
 }

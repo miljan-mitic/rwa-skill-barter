@@ -18,8 +18,6 @@ import { MessageService } from 'primeng/api';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeuix/themes/lara';
-import { provideSocketIo } from 'ngx-socket-io';
-import { environment } from '../environments/environment';
 import { authenticationInterceptor } from './features/auth/interceptors/auth.interceptor';
 import { authInitializer } from './features/auth/initializers/auth.initializer';
 import { provideRouterStore } from '@ngrx/router-store';
@@ -46,10 +44,6 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: Lara,
       },
-    }),
-    provideSocketIo({
-      url: `${environment.api}/call`,
-      options: { transports: ['websocket'], reconnection: true },
     }),
     provideAppInitializer(authInitializer),
     provideRouterStore(),

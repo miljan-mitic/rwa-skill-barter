@@ -7,4 +7,5 @@ export const userSkillRoutes: Routes = [
   { path: '', component: UserSkillDashboard },
   { path: 'add', component: UserSkillAdd },
   { path: ':id', component: UserSkillDetails },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

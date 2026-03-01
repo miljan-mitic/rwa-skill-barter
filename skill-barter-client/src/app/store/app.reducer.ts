@@ -5,6 +5,8 @@ import { userSkillReducer } from '../features/user-skill/store/user-skill.reduce
 import { userReducer } from '../features/user/state/user.reducer';
 import { confirmDialogReducer } from '../shared/confirm-dialog/store/confirm-dialog.reducer';
 import { offerRequestReducer } from '../features/offer-request/store/offer-request.reducer';
+import { notificationORReducer } from '../features/notification-or/store/notification-or.reducer';
+import { socketReducer } from '../shared/socket/store/socket.reducer';
 
 export const appReducers = {
   auth: authReducer,
@@ -12,6 +14,8 @@ export const appReducers = {
   userSkill: userSkillReducer,
   offer: offerReducer,
   offerRequest: offerRequestReducer,
+  notificationOR: notificationORReducer,
   router: routerReducer,
   confirmDialog: confirmDialogReducer,
+  socket: socketReducer,
 };

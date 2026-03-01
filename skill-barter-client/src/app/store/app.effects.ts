@@ -1,4 +1,5 @@
 import { AuthEffects } from '../features/auth/store/auth.effects';
+import { NotificationOREffects } from '../features/notification-or/store/notification-or.effects';
 import { OfferRequestEffects } from '../features/offer-request/store/offer-request.effects';
 import { OfferEffects } from '../features/offer/store/offer.effects';
 import { UserSkillEffects } from '../features/user-skill/store/user-skill.effects';
@@ -9,5 +10,6 @@ export const appEffects = [
   UserSkillEffects,
   OfferEffects,
   OfferRequestEffects,
+  NotificationOREffects,
   ConfirmDialogEffects,
 ];

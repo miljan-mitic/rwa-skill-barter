@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../services/auth.service';
 import { AuthActions } from './auth.actions';
-import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
+import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification.service';
 import {
@@ -10,6 +10,7 @@ import {
   NotificationSummary,
 } from '../../../common/enums/notification.enums';
 import { KEYS } from '../../../common/constants/keys.const';
+import { SocketManagerService } from '../../../shared/socket/services/socket-manager.service';
 
 @Injectable()
 export class AuthEffects {
@@ -17,6 +18,7 @@ export class AuthEffects {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly notificationService = inject(NotificationService);
+  private readonly socketManagerService = inject(SocketManagerService);
 
   signup$ = createEffect(() =>
     this.actions$.pipe(
@@ -59,6 +61,7 @@ export class AuthEffects {
               NotificationSummary.SUCCESS,
               message,
             );
+            this.socketManagerService.connect();
           }
         }),
       ),
@@ -83,6 +86,7 @@ export class AuthEffects {
         ofType(AuthActions.autoLoginSuccess),
         tap(({ user, accessToken }) => {
           localStorage.setItem(KEYS.ACCESS_TOKEN, accessToken);
+          this.socketManagerService.connect();
         }),
       ),
     { dispatch: false },
@@ -94,6 +98,7 @@ export class AuthEffects {
         ofType(AuthActions.logout, AuthActions.unauthorizedAccess),
         tap(() => {
           (localStorage.removeItem(KEYS.ACCESS_TOKEN), this.router.navigate(['/login']));
+          this.socketManagerService.disconnect();
         }),
       ),
     { dispatch: false },

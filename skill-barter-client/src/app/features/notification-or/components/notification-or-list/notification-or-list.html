@@ -1,0 +1,31 @@
+@if (length$ | async) {
+  <mat-card fxFlex fxLayout="column" fxLayoutAlign="space-between">
+    <mat-card-header fxLayout.lt-sm="column" fxLayoutAlign="center center" fxLayoutGap="3%">
+      <mat-card-title>Notifications</mat-card-title>
+      <button mat-fab extended color="primary" (click)="onSeen()">
+        <mat-icon>checklist</mat-icon> Mark all as seen
+      </button>
+    </mat-card-header>
+
+    <mat-list fxLayout="column" fxLayoutGap="0.5%">
+      @for (notificationOR of notificationsOR$ | async; track notificationOR.id) {
+        <mat-list-item [ngClass]="notificationOR.seen ? 'seen-class' : 'unseen-class'">
+          <app-notification-or-item [notificationOR]="notificationOR"></app-notification-or-item>
+        </mat-list-item>
+      }
+    </mat-list>
+
+    <mat-paginator
+      [length]="length$ | async"
+      [pageSize]="(paginationParams$ | async)!.pageSize"
+      [pageIndex]="(paginationParams$ | async)!.page"
+      (page)="getData($event)"
+    >
+    </mat-paginator>
+  </mat-card>
+} @else if (loading$ | async) {
+  <app-loader [overlay]="false"></app-loader>
+} @else {
+  <app-empty-state title="No notifications yet." message="There are no notifications available.">
+  </app-empty-state>
+}

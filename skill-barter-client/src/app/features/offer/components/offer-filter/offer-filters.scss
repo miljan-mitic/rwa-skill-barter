@@ -8,10 +8,18 @@ mat-card {
 }
 
 mat-card-title {
-  color: rgb(11, 11, 167);
   font-weight: bold;
   font-size: 25px;
   padding: 2%;
+
+  color: #0044cc;
+  transition: color 0.2s ease;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    color: #003399;
+    transform: scale(1.05);
+  }
 }
 
 .filter-container {

@@ -10,12 +10,15 @@ import {
 } from '../../../common/enums/notification.enums';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { OfferRequestActions } from './offer-request.actions';
+import { Router } from '@angular/router';
+import { OFFER_REQUESTS_SECTION } from '../../../common/constants/offer-request-status.consts';
 
 @Injectable()
 export class OfferRequestEffects {
   private readonly actions$ = inject(Actions);
   private readonly offerRequestService = inject(OfferRequestService);
   private readonly notificationService = inject(NotificationService);
+  private readonly router = inject(Router);
 
   createOfferRequest$ = createEffect(() =>
     this.actions$.pipe(
@@ -80,6 +83,7 @@ export class OfferRequestEffects {
       this.actions$.pipe(
         ofType(OfferRequestActions.changeOfferRequestStatusSuccess),
         tap(() => {
+          window.location.hash = OFFER_REQUESTS_SECTION;
           window.location.reload();
         }),
       ),

@@ -1,0 +1,76 @@
+<mat-card
+  fxFlex="100%"
+  [ngClass]="notificationOR.seen ? 'seen-class' : 'unseen-class'"
+  (click)="!notificationOR.seen && onSeen()"
+>
+  <mat-card-content class="clickable-text">
+    <div
+      fxLayout.gt-xs="row"
+      fxLayoutAlign="space-around center"
+      fxLayoutGap="3%"
+      class="request-container"
+    >
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Offer </mat-card-title>
+          <mat-icon matSuffix>local_offer</mat-icon>
+        </div>
+        <span>
+          {{ notificationOR.offerRequest?.offer?.title }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Offered skill </mat-card-title>
+          <mat-icon matSuffix>lightbulb</mat-icon>
+        </div>
+        <span>
+          {{ notificationOR.offerRequest?.userSkill?.skill?.name }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Message </mat-card-title>
+          <mat-icon [ngClass]="typeIconClasses[notificationOR.type]" matSuffix>{{
+            typeIcon[notificationOR.type]
+          }}</mat-icon>
+        </div>
+        <span>
+          {{ message }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Publisher </mat-card-title>
+          <mat-icon matSuffix>person</mat-icon>
+        </div>
+        <span>
+          {{ notificationOR.offerRequest?.offer?.userSkill?.user?.username }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Publisher's email </mat-card-title>
+          <mat-icon matSuffix>email</mat-icon>
+        </div>
+        <span>
+          {{ notificationOR.offerRequest?.offer?.userSkill?.user?.email }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Sent </mat-card-title>
+          <mat-icon matSuffix>access_time_filled</mat-icon>
+        </div>
+        <span>
+          {{ notificationOR.createdAt | createdAgo }}
+        </span>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

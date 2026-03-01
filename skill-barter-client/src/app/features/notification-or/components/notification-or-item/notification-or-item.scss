@@ -1,0 +1,57 @@
+mat-card {
+  border-radius: 12px;
+  height: 100%;
+}
+
+mat-card-title {
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.request-container {
+  flex-wrap: wrap;
+}
+
+.mat-mdc-card-title {
+  color: inherit;
+}
+
+.title {
+  color: #0044cc;
+
+  &:hover {
+    color: #003399;
+  }
+}
+
+.clickable-text:hover {
+  color: #0044cc;
+}
+
+/* SEEN */
+.seen-class {
+  background-color: none;
+  transition: none;
+}
+
+/* UNSEEN */
+.unseen-class {
+  background-color: rgba(132, 190, 255, 0.356);
+  cursor: pointer;
+}
+
+/* ACCEPTED */
+.type-accepted {
+  color: green;
+}
+
+/* REJECTED */
+.type-rejected {
+  color: red;
+}
+
+/* CANCELED */
+.type-canceled {
+  color: gray;
+}

@@ -4,7 +4,6 @@
   fxLayout="column"
   fxLayoutAlign="center"
   [routerLink]="!global ? [offer.id] : undefined"
-  [fragment]="!global ? 'offer-requests-section' : undefined"
   (click)="global && openRequestDialog($event)"
 >
   <mat-card-content class="clickable-text">
@@ -119,7 +118,7 @@
           </div>
         } @else {
           <div fxFlex="100%" fxLayout="column" fxLayoutAlign="center center">
-            <button mat-fab extended color="primary">
+            <button mat-fab extended color="primary" (click)="onRequests($event)">
               <mat-icon>view_list</mat-icon>SEE REQUESTS
             </button>
           </div>

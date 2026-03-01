@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { combineLatest, filter, Observable } from 'rxjs';
 import { Offer } from '../../../../common/models/offer.model';
@@ -32,6 +32,7 @@ import {
 } from '../../../../common/constants/offer-status.consts';
 import { OfferStatus } from '../../../../common/enums/offer-status.enum';
 import { OfferRequestList } from '../../../offer-request/components/offer-request-list/offer-request-list';
+import { OFFER_REQUESTS_SECTION } from '../../../../common/constants/offer-request-status.consts';
 
 @Component({
   selector: 'app-offer-details',
@@ -55,12 +56,13 @@ import { OfferRequestList } from '../../../offer-request/components/offer-reques
   templateUrl: './offer-details.html',
   styleUrl: './offer-details.scss',
 })
-export class OfferDetails {
+export class OfferDetails implements OnInit, AfterViewInit {
   dateFormat = DATE_FORMAT.DEFAULT;
   statusClasses = OFFER_STATUS_CLASSES;
   statusButtonClasses = OFFER_STATUS_BUTTON_CLASSES;
   meetingType = OfferMeetingType;
   offerStatus = OfferStatus;
+  offerRequestsSection = OFFER_REQUESTS_SECTION;
 
   offerForm: FormGroup;
 
@@ -78,6 +80,20 @@ export class OfferDetails {
     this.initForm();
     this.loadOffer();
     this.loading$ = this.store.select(selectOfferLoading);
+  }
+
+  ngAfterViewInit(): void {
+    const fragment = window.location.hash.replace('#', '');
+
+    if (fragment) {
+      setTimeout(() => {
+        const element = document.getElementById(fragment);
+        element?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 1000);
+    }
   }
 
   private initForm() {
