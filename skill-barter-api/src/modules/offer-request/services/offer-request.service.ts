@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OfferRequest } from 'src/entities/offer-request.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsRelations, Repository } from 'typeorm';
 import { CreateOfferRequestDto } from '../dtos/create-offer-request.dto';
 import { User } from 'src/entities/user.entity';
 import { UserSkillService } from 'src/modules/user-skill/services/user-skill.service';
@@ -17,6 +17,9 @@ import { SortBy, SortType } from 'src/common/enums/sort.enum';
 import { UpdateOfferRequestDto } from '../dtos/update-offer-request.dto';
 import { OFFER_REQUEST_STATUS } from 'src/common/enums/offer-request-status.enum';
 import { removeUndefinedAttributes } from 'src/common/utils/remove-undefined-attributes';
+import { NotificationORService } from 'src/modules/notification-or/services/notification-or.service';
+import { NOTIFICATION_OR_TYPE } from 'src/common/enums/notification-or-type.enum';
+import { NOTIFICATION_OR_TYPE_MAPPING } from 'src/common/constants/notification-or-type-mapping.const';
 
 @Injectable()
 export class OfferRequestService {
@@ -25,6 +28,7 @@ export class OfferRequestService {
     private readonly offerRequestRepository: Repository<OfferRequest>,
     private readonly userSkillService: UserSkillService,
     private readonly offerService: OfferService,
+    private readonly notificationORService: NotificationORService,
   ) {}
 
   async create(user: User, createOfferRequestDto: CreateOfferRequestDto) {
@@ -60,6 +64,17 @@ export class OfferRequestService {
     return newOfferRequest;
   }
 
+  async findById(id: number, relations?: FindOptionsRelations<OfferRequest>) {
+    const offer = await this.offerRequestRepository.findOne({
+      where: { id },
+      relations,
+    });
+    if (!offer) {
+      throw new NotFoundException(`Offer request with ID ${id} not found`);
+    }
+    return offer;
+  }
+
   async updateOfferRequest(
     user: User,
     id: number,
@@ -80,17 +95,18 @@ export class OfferRequestService {
 
     const { status } = updateOfferRequestDto;
 
-    const allowedChangeStatus =
+    const notAllowedChangeStatus =
       status &&
       offerRequest.status === OFFER_REQUEST_STATUS.ACCEPTED &&
       status === OFFER_REQUEST_STATUS.PENDING;
 
-    if (allowedChangeStatus) {
+    if (notAllowedChangeStatus) {
       throw new BadRequestException(
         'Offer request cannot be returned from active state to pending state',
       );
     }
 
+    const oldStatus = offerRequest.status;
     const filteredDto = removeUndefinedAttributes(updateOfferRequestDto);
     Object.assign(offerRequest, filteredDto);
 
@@ -99,6 +115,19 @@ export class OfferRequestService {
     } catch (error) {
       console.warn('OFFER REQUEST SERVICE - UPDATE OFFER REQUEST:', error);
       throw new InternalServerErrorException('Unexpected error');
+    }
+
+    if (status) {
+      const canceled =
+        oldStatus === OFFER_REQUEST_STATUS.ACCEPTED &&
+        status === OFFER_REQUEST_STATUS.REJECTED;
+
+      await this.notificationORService.create(user, {
+        offerRequestId: offerRequest.id,
+        type: canceled
+          ? NOTIFICATION_OR_TYPE.OFFER_REQUEST_CACELED
+          : NOTIFICATION_OR_TYPE_MAPPING[status],
+      });
     }
 
     return offerRequest;
@@ -148,21 +177,6 @@ export class OfferRequestService {
     }
 
     queryBuilder.setParameters(filters);
-
-    // queryBuilder.orderBy(
-    //   `array_position(array['${OFFER_REQUEST_STATUS.ACCEPTED}', '${OFFER_REQUEST_STATUS.PENDING}', '${OFFER_REQUEST_STATUS.REJECTED}']::varchar[], offerRequest.status)`,
-    //   SortType.ASC,
-    // );
-    // .addSelect(
-    //   `
-    // CASE offerRequest.status
-    //   WHEN '${OFFER_REQUEST_STATUS.ACCEPTED}' THEN 1
-    //   WHEN '${OFFER_REQUEST_STATUS.PENDING}' THEN 2
-    //   WHEN '${OFFER_REQUEST_STATUS.REJECTED}' THEN 3
-    //   ELSE 4
-    // END`,
-    //   'statusOrder',
-    // )
 
     queryBuilder
       .orderBy('offerRequest.statusOrder', SortType.ASC)

@@ -4,10 +4,12 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Offer } from './offer.entity';
 import { UserSkill } from './user-skill.entity';
+import { NotificationOR } from './notification-or.entity';
 
 @Entity()
 export class OfferRequest {
@@ -55,4 +57,10 @@ export class OfferRequest {
     onDelete: 'CASCADE',
   })
   offer?: Offer;
+
+  @OneToMany(
+    () => NotificationOR,
+    (notificationOR) => notificationOR.offerRequest,
+  )
+  notificationsOR?: NotificationOR[];
 }

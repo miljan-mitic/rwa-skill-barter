@@ -13,8 +13,9 @@ import { OfferModule } from './modules/offer/offer.module';
 import { OfferRequestModule } from './modules/offer-request/offer-request.module';
 import { BarterModule } from './modules/barter/barter.module';
 import { ReviewModule } from './modules/review/review.module';
-import { CallGateway } from './call.gateway';
 import { UserSkillModule } from './modules/user-skill/user-skill.module';
+import { NotificationORModule } from './modules/notification-or/notification-or.module';
+import { SocketModule } from './modules/socket/socket.module';
 
 @Module({
   imports: [
@@ -30,9 +31,11 @@ import { UserSkillModule } from './modules/user-skill/user-skill.module';
     BarterModule,
     ReviewModule,
     UserSkillModule,
+    NotificationORModule,
+    SocketModule,
   ],
   controllers: [AppController],
-  providers: [AppService, CallGateway],
+  providers: [AppService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer): void {
