@@ -37,7 +37,14 @@
       </div>
 
       @if (offerRequest.message) {
-        <div fxFlex="10%" fxFlex.lt-lg="20%" fxFlex.lt-md="30" fxFlex.lt-sm="100%" fxLayout="column" fxLayoutAlign="center center">
+        <div
+          fxFlex="10%"
+          fxFlex.lt-lg="20%"
+          fxFlex.lt-md="30"
+          fxFlex.lt-sm="100%"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+        >
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
             <mat-card-title class="title"> Message </mat-card-title>
             <mat-icon matSuffix>message</mat-icon>
@@ -69,40 +76,37 @@
         </span>
       </div>
 
-      @switch (offerRequest.status) {
-        @case (statusEnum.ACCEPTED) {
-          <div fxLayoutAlign="center center">
-            <button
-              mat-fab
-              extended
-              class="status-rejected"
-              (click)="onChangeStatus(statusEnum.REJECTED)"
-            >
-              <mat-icon matPrefix>stop_circle</mat-icon>CANCEL
-            </button>
-          </div>
-        }
-        @case (statusEnum.PENDING) {
-          @if (!(hasAccepted$ | async)) {
-            <div fxLayoutAlign="center center">
-              <button
-                mat-fab
-                extended
-                class="status-accepted"
-                (click)="onChangeStatus(statusEnum.ACCEPTED)"
-              >
-                <mat-icon matPrefix>check_circle</mat-icon>ACCEPT
-              </button>
-            </div>
+      @if (
+        offerRequest.status === statusEnum.ACCEPTED &&
+        offerRequest.offer?.status !== offerStatusEnum.ARCHIVED
+      ) {
+        <div fxLayoutAlign="center center">
+          <button
+            mat-fab
+            extended
+            class="status-rejected"
+            (click)="onChangeStatus(statusEnum.REJECTED)"
+          >
+            <mat-icon matPrefix>do_disturb</mat-icon>CANCEL
+          </button>
+        </div>
+      } @else if (offerRequest.status === statusEnum.PENDING && !(hasAccepted$ | async)) {
+        <div fxLayoutAlign="center center">
+          <button
+            mat-fab
+            extended
+            class="status-accepted"
+            (click)="onChangeStatus(statusEnum.ACCEPTED)"
+          >
+            <mat-icon matPrefix>check_circle</mat-icon>ACCEPT
+          </button>
+        </div>
 
-            <div fxLayoutAlign="center center">
-              <button mat-fab extended color="warn" (click)="onChangeStatus(statusEnum.REJECTED)">
-                <mat-icon matPreffix>cancel</mat-icon>REJECT
-              </button>
-            </div>
-          }
-        }
-        @default {}
+        <div fxLayoutAlign="center center">
+          <button mat-fab extended color="warn" (click)="onChangeStatus(statusEnum.REJECTED)">
+            <mat-icon matPreffix>cancel</mat-icon>REJECT
+          </button>
+        </div>
       }
     </div>
   </mat-card-content>

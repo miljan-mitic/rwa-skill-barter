@@ -7,6 +7,7 @@ import { ConfirmDialogState } from '../shared/confirm-dialog/store/confirm-dialo
 import { OfferRequestState } from '../features/offer-request/store/offer-request.state';
 import { NotificationORState } from '../features/notification-or/store/notification-or.state';
 import { SocketState } from '../shared/socket/store/socket.state';
+import { BarterState } from '../features/barter/store/barter.state';
 
 export interface AppState {
   auth: AuthState;
@@ -15,6 +16,7 @@ export interface AppState {
   offer: OfferState;
   offerRequest: OfferRequestState;
   notificationOR: NotificationORState;
+  barter: BarterState;
   router: RouterReducerState;
   confirmDialog: ConfirmDialogState;
   socket: SocketState;

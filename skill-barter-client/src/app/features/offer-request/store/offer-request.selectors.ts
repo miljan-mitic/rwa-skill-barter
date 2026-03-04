@@ -31,7 +31,7 @@ export const selectOfferRequestLoading = createSelector(
   (state: OfferRequestState) => state.loading,
 );
 
-export const selectOfferRequestPaginationParamas = createSelector(
+export const selectOfferRequestPaginationParams = createSelector(
   selectOfferRequestFilter,
   (state: OfferRequestFilter) => ({ page: state.page, pageSize: state.pageSize }),
 );

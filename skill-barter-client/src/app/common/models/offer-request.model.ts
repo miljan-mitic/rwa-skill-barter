@@ -1,4 +1,5 @@
 import { OfferRequestStatus } from '../enums/offer-request-status.enum';
+import { Barter } from './barter.model';
 import { Offer } from './offer.model';
 import { UserSkill } from './user-skill.model';
 
@@ -10,4 +11,5 @@ export interface OfferRequest {
   createdAt: Date;
   userSkill?: UserSkill;
   offer?: Offer;
+  barter?: Barter;
 }

@@ -20,8 +20,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { OfferMeetingType } from '../../../../common/enums/offer-meeting-type.enum';
 import { selectOfferGlobal } from '../../store/offer.selectors';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { OfferStatus } from '../../../../common/enums/offer-status.enum';
+import { OFFER_STATUS_CLASSES } from '../../../../common/constants/offer-status.consts';
 
 @Component({
   selector: 'app-offer-filters',
@@ -35,13 +37,18 @@ import { RouterLink } from '@angular/router';
     FlexLayoutModule,
     AsyncPipe,
     RouterLink,
+    NgClass,
   ],
   templateUrl: './offer-filters.html',
   styleUrl: './offer-filters.scss',
 })
 export class OfferFilters implements OnInit {
   meetingTypes: string[] = Object.values(OfferMeetingType);
+  statuses: OfferStatus[] = Object.values(OfferStatus);
+  statusClasses = OFFER_STATUS_CLASSES;
+
   @ViewChild('meetingTypeSelect') meetingTypeSelect: MatSelect;
+  @ViewChild('statusSelect') statusSelect: MatSelect;
 
   category = signal<Category | null>(null);
   skill = signal<Skill | null>(null);
@@ -101,19 +108,22 @@ export class OfferFilters implements OnInit {
     if (this.meetingTypeSelect?.value) {
       this.meetingTypeSelect.value = undefined;
     }
+    if (this.statusSelect?.value) {
+      this.statusSelect.value = undefined;
+    }
   }
 
   categoryLabel = (item: Category) => item.name;
   trackCategory = (item: Category) => item.id;
   fetchCategoryFn = (
-    params: FilterParams<CategoryFilterDto>,
+    params: FilterParams<Category, CategoryFilterDto>,
   ): Observable<PageResponse<Category>> => {
     return this.categoryService.get(params);
   };
 
   skillLabel = (item: Skill) => item.name;
   trackSkill = (item: Skill) => item.id;
-  fetchSkillFn = (params: FilterParams<SkillFilterDto>): Observable<PageResponse<Skill>> => {
+  fetchSkillFn = (params: FilterParams<Skill, SkillFilterDto>): Observable<PageResponse<Skill>> => {
     return this.skillService.get(params);
   };
 
@@ -121,8 +131,17 @@ export class OfferFilters implements OnInit {
     this.changeFilter({ meetingType });
   }
 
+  changeStatus(status: OfferStatus) {
+    this.changeFilter({ status });
+  }
+
   clearFilters() {
     this.restartFilterValues();
-    this.changeFilter({ categoryId: undefined, skillId: undefined, meetingType: undefined });
+    this.changeFilter({
+      categoryId: undefined,
+      skillId: undefined,
+      meetingType: undefined,
+      status: undefined,
+    });
   }
 }

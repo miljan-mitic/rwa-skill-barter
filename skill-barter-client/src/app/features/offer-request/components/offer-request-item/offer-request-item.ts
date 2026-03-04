@@ -10,15 +10,15 @@ import {
   OFFER_REQUEST_STATUS_CLASSES,
   OFFER_REQUEST_STATUS_ICON,
 } from '../../../../common/constants/offer-request-status.consts';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { CreatedAgoPipe } from '../../../../shared/pipes/created-ago.pipe';
 import { OfferRequestStatus } from '../../../../common/enums/offer-request-status.enum';
 import { MatButtonModule } from '@angular/material/button';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { OfferRequestState } from '../../store/offer-request.state';
-import { selectAcceptedRequest } from '../../../offer/store/offer.selectors';
+import { selectOfferAcceptedRequest } from '../../../offer/store/offer.selectors';
 import { OfferRequestActions } from '../../store/offer-request.actions';
+import { OfferStatus } from '../../../../common/enums/offer-status.enum';
 
 @Component({
   selector: 'app-offer-request-item',
@@ -26,11 +26,11 @@ import { OfferRequestActions } from '../../store/offer-request.actions';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
+    // MatFormFieldModule,
     FlexLayoutModule,
     OverflowTooltip,
     NgClass,
     AsyncPipe,
-    MatFormFieldModule,
     CreatedAgoPipe,
   ],
   templateUrl: './offer-request-item.html',
@@ -42,13 +42,14 @@ export class OfferRequestItem implements OnInit {
   statusClasses = OFFER_REQUEST_STATUS_CLASSES;
   statusIcon = OFFER_REQUEST_STATUS_ICON;
   dateFormat = DATE_FORMAT.DEFAULT;
+  offerStatusEnum = OfferStatus;
 
   hasAccepted$: Observable<boolean | undefined>;
 
   private store = inject(Store<OfferRequestState>);
 
   ngOnInit(): void {
-    this.hasAccepted$ = this.store.select(selectAcceptedRequest);
+    this.hasAccepted$ = this.store.select(selectOfferAcceptedRequest);
   }
 
   onChangeStatus(status: OfferRequestStatus) {

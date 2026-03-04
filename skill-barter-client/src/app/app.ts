@@ -1,12 +1,9 @@
-import { Component, DestroyRef, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './layout/components/header/header';
 import { ToastModule } from 'primeng/toast';
 import { Footer } from './layout/components/footer/footer';
-import { CallService } from './shared/services/call.service';
 import { ConfirmDialog } from './shared/confirm-dialog/components/confirm-dialog/confirm-dialog';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SocketManagerService } from './shared/socket/services/socket-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -14,44 +11,4 @@ import { SocketManagerService } from './shared/socket/services/socket-manager.se
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
-export class App implements OnInit {
-  protected readonly title = signal('skill-barter-client');
-
-  @ViewChild('remoteVideo') remoteVideo: ElementRef;
-
-  constructor(
-    private readonly callService: CallService,
-    private readonly socketManagerService: SocketManagerService,
-    private readonly destroyRef: DestroyRef,
-  ) {}
-
-  ngOnInit(): void {
-    this.socketManagerService
-      .getMessages()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((payload) => this._handleMessage(payload));
-  }
-
-  public async makeCall(): Promise<void> {
-    await this.callService.makeCall(this.remoteVideo);
-  }
-
-  private async _handleMessage(data: any): Promise<void> {
-    switch (data.type) {
-      case 'offer':
-        await this.callService.handleOffer(data.offer, this.remoteVideo);
-        break;
-
-      case 'answer':
-        await this.callService.handleAnswer(data.answer);
-        break;
-
-      case 'candidate':
-        this.callService.handleCandidate(data.candidate);
-        break;
-
-      default:
-        break;
-    }
-  }
-}
+export class App {}

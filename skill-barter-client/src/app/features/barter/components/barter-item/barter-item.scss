@@ -1,0 +1,54 @@
+mat-card {
+  border-radius: 30px;
+  height: 100%;
+}
+
+mat-card-title {
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.barter-container {
+  flex-wrap: wrap;
+}
+
+.mat-mdc-card-title {
+  color: inherit;
+}
+
+.title {
+  color: #0044cc;
+
+  &:hover {
+    color: #003399;
+  }
+}
+
+.clickable-text:hover {
+  color: #0044cc;
+}
+
+.button-join {
+  background-color: red;
+}
+
+.applicant-class {
+  box-shadow: 0 0 0 15px #9c27b0;
+}
+
+.publisher-class {
+  box-shadow: 0 0 0 15px #ffc107;
+}
+
+.upcoming-meeting-status {
+  color: #ee466b;
+}
+
+.in-progress-meeting-status {
+  color: #05d305;
+}
+
+.expired-meeting-status {
+  color: #ff1100;
+}

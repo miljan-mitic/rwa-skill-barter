@@ -57,7 +57,7 @@ import { FilterParams } from '../../../common/types/filter-params.type';
   templateUrl: './remote-searchable-select.html',
   styleUrl: './remote-searchable-select.scss',
 })
-export class RemoteSearchableSelect<T, K extends PaginationParams>
+export class RemoteSearchableSelect<T, K extends PaginationParams<T>>
   implements OnInit, ControlValueAccessor
 {
   @Input({ required: true }) label: string;
@@ -88,7 +88,7 @@ export class RemoteSearchableSelect<T, K extends PaginationParams>
   /**
    * Function to fetch data from the API.
    */
-  @Input({ required: true }) fetchFn: (params: FilterParams<K>) => Observable<PageResponse<T>>;
+  @Input({ required: true }) fetchFn: (params: FilterParams<T, K>) => Observable<PageResponse<T>>;
 
   /**
    * Function to display the item in the input field.
@@ -155,7 +155,7 @@ export class RemoteSearchableSelect<T, K extends PaginationParams>
             search,
           }),
           ...(this.extraFilters ?? {}),
-        } as FilterParams<K>),
+        } as FilterParams<T, K>),
       ),
       tap((res) => {
         this.totalItems = res.totalItems;

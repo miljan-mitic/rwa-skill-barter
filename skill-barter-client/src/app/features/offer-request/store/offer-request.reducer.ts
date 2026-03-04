@@ -2,7 +2,7 @@ import { createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { OfferRequestActions } from './offer-request.actions';
 import { PAGINATION_PARAMS } from '../../../common/constants/pagination-params.const';
-import { SortBy, SortType } from '../../../common/enums/sort.enum';
+import { SortType } from '../../../common/enums/sort.enum';
 import { OfferRequest } from '../../../common/models/offer-request.model';
 import { OfferRequestFilter, OfferRequestState } from './offer-request.state';
 
@@ -11,7 +11,7 @@ const adapter = createEntityAdapter<OfferRequest>();
 export const initialStateOfferRequestFilter: OfferRequestFilter = {
   page: PAGINATION_PARAMS.DEFAULT.PAGE,
   pageSize: PAGINATION_PARAMS.DEFAULT.PAGE_SIZE,
-  sortBy: SortBy.CREATED_AT,
+  sortBy: 'createdAt',
   sortType: SortType.DESC,
   offerId: undefined,
   skillId: undefined,

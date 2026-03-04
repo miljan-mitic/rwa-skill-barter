@@ -8,7 +8,7 @@ import {
   selectOfferRequestLength,
   selectOfferRequestList,
   selectOfferRequestLoading,
-  selectOfferRequestPaginationParamas,
+  selectOfferRequestPaginationParams,
 } from '../../store/offer-request.selectors';
 import { PaginationParams } from '../../../../common/interfaces/pagination-params.interface';
 import { selectCurrentUser } from '../../../user/state/user.selector';
@@ -47,7 +47,7 @@ export class OfferRequestList implements OnInit {
 
   offerRequests$: Observable<OfferRequest[]>;
   length$: Observable<number>;
-  paginationParams$: Observable<PaginationParams>;
+  paginationParams$: Observable<PaginationParams<OfferRequest>>;
   loading$: Observable<boolean>;
 
   private destroyRef = inject(DestroyRef);
@@ -57,7 +57,7 @@ export class OfferRequestList implements OnInit {
     this.loadOfferRequests();
 
     this.length$ = this.store.select(selectOfferRequestLength);
-    this.paginationParams$ = this.store.select(selectOfferRequestPaginationParamas);
+    this.paginationParams$ = this.store.select(selectOfferRequestPaginationParams);
     this.loading$ = this.store.select(selectOfferRequestLoading);
   }
 

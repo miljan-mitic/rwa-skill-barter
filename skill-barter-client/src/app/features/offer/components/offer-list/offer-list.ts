@@ -13,7 +13,7 @@ import {
   selectOfferLength,
   selectOfferList,
   selectOfferLoading,
-  selectOfferPaginationParamas,
+  selectOfferPaginationParams,
 } from '../../store/offer.selectors';
 import { OfferItem } from '../offer-item/offer-item';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -54,7 +54,7 @@ export class OfferList implements OnInit {
 
   offers$: Observable<Offer[]>;
   length$: Observable<number>;
-  paginationParams$: Observable<PaginationParams>;
+  paginationParams$: Observable<PaginationParams<Offer>>;
   loading$: Observable<boolean>;
   global$: Observable<boolean | undefined>;
 
@@ -62,7 +62,7 @@ export class OfferList implements OnInit {
     this.loadOffers();
 
     this.length$ = this.store.select(selectOfferLength);
-    this.paginationParams$ = this.store.select(selectOfferPaginationParamas);
+    this.paginationParams$ = this.store.select(selectOfferPaginationParams);
     this.loading$ = this.store.select(selectOfferLoading);
     this.global$ = this.store.select(selectOfferGlobal);
   }

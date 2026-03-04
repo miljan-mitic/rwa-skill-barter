@@ -1,7 +1,7 @@
 import { createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { PAGINATION_PARAMS } from '../../../common/constants/pagination-params.const';
-import { SortBy, SortType } from '../../../common/enums/sort.enum';
+import { SortType } from '../../../common/enums/sort.enum';
 import { NotificationOR } from '../../../common/models/notification-or.model';
 import { NotificationORFilter, NotificationORState } from './notification-or.state';
 import { NotificationORActions } from './notification-or.actions';
@@ -11,7 +11,7 @@ const adapter = createEntityAdapter<NotificationOR>();
 export const initialStateNotificationORFilter: NotificationORFilter = {
   page: PAGINATION_PARAMS.DEFAULT.PAGE,
   pageSize: PAGINATION_PARAMS.DEFAULT.PAGE_SIZE,
-  sortBy: SortBy.CREATED_AT,
+  sortBy: 'createdAt',
   sortType: SortType.DESC,
 };
 

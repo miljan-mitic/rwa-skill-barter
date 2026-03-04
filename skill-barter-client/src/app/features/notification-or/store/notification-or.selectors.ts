@@ -32,7 +32,7 @@ export const selectNotificationORLoading = createSelector(
   (state: NotificationORState) => state.loading,
 );
 
-export const selectNotificationORPaginationParamas = createSelector(
+export const selectNotificationORPaginationParams = createSelector(
   selectNotificationORFilter,
   (state: NotificationORFilter) => ({ page: state.page, pageSize: state.pageSize }),
 );

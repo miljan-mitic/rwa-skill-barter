@@ -7,6 +7,7 @@ import { confirmDialogReducer } from '../shared/confirm-dialog/store/confirm-dia
 import { offerRequestReducer } from '../features/offer-request/store/offer-request.reducer';
 import { notificationORReducer } from '../features/notification-or/store/notification-or.reducer';
 import { socketReducer } from '../shared/socket/store/socket.reducer';
+import { barterReducer } from '../features/barter/store/barter.reducer';
 
 export const appReducers = {
   auth: authReducer,
@@ -14,6 +15,7 @@ export const appReducers = {
   userSkill: userSkillReducer,
   offer: offerReducer,
   offerRequest: offerRequestReducer,
+  barter: barterReducer,
   notificationOR: notificationORReducer,
   router: routerReducer,
   confirmDialog: confirmDialogReducer,

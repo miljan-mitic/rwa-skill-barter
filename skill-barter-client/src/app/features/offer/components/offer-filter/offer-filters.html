@@ -2,16 +2,10 @@
   <mat-card-title fxLayoutAlign="center"> FILTERS </mat-card-title>
 
   <mat-card-content fxFlex="100%" fxLayout="row">
-    <div
-      fxFlex="100%"
-      class="filter-container"
-      fxLayout="row"
-      fxLayout.lt-md="column"
-      fxLayoutAlign="center center"
-      fxLayoutGap="2%"
-    >
+    <div fxFlex="100%" class="filters-container" fxLayout="row" fxLayoutAlign="center center">
       <app-remote-searchable-select
-        fxFlex="35%"
+        class="filter-item"
+        fxFlex="23%"
         [label]="'Category'"
         [maxPage]="2"
         [pageSize]="2"
@@ -25,7 +19,8 @@
       />
 
       <app-remote-searchable-select
-        fxFlex="35%"
+        class="filter-item"
+        fxFlex="23%"
         [label]="'Skill'"
         [maxPage]="2"
         [pageSize]="2"
@@ -39,7 +34,7 @@
         required
       />
 
-      <mat-form-field fxFlex="30%">
+      <mat-form-field fxFlex="23%" class="filter-item">
         <mat-label>Meeting type</mat-label>
         <mat-select #meetingTypeSelect (selectionChange)="changeMeetingType($event.value)">
           @for (meetingType of meetingTypes; track meetingType) {
@@ -47,6 +42,19 @@
           }
         </mat-select>
       </mat-form-field>
+
+      @if (!(global$ | async)) {
+        <mat-form-field fxFlex="23%" class="filter-item">
+          <mat-label>Status</mat-label>
+          <mat-select #statusSelect (selectionChange)="changeStatus($event.value)">
+            @for (status of statuses; track status) {
+              <mat-option [value]="status"
+                >{{ status }} <span class="color-square" [ngClass]="statusClasses[status]"></span>
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
 
       <button mat-fab extended color="primary" (click)="clearFilters()">
         <mat-icon>clear</mat-icon>CLEAR FILTERS

@@ -10,15 +10,16 @@ import {
 } from '../../../common/enums/notification.enums';
 import { NotificationService } from '../../../shared/services/notification.service';
 import { OfferRequestActions } from './offer-request.actions';
-import { Router } from '@angular/router';
 import { OFFER_REQUESTS_SECTION } from '../../../common/constants/offer-request-status.consts';
+import { Store } from '@ngrx/store';
+import { OfferRequestState } from './offer-request.state';
 
 @Injectable()
 export class OfferRequestEffects {
   private readonly actions$ = inject(Actions);
   private readonly offerRequestService = inject(OfferRequestService);
   private readonly notificationService = inject(NotificationService);
-  private readonly router = inject(Router);
+  private readonly store = inject(Store<OfferRequestState>);
 
   createOfferRequest$ = createEffect(() =>
     this.actions$.pipe(

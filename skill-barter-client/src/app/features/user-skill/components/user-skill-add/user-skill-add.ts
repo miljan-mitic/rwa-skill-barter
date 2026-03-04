@@ -65,14 +65,14 @@ export class UserSkillAdd {
   categoryLabel = (item: Category) => item.name;
   trackCategory = (item: Category) => item.id;
   fetchCategoryFn = (
-    params: FilterParams<CategoryFilterDto>,
+    params: FilterParams<Category, CategoryFilterDto>,
   ): Observable<PageResponse<Category>> => {
     return this.categoryService.get(params);
   };
 
   skillLabel = (item: Skill) => item.name;
   trackSkill = (item: Skill) => item.id;
-  fetchSkillFn = (params: FilterParams<SkillFilterDto>): Observable<PageResponse<Skill>> => {
+  fetchSkillFn = (params: FilterParams<Skill, SkillFilterDto>): Observable<PageResponse<Skill>> => {
     return this.skillService.get(params);
   };
 

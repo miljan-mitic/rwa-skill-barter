@@ -44,11 +44,14 @@
         <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
             <mat-card-title class="title"> Meeting type </mat-card-title>
-            <mat-icon matSuffix color="warn">location_pin</mat-icon>
+            <mat-icon matSuffix color="warn">event</mat-icon>
           </div>
-          <span>
-            {{ offer.meetingType }}
-          </span>
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+            <span>
+              {{ offer.meetingType }}
+            </span>
+            <mat-icon color="warn">{{ meetingTypeIcon[offer.meetingType] }}</mat-icon>
+          </div>
         </div>
       </div>
 

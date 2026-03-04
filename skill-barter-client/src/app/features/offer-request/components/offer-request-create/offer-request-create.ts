@@ -61,7 +61,7 @@ export class OfferRequestCreate {
   userSkillLabel = (item: UserSkill) => item.skill!.name;
   trackUserSkill = (item: UserSkill) => item.id;
   fetchUserSkillFn = (
-    params: FilterParams<UserSkillFilterDto>,
+    params: FilterParams<UserSkill, UserSkillFilterDto>,
   ): Observable<PageResponse<UserSkill>> => {
     return this.userSkillService.get(params);
   };

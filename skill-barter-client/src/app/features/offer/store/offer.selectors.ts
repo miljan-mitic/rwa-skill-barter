@@ -34,7 +34,7 @@ export const selectOfferGlobal = createSelector(
   (state: OfferFilter) => state.global,
 );
 
-export const selectOfferPaginationParamas = createSelector(
+export const selectOfferPaginationParams = createSelector(
   selectOfferFilter,
   (state: OfferFilter) => ({ page: state.page, pageSize: state.pageSize }),
 );
@@ -44,7 +44,7 @@ export const selectOfferDetailed = createSelector(
   (state: OfferState) => state.detailedOffer,
 );
 
-export const selectAcceptedRequest = createSelector(
+export const selectOfferAcceptedRequest = createSelector(
   selectOfferDetailed,
   (state: Offer | undefined) => state?.hasAcceptedRequest,
 );

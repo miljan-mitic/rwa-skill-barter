@@ -26,6 +26,13 @@
         (click)="restartOffersFilter(true)"
         >Offers</mat-card-title
       >
+      <mat-card-title
+        (click)="restartBartersFilter()"
+        routerLink="barters"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Barters</mat-card-title
+      >
     </div>
   </mat-card-header>
   <div class="header-padding"></div>

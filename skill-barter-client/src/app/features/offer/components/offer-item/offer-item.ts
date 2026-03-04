@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { OfferRequestCreate } from '../../../offer-request/components/offer-request-create/offer-request-create';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OFFER_MEETING_TYPE_ICON } from '../../../../common/constants/offer-meeting.consts';
 
 @Component({
   selector: 'app-offer-item',
@@ -40,6 +41,7 @@ export class OfferItem implements OnInit {
   global: boolean;
   dateFormat = DATE_FORMAT.DEFAULT;
   statusClasses = OFFER_STATUS_CLASSES;
+  meetingTypeIcon = OFFER_MEETING_TYPE_ICON;
 
   private destroyRef = inject(DestroyRef);
   private store = inject(Store<OfferState>);
@@ -64,7 +66,7 @@ export class OfferItem implements OnInit {
     this.dialog.open(OfferRequestCreate, {
       minWidth: '300px',
       minHeight: '300px',
-      panelClass: 'offer-request-dialog',
+      panelClass: 'dialog-class',
       data: {
         offerId: this.offer.id,
         hasCurrentUserRequest: this.offer.hasCurrentUserRequest,

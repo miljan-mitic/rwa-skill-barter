@@ -9,6 +9,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SocketEventType } from '../../../common/enums/socket-event-type.enum';
 import { SocketActions } from '../store/socket.actions';
 import { SocketNamespaces } from '../../../common/enums/socket-namespaces.enum';
+import { CallData, CallPayload } from '../../../common/types/call-payload.types';
 
 @Injectable({ providedIn: 'root' })
 export class SocketManagerService {
@@ -83,29 +84,20 @@ export class SocketManagerService {
     });
   }
 
-  // emitCall(event: string, data: any) {
-  //   this.callSocket?.emit(event, data);
-  // }
-
-  // onCall<T>(event: string): Observable<T> {
-  //   return new Observable((observer) => {
-  //     this.callSocket?.on(event, (data: T) => observer.next(data));
-
-  //     return () => this.callSocket?.off(event);
-  //   });
-  // }
-
-  getMessages(): Observable<any> {
-    // return this.callSocket?.fromEvent('message');
-
-    return new Observable((observer) => {
-      this.callSocket?.on('message', (data: any) => observer.next(data));
-
-      return () => this.callSocket?.off('message');
-    });
+  joinCallRoom(callId: string) {
+    this.callSocket?.emit(SocketEventType.JOIN_CALL, callId);
   }
 
-  sendMessage(payload: any): void {
-    this.callSocket?.emit('send-message', payload);
+  emitCall(payload: CallPayload) {
+    this.callSocket?.emit(SocketEventType.SEND_CALL, payload);
+  }
+
+  onCall(): Observable<CallData> {
+    return new Observable((observer) => {
+      const handler = (data: CallData) => observer.next(data);
+      this.callSocket?.on(SocketEventType.RECEIVE_CALL, handler);
+
+      return () => this.callSocket?.off(SocketEventType.RECEIVE_CALL, handler);
+    });
   }
 }

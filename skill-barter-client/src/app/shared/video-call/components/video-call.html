@@ -1,0 +1,24 @@
+<mat-card fxFlex="100%" fxLayout="column" fxLayoutAlign="space-between">
+  <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+    <button mat-icon-button align="end" (click)="close()">✖</button>
+  </mat-card-header>
+
+  <mat-dialog-content class="video-wrapper">
+    <video
+      fxFlex="100%"
+      #remoteVideo
+      autoplay
+      playsinline
+      class="remote-video"
+      (dblclick)="toggleFullScreen()"
+    ></video>
+
+    <video #localVideo autoplay muted playsinline class="local-video"></video>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-fab extended class="button-start" (click)="startCall()">
+      <mat-icon matPrefix>video_call</mat-icon>START
+    </button>
+  </mat-dialog-actions>
+</mat-card>

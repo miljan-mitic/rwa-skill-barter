@@ -4,14 +4,14 @@ import { createReducer, on } from '@ngrx/store';
 import { UserSkillActions } from './user-skill.actions';
 import { UserSkill } from '../../../common/models/user-skill.model';
 import { PAGINATION_PARAMS } from '../../../common/constants/pagination-params.const';
-import { SortBy, SortType } from '../../../common/enums/sort.enum';
+import { SortType } from '../../../common/enums/sort.enum';
 
 const adapter = createEntityAdapter<UserSkill>();
 
 const initialStateFilter: UserSkillFilter = {
   page: PAGINATION_PARAMS.DEFAULT.PAGE,
   pageSize: PAGINATION_PARAMS.DEFAULT.PAGE_SIZE,
-  sortBy: SortBy.CREATED_AT,
+  sortBy: 'createdAt',
   sortType: SortType.DESC,
 };
 

@@ -1,0 +1,116 @@
+<mat-card fxFlex="100%" [ngClass]="userRoleClasses[barter.userRole]">
+  <mat-card-content class="clickable-text">
+    <div
+      fxLayout.gt-xs="row"
+      fxLayoutAlign="space-evenly center"
+      fxLayoutGap="3%"
+      class="barter-container"
+    >
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Publisher </mat-card-title>
+          <mat-icon matSuffix>person</mat-icon>
+        </div>
+        <span>
+          {{ barter.offerRequest?.offer?.userSkill?.user?.username }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Published skill </mat-card-title>
+          <mat-icon matSuffix>lightbulb</mat-icon>
+        </div>
+        <span>
+          {{ barter.offerRequest?.offer?.userSkill?.skill?.name }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Applicant </mat-card-title>
+          <mat-icon matSuffix>person</mat-icon>
+        </div>
+        <span>
+          {{ barter.offerRequest?.userSkill?.user?.username }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Offered skill </mat-card-title>
+          <mat-icon matSuffix>lightbulb</mat-icon>
+        </div>
+        <span>
+          {{ barter.offerRequest?.userSkill?.skill?.name }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Start time </mat-card-title>
+          <mat-icon matSuffix>access_time_filled</mat-icon>
+        </div>
+        <span>
+          {{ barter.startTime | date: dateFormat }}
+        </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Duration </mat-card-title>
+          <mat-icon matSuffix>schedule</mat-icon>
+        </div>
+        <span> {{ barter.offerRequest?.offer?.durationMinutes }} minutes </span>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Meeting type </mat-card-title>
+          <mat-icon matSuffix>event</mat-icon>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <span>
+            {{ barter.offerRequest?.offer?.meetingType }}
+          </span>
+          @if (barter.offerRequest?.offer?.meetingType) {
+            <mat-icon>{{ meetingTypeIcon[barter.offerRequest?.offer!.meetingType] }}</mat-icon>
+          }
+        </div>
+      </div>
+
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
+          <mat-card-title class="title"> Meeting status </mat-card-title>
+          <mat-icon matSuffix>group</mat-icon>
+        </div>
+
+        <span [ngClass]="meetingStateClasses[barter.meetingState.status]">
+          @switch (barter.meetingState.status) {
+            @case (meetingStateStatus.UPCOMING) {
+              {{ barter.meetingState.secondsToStart | expiresAgo: 'Upcoming' }}
+            }
+            @case (meetingStateStatus.IN_PROGRESS) {
+              {{ barter.meetingState.secondsToExpired | expiresAgo: 'Expires' }}
+            }
+            @case (meetingStateStatus.EXPIRED) {
+              {{ barter.meetingState.status }}
+            }
+            @default {}
+          }
+        </span>
+      </div>
+
+      @if (
+        barter.offerRequest?.offer?.meetingType === meetingType.ONLINE &&
+        barter.meetingState.status === meetingStateStatus.IN_PROGRESS
+      ) {
+        <div fxLayoutAlign="center center">
+          <button mat-fab extended class="button-join" (click)="onJoinCall()">
+            <mat-icon matPrefix>video_call</mat-icon>JOIN
+          </button>
+        </div>
+      }
+    </div>
+  </mat-card-content>
+</mat-card>

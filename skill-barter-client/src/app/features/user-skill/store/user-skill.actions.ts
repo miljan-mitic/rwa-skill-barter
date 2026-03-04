@@ -17,7 +17,9 @@ export const UserSkillActions = createActionGroup({
     'Load user skills failure': props<{ error: any }>(),
 
     'Restart user skill filter': emptyProps(),
-    'Change user skill pagination filter': props<{ paginationParams: PaginationParams }>(),
+    'Change user skill pagination filter': props<{
+      paginationParams: PaginationParams<UserSkill>;
+    }>(),
 
     'Load user skill': props<{ id: number; isAdmin?: boolean }>(),
     'Load user skill success': props<{ userSkill: UserSkill }>(),

@@ -1,4 +1,5 @@
 import { AuthEffects } from '../features/auth/store/auth.effects';
+import { BarterEffects } from '../features/barter/store/barter.effects';
 import { NotificationOREffects } from '../features/notification-or/store/notification-or.effects';
 import { OfferRequestEffects } from '../features/offer-request/store/offer-request.effects';
 import { OfferEffects } from '../features/offer/store/offer.effects';
@@ -10,6 +11,7 @@ export const appEffects = [
   UserSkillEffects,
   OfferEffects,
   OfferRequestEffects,
+  BarterEffects,
   NotificationOREffects,
   ConfirmDialogEffects,
 ];

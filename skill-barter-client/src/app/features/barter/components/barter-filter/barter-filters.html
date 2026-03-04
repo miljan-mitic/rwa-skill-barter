@@ -1,0 +1,35 @@
+<mat-card fxFlex="100%" fxLayout="column">
+  <mat-card-title fxLayoutAlign="center"> FILTERS </mat-card-title>
+
+  <mat-card-content fxFlex="100%" fxLayout="row">
+    <div
+      fxFlex="100%"
+      class="filters-container"
+      fxLayout="row"
+      fxLayoutAlign="center"
+      fxLayout.lt-md="column"
+      fxLayoutAlign.lt-md="center center"
+      fxLayoutGap="2%"
+    >
+      <mat-form-field fxFlex.gt-sm="30%" class="barter-user-role">
+        <mat-label>
+          Your role Publisher<span class="color-square publisher-class"></span>/Applicant<span
+            class="color-square applicant-class"
+          ></span
+        ></mat-label>
+        <mat-select #barterUserRoleSelect (selectionChange)="changeBarterUserRole($event.value)">
+          <mat-option [value]="barterUserRole.APPLICANT"
+            >{{ barterUserRole.APPLICANT }} <span class="color-square applicant-class"></span
+          ></mat-option>
+          <mat-option [value]="barterUserRole.PUBLISHER"
+            >{{ barterUserRole.PUBLISHER }} <span class="color-square publisher-class"></span
+          ></mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-fab extended color="primary" (click)="clearFilters()">
+        <mat-icon>clear</mat-icon>CLEAR FILTERS
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

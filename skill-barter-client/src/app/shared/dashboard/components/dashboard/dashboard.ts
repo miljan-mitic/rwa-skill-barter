@@ -4,13 +4,14 @@ import { MatCardModule } from '@angular/material/card';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store/app.state';
-import { UserSkillActions } from '../../../user-skill/store/user-skill.actions';
-import { OfferActions } from '../../../offer/store/offer.actions';
 import { OfferStatus } from '../../../../common/enums/offer-status.enum';
-import { initialStateOfferFilter } from '../../../offer/store/offer.reducer';
 import { Observable } from 'rxjs';
-import { selectOfferGlobal } from '../../../offer/store/offer.selectors';
 import { AsyncPipe } from '@angular/common';
+import { selectOfferGlobal } from '../../../../features/offer/store/offer.selectors';
+import { UserSkillActions } from '../../../../features/user-skill/store/user-skill.actions';
+import { BarterActions } from '../../../../features/barter/store/barter.actions';
+import { OfferActions } from '../../../../features/offer/store/offer.actions';
+import { initialStateOfferFilter } from '../../../../features/offer/store/offer.reducer';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,10 @@ export class Dashboard implements OnInit {
 
   restartSkillsFilter() {
     this.store.dispatch(UserSkillActions.restartUserSkillFilter());
+  }
+
+  restartBartersFilter() {
+    this.store.dispatch(BarterActions.restartBarterFilter());
   }
 
   restartOffersFilter(global: boolean) {

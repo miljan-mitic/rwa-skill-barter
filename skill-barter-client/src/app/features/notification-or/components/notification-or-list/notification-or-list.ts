@@ -10,7 +10,7 @@ import {
   selectNotificationORLength,
   selectNotificationORList,
   selectNotificationORLoading,
-  selectNotificationORPaginationParamas,
+  selectNotificationORPaginationParams,
 } from '../../store/notification-or.selectors';
 import { NotificationORActions } from '../../store/notification-or.actions';
 import { Role } from '../../../../common/enums/role.enum';
@@ -47,7 +47,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class NotificationORList implements OnInit {
   notificationsOR$: Observable<NotificationOR[]>;
   length$: Observable<number>;
-  paginationParams$: Observable<PaginationParams>;
+  paginationParams$: Observable<PaginationParams<NotificationOR>>;
   loading$: Observable<boolean>;
 
   private destroyRef = inject(DestroyRef);
@@ -57,7 +57,7 @@ export class NotificationORList implements OnInit {
     this.loadNotificationsOR();
 
     this.length$ = this.store.select(selectNotificationORLength);
-    this.paginationParams$ = this.store.select(selectNotificationORPaginationParamas);
+    this.paginationParams$ = this.store.select(selectNotificationORPaginationParams);
     this.loading$ = this.store.select(selectNotificationORLoading);
   }
 
