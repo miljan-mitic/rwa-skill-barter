@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigurationService } from './modules/configuration/services/configuration.service';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -19,6 +20,8 @@ async function bootstrap() {
       transformOptions: { excludeExtraneousValues: true },
     }),
   );
+
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   const PORT = configurationService.get('PORT') || 3000;
   await app.listen(PORT);

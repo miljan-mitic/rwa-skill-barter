@@ -6,11 +6,12 @@ import {
   IsNumber,
   IsOptional,
 } from 'class-validator';
-import { PaginationParams } from 'src/common/dtos/pagination-params.dto';
+import { createPaginationParamsDto } from 'src/common/dtos/pagination-params.dto';
 import { OFFER_MEETING_TYPE } from 'src/common/enums/offer-meeting-type.enum';
 import { OFFER_STATUS } from 'src/common/enums/offer-status.enum';
+import { Offer } from 'src/entities/offer.entity';
 
-export class FilterOfferDto extends PaginationParams {
+export class FilterOfferDto extends createPaginationParamsDto(Offer) {
   @IsOptional()
   @Transform(({ value }) => value && (value === 'true' || value === true))
   @IsBoolean({ message: 'USER_OFFERS_WRONG_TYPE' })

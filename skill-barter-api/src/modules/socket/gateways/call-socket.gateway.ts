@@ -11,6 +11,8 @@ import { Server, Socket } from 'socket.io';
 import { Logger } from '@nestjs/common';
 import { WsJwtGuard } from '../guards/ws-jwt.guard';
 import { SOCKET_NAMESPACES } from 'src/common/enums/socket-namespaces.enum';
+import { type CallPayload } from 'src/common/types/call-payload.type';
+import { SOCKET_EVENT_TYPE } from 'src/common/enums/socket-event-type.enum';
 
 export interface AuthenticatedSocket extends Socket {
   userId?: string;
@@ -46,17 +48,24 @@ export class CallSocketGateway
     this.logger.log(`User disconnected from call: ${socket.userId}`);
   }
 
-  @SubscribeMessage('send-message')
-  handleSendMessage(
+  @SubscribeMessage(SOCKET_EVENT_TYPE.JOIN_CALL)
+  handleJoinCall(
     @ConnectedSocket() socket: AuthenticatedSocket,
-    @MessageBody() payload: any,
+    @MessageBody() callId: string,
   ) {
-    socket.broadcast.emit('message', { ...payload, from: socket.userId });
+    socket.join(`call-${callId}`);
+    this.logger.log(`User ${socket.userId} joined room call-${callId}`);
   }
 
-  // @SubscribeMessage('send-message')
-  // handleMessage(client: Socket, payload: any) {
-  //   console.log(`Client is connected: ${client.id}`, { payload });
-  //   client.broadcast.emit('message', payload);
-  // }
+  @SubscribeMessage(SOCKET_EVENT_TYPE.SEND_CALL)
+  handleSendMessage(
+    @ConnectedSocket() socket: AuthenticatedSocket,
+    @MessageBody() payload: CallPayload,
+  ) {
+    const callRoom = `call-${payload.callId}`;
+    socket.to(callRoom).emit(SOCKET_EVENT_TYPE.RECEIVE_CALL, {
+      ...payload,
+      from: socket.userId,
+    });
+  }
 }

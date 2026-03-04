@@ -13,7 +13,7 @@ import { CreateNotificationOR } from '../interfaces/notification-or.interface';
 import { User } from 'src/entities/user.entity';
 import { OfferRequestService } from 'src/modules/offer-request/services/offer-request.service';
 import { FilterNotificationORDto } from '../dtos/filter-notification-or.dto';
-import { SortBy, SortType } from 'src/common/enums/sort.enum';
+import { SortType } from 'src/common/enums/sort.enum';
 import { NotificationSocketGateway } from 'src/modules/socket/gateways/notification-socket.gateway';
 import { SOCKET_EVENT_TYPE } from 'src/common/enums/socket-event-type.enum';
 import { SeenNotificationsOR } from '../dtos/seen-notifications-or.dto';
@@ -73,7 +73,7 @@ export class NotificationORService {
     const {
       page = 0,
       pageSize = 10,
-      sortBy = SortBy.CREATED_AT,
+      sortBy = 'createdAt',
       sortType = SortType.ASC,
     } = filterNotificationORDto;
 

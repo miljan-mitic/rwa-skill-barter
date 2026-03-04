@@ -14,7 +14,7 @@ import { CreateUserSkillDto } from '../dtos/create-user-skill.dto';
 import { User } from 'src/entities/user.entity';
 import { SkillService } from 'src/modules/skill/services/skill.service';
 import { FilterUserSkillDto } from '../dtos/filter-user-skill.dto';
-import { SortBy, SortType } from 'src/common/enums/sort.enum';
+import { SortType } from 'src/common/enums/sort.enum';
 import { UpdateUserSkillDto } from '../dtos/update-user-skill.dto';
 import { OfferService } from 'src/modules/offer/services/offer.service';
 import { ROLE } from 'src/common/enums/role.enum';
@@ -103,7 +103,7 @@ export class UserSkillService {
       skillId,
       page = 0,
       pageSize = 10,
-      sortBy = SortBy.CREATED_AT,
+      sortBy = 'createdAt',
       sortType = SortType.ASC,
       search,
     } = filterUserSkillDto;

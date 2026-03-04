@@ -5,11 +5,9 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { OfferRequest } from './offer-request.entity';
-import { Barter } from './barter.entity';
 import { OFFER_MEETING_TYPE } from 'src/common/enums/offer-meeting-type.enum';
 import { UserSkill } from './user-skill.entity';
 
@@ -66,7 +64,4 @@ export class Offer {
 
   @OneToMany(() => OfferRequest, (offerRequest) => offerRequest.offer)
   offerRequests?: OfferRequest[];
-
-  @OneToOne(() => Barter, (barter) => barter.offer)
-  barter?: Barter;
 }

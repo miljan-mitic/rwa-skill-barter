@@ -4,7 +4,7 @@ import { Category } from 'src/entities/category.entity';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto } from '../dtos/create-category.dto';
 import { FilterCategoryDto } from '../dtos/filter-category.dto';
-import { SortBy, SortType } from 'src/common/enums/sort.enum';
+import { SortType } from 'src/common/enums/sort.enum';
 
 @Injectable()
 export class CategoryService {
@@ -31,7 +31,7 @@ export class CategoryService {
       search,
       page = 0,
       pageSize = 10,
-      sortBy = SortBy.CREATED_AT,
+      sortBy = 'createdAt',
       sortType = SortType.ASC,
     } = filterCategoryDto;
     const queryBuilder = this.categoryRepository.createQueryBuilder('category');

@@ -7,8 +7,8 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Offer } from './offer.entity';
 import { Review } from './review.entity';
+import { OfferRequest } from './offer-request.entity';
 
 @Entity()
 export class Barter {
@@ -21,16 +21,21 @@ export class Barter {
   @Column({
     type: 'timestamp',
     nullable: false,
-    // default: () => 'CURRENT_TIMESTAMP',
   })
-  completedAt: Date;
+  startTime: Date;
+
+  @Column({
+    type: 'timestamp',
+    nullable: false,
+  })
+  endTime: Date;
 
   @CreateDateColumn({ type: 'timestamp', nullable: false })
   createdAt: Date;
 
-  @OneToOne(() => Offer, (offer) => offer.barter)
+  @OneToOne(() => OfferRequest, (offerRequest) => offerRequest.barter)
   @JoinColumn()
-  offer?: Offer;
+  offerRequest?: OfferRequest;
 
   @OneToMany(() => Review, (review) => review.barter)
   reviews?: Review[];

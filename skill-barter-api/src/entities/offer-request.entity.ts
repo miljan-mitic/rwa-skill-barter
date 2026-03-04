@@ -5,11 +5,13 @@ import {
   Entity,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Offer } from './offer.entity';
 import { UserSkill } from './user-skill.entity';
 import { NotificationOR } from './notification-or.entity';
+import { Barter } from './barter.entity';
 
 @Entity()
 export class OfferRequest {
@@ -57,6 +59,9 @@ export class OfferRequest {
     onDelete: 'CASCADE',
   })
   offer?: Offer;
+
+  @OneToOne(() => Barter, (barter) => barter.offerRequest)
+  barter?: Barter;
 
   @OneToMany(
     () => NotificationOR,

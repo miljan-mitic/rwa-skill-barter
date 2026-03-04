@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 import { CreateSkillDto } from '../dtos/create-skill.dto';
 import { CategoryService } from 'src/modules/category/services/category.service';
 import { FilterSkillDto } from '../dtos/filter-skill.dto';
-import { SortBy, SortType } from 'src/common/enums/sort.enum';
+import { SortType } from 'src/common/enums/sort.enum';
 import { User } from 'src/entities/user.entity';
 import { UserSkill } from 'src/entities/user-skill.entity';
 
@@ -52,7 +52,7 @@ export class SkillService {
       search,
       page = 0,
       pageSize = 10,
-      sortBy = SortBy.CREATED_AT,
+      sortBy = 'createdAt',
       sortType = SortType.ASC,
     } = filterSkillDto;
     const queryBuilder = this.skillRepository.createQueryBuilder('skill');

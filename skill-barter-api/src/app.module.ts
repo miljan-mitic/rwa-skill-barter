@@ -16,11 +16,13 @@ import { ReviewModule } from './modules/review/review.module';
 import { UserSkillModule } from './modules/user-skill/user-skill.module';
 import { NotificationORModule } from './modules/notification-or/notification-or.module';
 import { SocketModule } from './modules/socket/socket.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigurationModule,
     DatabaseModule,
+    ScheduleModule.forRoot(),
     AuthModule,
     UserModule,
     FileModule,

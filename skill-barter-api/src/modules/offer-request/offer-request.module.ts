@@ -6,12 +6,14 @@ import { OfferRequestController } from './controllers/offer-request.controller';
 import { UserSkillModule } from '../user-skill/user-skill.module';
 import { OfferModule } from '../offer/offer.module';
 import { NotificationORModule } from '../notification-or/notification-or.module';
+import { BarterModule } from '../barter/barter.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([OfferRequest]),
     UserSkillModule,
     OfferModule,
+    BarterModule,
     NotificationORModule,
   ],
   providers: [OfferRequestService],

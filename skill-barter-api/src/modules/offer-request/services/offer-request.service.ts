@@ -13,13 +13,14 @@ import { User } from 'src/entities/user.entity';
 import { UserSkillService } from 'src/modules/user-skill/services/user-skill.service';
 import { OfferService } from 'src/modules/offer/services/offer.service';
 import { FilterOfferRequestDto } from '../dtos/filter-offer-request.dto';
-import { SortBy, SortType } from 'src/common/enums/sort.enum';
+import { SortType } from 'src/common/enums/sort.enum';
 import { UpdateOfferRequestDto } from '../dtos/update-offer-request.dto';
 import { OFFER_REQUEST_STATUS } from 'src/common/enums/offer-request-status.enum';
 import { removeUndefinedAttributes } from 'src/common/utils/remove-undefined-attributes';
 import { NotificationORService } from 'src/modules/notification-or/services/notification-or.service';
 import { NOTIFICATION_OR_TYPE } from 'src/common/enums/notification-or-type.enum';
 import { NOTIFICATION_OR_TYPE_MAPPING } from 'src/common/constants/notification-or-type-mapping.const';
+import { BarterService } from 'src/modules/barter/services/barter.service';
 
 @Injectable()
 export class OfferRequestService {
@@ -28,6 +29,7 @@ export class OfferRequestService {
     private readonly offerRequestRepository: Repository<OfferRequest>,
     private readonly userSkillService: UserSkillService,
     private readonly offerService: OfferService,
+    private readonly barterService: BarterService,
     private readonly notificationORService: NotificationORService,
   ) {}
 
@@ -65,14 +67,14 @@ export class OfferRequestService {
   }
 
   async findById(id: number, relations?: FindOptionsRelations<OfferRequest>) {
-    const offer = await this.offerRequestRepository.findOne({
+    const offerRequest = await this.offerRequestRepository.findOne({
       where: { id },
       relations,
     });
-    if (!offer) {
+    if (!offerRequest) {
       throw new NotFoundException(`Offer request with ID ${id} not found`);
     }
-    return offer;
+    return offerRequest;
   }
 
   async updateOfferRequest(
@@ -82,7 +84,7 @@ export class OfferRequestService {
   ) {
     const offerRequest = await this.offerRequestRepository.findOne({
       where: { id, offer: { userSkill: { user: { id: user.id } } } },
-      relations: { offer: true },
+      relations: { offer: true, barter: true },
     });
 
     if (!offerRequest) {
@@ -110,6 +112,38 @@ export class OfferRequestService {
     const filteredDto = removeUndefinedAttributes(updateOfferRequestDto);
     Object.assign(offerRequest, filteredDto);
 
+    // if(status === accept) => create barter entity
+    if (status && status === OFFER_REQUEST_STATUS.ACCEPTED) {
+      const startTime = new Date(offerRequest.offer.meetingAt);
+      const startTimeMs = startTime.getTime();
+      const durationMs = offerRequest.offer.durationMinutes * 60 * 1000;
+      const endTime = new Date(startTimeMs + durationMs);
+
+      const barter = await this.barterService.create({
+        offerRequestId: offerRequest.id,
+        startTime,
+        endTime,
+      });
+
+      offerRequest.barter = barter;
+    }
+
+    const canceled =
+      status &&
+      oldStatus === OFFER_REQUEST_STATUS.ACCEPTED &&
+      status === OFFER_REQUEST_STATUS.REJECTED;
+
+    // if(canceled) => delete barter entity
+    if (canceled) {
+      const isDeleted = await this.barterService.deleteById(
+        offerRequest.barter.id,
+      );
+
+      if (isDeleted) {
+        offerRequest.barter = null;
+      }
+    }
+
     try {
       await this.offerRequestRepository.save(offerRequest);
     } catch (error) {
@@ -118,10 +152,6 @@ export class OfferRequestService {
     }
 
     if (status) {
-      const canceled =
-        oldStatus === OFFER_REQUEST_STATUS.ACCEPTED &&
-        status === OFFER_REQUEST_STATUS.REJECTED;
-
       await this.notificationORService.create(user, {
         offerRequestId: offerRequest.id,
         type: canceled
@@ -143,7 +173,7 @@ export class OfferRequestService {
       status,
       page = 0,
       pageSize = 10,
-      sortBy = SortBy.CREATED_AT,
+      sortBy = 'createdAt',
       sortType = SortType.ASC,
     } = filterOfferRequestDto;
 
@@ -153,8 +183,8 @@ export class OfferRequestService {
 
     const queryBuilder = this.offerRequestRepository
       .createQueryBuilder('offerRequest')
-      .leftJoin('offerRequest.offer', 'offer')
-      .leftJoin('offer.userSkill', 'userSkillCreator')
+      .leftJoinAndSelect('offerRequest.offer', 'offer')
+      .leftJoinAndSelect('offer.userSkill', 'userSkillCreator')
       .leftJoin('userSkillCreator.user', 'userCreator')
       .leftJoinAndSelect('offerRequest.userSkill', 'userSkill')
       .leftJoinAndSelect('userSkill.skill', 'skill')

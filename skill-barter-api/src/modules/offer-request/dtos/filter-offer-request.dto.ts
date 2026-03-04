@@ -1,9 +1,12 @@
 import { Expose, Type } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { PaginationParams } from 'src/common/dtos/pagination-params.dto';
+import { createPaginationParamsDto } from 'src/common/dtos/pagination-params.dto';
 import { OFFER_REQUEST_STATUS } from 'src/common/enums/offer-request-status.enum';
+import { OfferRequest } from 'src/entities/offer-request.entity';
 
-export class FilterOfferRequestDto extends PaginationParams {
+export class FilterOfferRequestDto extends createPaginationParamsDto(
+  OfferRequest,
+) {
   @IsOptional()
   @IsNotEmpty({ message: 'OFFER_ID_EMPTY' })
   @Type(() => Number)

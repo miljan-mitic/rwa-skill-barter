@@ -3,13 +3,14 @@ import {
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Offer } from 'src/entities/offer.entity';
 import { FindOptionsRelations, FindOptionsWhere, Repository } from 'typeorm';
 import { FilterOfferDto } from '../dtos/filter-offer.dto';
-import { SortBy, SortType } from 'src/common/enums/sort.enum';
+import { SortType } from 'src/common/enums/sort.enum';
 import { CreateOfferDto } from '../dtos/create-offer.dto';
 import { User } from 'src/entities/user.entity';
 import { UserSkillService } from 'src/modules/user-skill/services/user-skill.service';
@@ -18,9 +19,12 @@ import { removeUndefinedAttributes } from 'src/common/utils/remove-undefined-att
 import { OFFER_STATUS } from 'src/common/enums/offer-status.enum';
 import { UserSkill } from 'src/entities/user-skill.entity';
 import { OFFER_REQUEST_STATUS } from 'src/common/enums/offer-request-status.enum';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Injectable()
 export class OfferService {
+  private readonly logger = new Logger(OfferService.name);
+
   constructor(
     @InjectRepository(Offer)
     private readonly offerRepository: Repository<Offer>,
@@ -102,7 +106,7 @@ export class OfferService {
       meetingType,
       page = 0,
       pageSize = 10,
-      sortBy = SortBy.CREATED_AT,
+      sortBy = 'createdAt',
       sortType = SortType.ASC,
     } = filterOfferDto;
 
@@ -218,5 +222,28 @@ export class OfferService {
 
   async deleteMany(findOptionsWhere: FindOptionsWhere<Offer>) {
     return this.offerRepository.delete(findOptionsWhere);
+  }
+
+  @Cron(CronExpression.EVERY_MINUTE)
+  private async maintain() {
+    this.logger.log('Processing offers...');
+
+    await this.archiveExpiredOffers();
+
+    this.logger.log('Offers processed successfully.');
+  }
+
+  private async archiveExpiredOffers() {
+    const updateResult = await this.offerRepository
+      .createQueryBuilder()
+      .update()
+      .set({ status: OFFER_STATUS.ARCHIVED })
+      .where('status != :archived', { archived: OFFER_STATUS.ARCHIVED })
+      .andWhere(`NOW() > meetingAt`)
+      .execute();
+
+    if (updateResult.affected) {
+      this.logger.log(`Archived ${updateResult.affected} offers.`);
+    }
   }
 }

@@ -1,8 +1,9 @@
 import { Expose, Type } from 'class-transformer';
 import { IsNumber, IsOptional } from 'class-validator';
-import { PaginationParams } from 'src/common/dtos/pagination-params.dto';
+import { createPaginationParamsDto } from 'src/common/dtos/pagination-params.dto';
+import { UserSkill } from 'src/entities/user-skill.entity';
 
-export class FilterUserSkillDto extends PaginationParams {
+export class FilterUserSkillDto extends createPaginationParamsDto(UserSkill) {
   @IsOptional()
   @Type(() => Number)
   @IsNumber({}, { message: 'USER_ID_WRONG_TYPE' })

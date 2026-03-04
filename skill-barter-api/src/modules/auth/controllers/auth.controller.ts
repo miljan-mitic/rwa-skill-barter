@@ -35,9 +35,8 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Post('auto-login')
-  @HttpCode(HttpStatus.OK)
-  autoLogin(
+  @Get('auto-login')
+  getUserFromToken(
     @UserDecorator() user: User,
   ): Promise<{ user: User; accessToken: string }> {
     return this.authService.login(user);
