@@ -59,4 +59,24 @@ export class UserService {
     }
     return user;
   }
+
+  async addNewRating(userId: number, rating: number) {
+    const user = await this.getUserById(userId);
+
+    const { ratingAvg, ratingCount } = user;
+
+    const newRatingCount = ratingCount + 1;
+    const newRatingAvg = (ratingAvg * ratingCount + rating) / newRatingCount;
+
+    user.ratingCount = newRatingCount;
+    user.ratingAvg = newRatingAvg;
+
+    try {
+      await this.userRepository.save(user);
+      return true;
+    } catch (error) {
+      console.warn('USER SERVICE - ADD NEW RATING:', error);
+      return false;
+    }
+  }
 }

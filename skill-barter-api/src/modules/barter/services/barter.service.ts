@@ -97,6 +97,21 @@ export class BarterService {
         `,
         'userRole',
       )
+      .addSelect(
+        `
+        CASE
+          WHEN EXISTS (
+            SELECT 1
+            FROM review r
+            WHERE r."barterId" = barter.id
+            AND r."reviewerId" = :userId
+          )
+          THEN true
+          ELSE false
+        END
+        `,
+        'isHasReview',
+      )
       .where(
         new Brackets((qb) => {
           qb.where('userApplicant.id = :userId').orWhere(
@@ -128,6 +143,7 @@ export class BarterService {
     const items = rawAndEntities.entities?.map((barter, index) => ({
       ...barter,
       userRole: rawAndEntities?.raw[index]?.userRole,
+      isHasReview: rawAndEntities?.raw[index]?.isHasReview,
       meetingState: this.calculateMeetingState(barter),
     }));
 

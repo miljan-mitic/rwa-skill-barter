@@ -17,11 +17,11 @@ export class Review {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ nullable: false, default: 5 })
+  @Column({ type: 'int', nullable: false })
   rating: number;
 
-  @Column({ length: 100 })
-  comment: string;
+  @Column({ nullable: true, length: 100 })
+  comment?: string;
 
   @CreateDateColumn({
     type: 'timestamp',
