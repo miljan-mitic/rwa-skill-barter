@@ -3,6 +3,24 @@
     <div class="offers-grid">
       @for (offer of offers$ | async; track offer.id) {
         <mat-card class="offer-card" [ngClass]="statusClasses[offer.status]">
+          @if ((global$ | async) && offer.userSkill?.user!.ratingAvg) {
+            <div
+              class="rating"
+              matTooltip="Average user rating based on {{
+                offer.userSkill?.user?.ratingCount
+              }} reviews"
+              matTooltipPosition="above"
+            >
+              <mat-icon class="star">star</mat-icon>
+              <span
+                class="rating__value"
+                [class.rating__value--top]="offer.userSkill?.user!.ratingAvg >= 4.8"
+                >{{ offer.userSkill?.user?.ratingAvg | number: '1.1-2' }}</span
+              >
+              <span class="rating__count">({{ offer.userSkill?.user?.ratingCount }})</span>
+            </div>
+          }
+
           <app-offer-item [offer]="offer"></app-offer-item>
         </mat-card>
       }

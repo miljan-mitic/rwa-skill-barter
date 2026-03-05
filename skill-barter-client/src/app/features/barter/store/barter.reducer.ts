@@ -11,8 +11,8 @@ const adapter = createEntityAdapter<Barter>();
 export const initialStateBarterFilter: BarterFilter = {
   page: PAGINATION_PARAMS.DEFAULT.PAGE,
   pageSize: PAGINATION_PARAMS.DEFAULT.PAGE_SIZE,
-  sortBy: 'startTime',
-  sortType: SortType.ASC,
+  sortBy: 'createdAt',
+  sortType: SortType.DESC,
 };
 
 export const initialState: BarterState = adapter.getInitialState({
@@ -56,5 +56,8 @@ export const barterReducer = createReducer(
   }),
   on(BarterActions.loadMeetingsStatesSuccess, (state: BarterState, { updateBarters }) => {
     return adapter.updateMany(updateBarters, { ...state });
+  }),
+  on(BarterActions.setHasReviewSuccess, (state: BarterState, { updateBarter }) => {
+    return adapter.updateOne(updateBarter, { ...state });
   }),
 );

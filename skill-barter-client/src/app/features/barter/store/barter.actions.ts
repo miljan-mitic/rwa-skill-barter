@@ -16,5 +16,8 @@ export const BarterActions = createActionGroup({
     'Load meetings states': props<{ barterIds: number[] }>(),
     'Load meetings states success': props<{ updateBarters: UpdateBarter[] }>(),
     'Load meetings states failure': props<{ error: any }>(),
+
+    'Set has review': props<{ barter: Barter }>(),
+    'Set has review success': props<{ updateBarter: UpdateBarter }>(),
   },
 });

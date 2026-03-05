@@ -26,7 +26,6 @@ import { OfferStatus } from '../../../../common/enums/offer-status.enum';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    // MatFormFieldModule,
     FlexLayoutModule,
     OverflowTooltip,
     NgClass,

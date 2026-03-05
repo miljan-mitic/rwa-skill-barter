@@ -1,4 +1,5 @@
 import { Role } from '../enums/role.enum';
+import { Review } from './review.model';
 import { UserSkill } from './user-skill.model';
 
 export interface User {
@@ -11,4 +12,5 @@ export interface User {
   ratingAvg: number;
   ratingCount: number;
   userSkills?: UserSkill[];
+  writtenReviews?: Review[];
 }

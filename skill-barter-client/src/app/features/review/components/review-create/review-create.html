@@ -1,0 +1,50 @@
+<mat-card fxFlex="100%" fxLayout="column" fxLayoutAlign="space-between">
+  <mat-card-header fxLayout="row" fxLayoutAlign="space-between">
+    <mat-card-title fxFlex> Send Review </mat-card-title>
+    <button mat-icon-button (click)="close()">✖</button>
+  </mat-card-header>
+
+  <form
+    fxFlex="100%"
+    fxLayout="column"
+    fxLayoutAlign="space-between"
+    #reviewForm="ngForm"
+    (ngSubmit)="onSubmit(reviewForm)"
+  >
+    <mat-card-content fxFlex="100%" fxLayout="row">
+      <mat-dialog-content>
+        <app-rating name="rating" ngModel #ratingModel="ngModel" required></app-rating>
+
+        <mat-form-field appearance="fill">
+          <mat-label> Comment </mat-label>
+
+          <textarea
+            matInput
+            ngModel
+            #commentModel="ngModel"
+            name="comment"
+            rows="4"
+            maxlength="100"
+          ></textarea>
+          <mat-hint align="end">{{ commentModel.value?.length || 0 }}/100 </mat-hint>
+          @if (commentModel.hasError('maxlength')) {
+            <mat-error>Comment is too long (max 100 characters)</mat-error>
+          }
+        </mat-form-field>
+      </mat-dialog-content>
+    </mat-card-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button class="cancel-button" (click)="close()">Cancel</button>
+      <button
+        mat-raised-button
+        class="submit-button"
+        color="primary"
+        type="submit"
+        [disabled]="reviewForm.invalid"
+      >
+        Submit
+      </button>
+    </mat-dialog-actions>
+  </form>
+</mat-card>

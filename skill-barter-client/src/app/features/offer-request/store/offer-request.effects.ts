@@ -19,7 +19,6 @@ export class OfferRequestEffects {
   private readonly actions$ = inject(Actions);
   private readonly offerRequestService = inject(OfferRequestService);
   private readonly notificationService = inject(NotificationService);
-  private readonly store = inject(Store<OfferRequestState>);
 
   createOfferRequest$ = createEffect(() =>
     this.actions$.pipe(

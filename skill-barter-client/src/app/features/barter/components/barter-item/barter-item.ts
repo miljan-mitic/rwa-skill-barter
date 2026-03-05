@@ -16,6 +16,7 @@ import {
 import { BARTER_USER_ROLE_CLASSES } from '../../../../common/constants/barter-user-role.const';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { VideoCall } from '../../../../shared/video-call/components/video-call';
+import { ReviewCreate } from '../../../review/components/review-create/review-create';
 
 @Component({
   selector: 'app-barter-item',
@@ -48,6 +49,18 @@ export class BarterItem {
       minWidth: '800px',
       minHeight: '600px',
       disableClose: true,
+      panelClass: 'dialog-class',
+      data: {
+        barterId: this.barter.id,
+      },
+    });
+  }
+
+  onReview() {
+    this.dialog.open(ReviewCreate, {
+      minWidth: '300px',
+      width: '500px',
+      minHeight: '350px',
       panelClass: 'dialog-class',
       data: {
         barterId: this.barter.id,

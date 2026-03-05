@@ -110,6 +110,14 @@
             <mat-icon matPrefix>video_call</mat-icon>JOIN
           </button>
         </div>
+      } @else if (
+        barter.meetingState.status === meetingStateStatus.EXPIRED && !barter.isHasReview
+      ) {
+        <div fxLayoutAlign="center center">
+          <button mat-fab extended class="button-review" (click)="onReview()">
+            <mat-icon matPrefix>rate_review</mat-icon>REVIEW
+          </button>
+        </div>
       }
     </div>
   </mat-card-content>

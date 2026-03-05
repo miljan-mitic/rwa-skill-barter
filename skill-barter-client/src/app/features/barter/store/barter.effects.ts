@@ -6,6 +6,7 @@ import { BarterService } from '../services/barter.service';
 import {
   catchError,
   combineLatest,
+  concatMap,
   distinctUntilChanged,
   EMPTY,
   interval,
@@ -91,6 +92,19 @@ export class BarterEffects {
             });
           }),
           catchError((error) => of(BarterActions.loadMeetingsStatesFailure(error))),
+        ),
+      ),
+    ),
+  );
+
+  setHasReview$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BarterActions.setHasReview),
+      concatMap(({ barter }) =>
+        of(
+          BarterActions.setHasReviewSuccess({
+            updateBarter: { id: barter.id, changes: { isHasReview: true } },
+          }),
         ),
       ),
     ),

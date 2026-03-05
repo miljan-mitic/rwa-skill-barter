@@ -1,0 +1,20 @@
+<mat-card class="rating">
+  <mat-label> Rating </mat-label>
+  <mat-card-content>
+    @for (star of stars; track star) {
+      <div
+        class="rating__star"
+        [ngClass]="{
+          'rating__star--active':
+            (!isMouseOver && value >= star) ||
+            (isMouseOver && hoveredRating && hoveredRating >= star),
+        }"
+        (mouseenter)="onRatingMouseEnter(star)"
+        (mouseleave)="onRatingMouseLeave()"
+        (click)="selectRating(star)"
+      >
+        <i class="star">★</i>
+      </div>
+    }
+  </mat-card-content>
+</mat-card>

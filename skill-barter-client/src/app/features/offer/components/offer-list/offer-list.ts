@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { selectCurrentUser } from '../../../user/state/user.selector';
 import { Role } from '../../../../common/enums/role.enum';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { AsyncPipe, NgClass } from '@angular/common';
+import { AsyncPipe, DecimalPipe, NgClass } from '@angular/common';
 import { OfferState } from '../../store/offer.state';
 import { OfferActions } from '../../store/offer.actions';
 import {
@@ -27,6 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 import { OFFER_STATUS_CLASSES } from '../../../../common/constants/offer-status.consts';
 import { PaginationParams } from '../../../../common/interfaces/pagination-params.interface';
 import { Offer } from '../../../../common/models/offer.model';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-offer-list',
@@ -35,6 +36,7 @@ import { Offer } from '../../../../common/models/offer.model';
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     AsyncPipe,
     NgClass,
     FlexLayoutModule,
@@ -42,6 +44,7 @@ import { Offer } from '../../../../common/models/offer.model';
     OfferItem,
     EmptyState,
     Loader,
+    DecimalPipe,
   ],
   templateUrl: './offer-list.html',
   styleUrl: './offer-list.scss',

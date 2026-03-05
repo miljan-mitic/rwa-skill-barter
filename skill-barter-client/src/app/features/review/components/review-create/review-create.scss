@@ -1,0 +1,78 @@
+:host {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 20px;
+}
+
+mat-card {
+  padding: 5%;
+}
+
+mat-card-content {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0 !important;
+}
+
+mat-card-header {
+  padding-top: 0;
+
+  mat-card-title {
+    font-weight: bold;
+    font-size: 25px;
+    color: #0044cc;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+  }
+
+  button {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #0044cc;
+
+    &:hover {
+      color: #003399;
+      transform: scale(1.05);
+    }
+  }
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.submit-button {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  transition: background-color 0.2s ease;
+  transition: transform 0.2s ease;
+
+  &:valid {
+    background-color: #0044cc;
+  }
+
+  &:hover {
+    background-color: #003399;
+    transform: scale(1.05);
+  }
+
+  box-shadow:
+    0 4px 8px 0 rgba(0, 0, 0, 0.2),
+    0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cancel-button {
+  font-size: 20px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}

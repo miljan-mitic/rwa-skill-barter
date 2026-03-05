@@ -1,0 +1,37 @@
+mat-label {
+  padding-top: 16px;
+  padding-left: 16px;
+}
+
+mat-card-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.rating {
+  display: flex;
+
+  margin-bottom: 10px;
+
+  &__star {
+    cursor: pointer;
+    color: grey;
+    padding: 0 6px;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+
+    &--active {
+      color: gold;
+    }
+  }
+}
+
+.star {
+  font-size: 24px;
+}
