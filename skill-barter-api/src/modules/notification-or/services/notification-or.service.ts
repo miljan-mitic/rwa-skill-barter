@@ -152,7 +152,7 @@ export class NotificationORService {
 
     const result = await queryBuilder.execute();
 
-    if (!result.affected) {
+    if (!markAll && !result.affected) {
       throw new BadRequestException('Invalid ids:', ids.join(', '));
     }
 

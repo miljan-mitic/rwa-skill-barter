@@ -9,6 +9,8 @@ import { User } from 'src/entities/user.entity';
 import { AuthSignupDto } from 'src/modules/auth/dtos/auth-signup.dto';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from '../dtos/update-user.dto';
+import { removeUndefinedAttributes } from 'src/common/utils/remove-undefined-attributes';
 
 @Injectable()
 export class UserService {
@@ -77,6 +79,29 @@ export class UserService {
     } catch (error) {
       console.warn('USER SERVICE - ADD NEW RATING:', error);
       return false;
+    }
+  }
+
+  async updateUser(user: User, updateUserDto: UpdateUserDto): Promise<User> {
+    if (updateUserDto.password) {
+      const salt = await bcrypt.genSalt();
+      user.password = await bcrypt.hash(updateUserDto.password, salt);
+    }
+
+    const { password, ...updateUserData } = updateUserDto;
+    const filteredDto = removeUndefinedAttributes(updateUserData);
+    Object.assign(user, filteredDto);
+
+    try {
+      const saved = await this.userRepository.save(user);
+      delete saved.password;
+      return saved;
+    } catch (error) {
+      console.warn('USER SERVICE - UPDATE USER:', error);
+      if (error.code === '23505') {
+        throw new ConflictException('Username or Email already exists');
+      }
+      throw new InternalServerErrorException('Unexpected error');
     }
   }
 }
