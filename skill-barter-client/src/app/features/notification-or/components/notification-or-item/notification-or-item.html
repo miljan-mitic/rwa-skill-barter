@@ -7,20 +7,23 @@
     <div
       fxLayout.gt-xs="row"
       fxLayoutAlign="space-around center"
-      fxLayoutGap="3%"
+      fxLayoutGap="2%"
       class="notification-or-container"
     >
-      <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxFlex="15%" fxLayout="column" fxLayoutAlign="center center">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
           <mat-card-title class="title"> Offer </mat-card-title>
           <mat-icon matSuffix>local_offer</mat-icon>
         </div>
-        <span>
+        <span
+          class="truncate-text"
+          [appOverflowTooltip]="notificationOR.offerRequest?.offer?.title || ''"
+        >
           {{ notificationOR.offerRequest?.offer?.title }}
         </span>
       </div>
 
-      <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxFlex="15%" fxLayout="column" fxLayoutAlign="center center">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
           <mat-card-title class="title"> Offered skill </mat-card-title>
           <mat-icon matSuffix>lightbulb</mat-icon>
@@ -30,7 +33,7 @@
         </span>
       </div>
 
-      <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxFlex="15%" fxLayout="column" fxLayoutAlign="center center">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
           <mat-card-title class="title"> Message </mat-card-title>
           <mat-icon [ngClass]="typeIconClasses[notificationOR.type]" matSuffix>{{
@@ -42,7 +45,7 @@
         </span>
       </div>
 
-      <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxFlex="15%" fxLayout="column" fxLayoutAlign="center center">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
           <mat-card-title class="title"> Publisher </mat-card-title>
           <mat-icon matSuffix>person</mat-icon>
@@ -52,7 +55,7 @@
         </span>
       </div>
 
-      <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxFlex="15%" fxLayout="column" fxLayoutAlign="center center">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
           <mat-card-title class="title"> Publisher's email </mat-card-title>
           <mat-icon matSuffix>email</mat-icon>
@@ -62,7 +65,7 @@
         </span>
       </div>
 
-      <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxFlex="15%" fxLayout="column" fxLayoutAlign="center center">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="3px">
           <mat-card-title class="title"> Sent </mat-card-title>
           <mat-icon matSuffix>access_time_filled</mat-icon>

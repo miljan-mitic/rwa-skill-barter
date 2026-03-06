@@ -134,3 +134,26 @@ button {
   margin-right: 4px;
   border-radius: 2px;
 }
+
+.truncate-text {
+  max-width: 100%;
+  min-width: 20%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media screen and (max-width: 600px) {
+    text-align: center;
+    white-space: normal;
+    overflow: visible;
+    word-break: break-word;
+  }
+}
+
+.wrap-text-always {
+  width: 100%;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+}

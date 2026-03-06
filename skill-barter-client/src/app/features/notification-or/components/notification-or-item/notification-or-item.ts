@@ -13,10 +13,19 @@ import { NgClass } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { NotificationORState } from '../../store/notification-or.state';
 import { NotificationORActions } from '../../store/notification-or.actions';
+import { NotificationORType } from '../../../../common/enums/notification-or-type.enum';
+import { OverflowTooltip } from '../../../../shared/directives/overflow-tooltip';
 
 @Component({
   selector: 'app-notification-or-item',
-  imports: [MatCardModule, MatIconModule, FlexLayoutModule, NgClass, CreatedAgoPipe],
+  imports: [
+    MatCardModule,
+    MatIconModule,
+    FlexLayoutModule,
+    NgClass,
+    CreatedAgoPipe,
+    OverflowTooltip,
+  ],
   templateUrl: './notification-or-item.html',
   styleUrl: './notification-or-item.scss',
 })
@@ -29,9 +38,14 @@ export class NotificationORItem {
   private store = inject(Store<NotificationORState>);
 
   get message(): string {
-    if (!this.notificationOR.type) return '';
+    const type = this.notificationOR.type;
+    if (!type) return '';
 
-    const splitedType = this.notificationOR.type.split('_')[2];
+    if (type === NotificationORType.OFFER_REQUEST_CREATED) {
+      return 'Sent you request.';
+    }
+
+    const splitedType = type.split('-')[2];
     const firstLetter = splitedType.charAt(0).toUpperCase();
 
     const formatedType = firstLetter + splitedType.slice(1);

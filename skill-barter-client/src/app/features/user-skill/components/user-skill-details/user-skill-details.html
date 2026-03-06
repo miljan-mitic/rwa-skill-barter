@@ -9,18 +9,18 @@
       >
         <div class="detail-item">
           <mat-card-title> Category </mat-card-title>
-          <div class="responsive-text">{{ userSkill.skill?.category?.name }}</div>
+          <div class="truncate-text-always">{{ userSkill.skill?.category?.name }}</div>
         </div>
 
         <div class="detail-item">
           <mat-card-title> Name </mat-card-title>
-          <div class="responsive-text">{{ userSkill.skill?.name }}</div>
+          <div class="truncate-text-always">{{ userSkill.skill?.name }}</div>
         </div>
 
         <div class="detail-item textarea-div">
           <mat-card-title> Description </mat-card-title>
           @if (!isEditMode()) {
-            <div class="responsive-text">{{ userSkill.description }}</div>
+            <div class="truncate-text-always">{{ userSkill.description }}</div>
           } @else {
             <mat-form-field appearance="fill" class="textarea-form-field">
               <mat-label>Description</mat-label>
@@ -42,7 +42,7 @@
 
         <div class="detail-item">
           <mat-card-title> Created at </mat-card-title>
-          <div class="responsive-text">{{ userSkill.createdAt | date: dateFormat }}</div>
+          <div class="truncate-text-always">{{ userSkill.createdAt | date: dateFormat }}</div>
         </div>
 
         <div class="detail-item">
