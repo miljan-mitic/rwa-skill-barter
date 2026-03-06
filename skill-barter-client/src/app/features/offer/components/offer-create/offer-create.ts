@@ -23,7 +23,7 @@ import { UserSkillService } from '../../../user-skill/services/user-skill.servic
 import { UserSkillFilterDto } from '../../../user-skill/dtos/user-skill-filter.dto';
 import { UserSkill } from '../../../../common/models/user-skill.model';
 import { User } from '../../../../common/models/user.model';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { ALLOWED_KEYS } from '../../../../common/constants/allowed-keys.consts';

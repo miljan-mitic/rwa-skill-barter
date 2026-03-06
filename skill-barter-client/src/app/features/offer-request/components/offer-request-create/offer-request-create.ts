@@ -15,7 +15,7 @@ import { UserSkill } from '../../../../common/models/user-skill.model';
 import { FilterParams } from '../../../../common/types/filter-params.type';
 import { filter, Observable } from 'rxjs';
 import { PageResponse } from '../../../../common/interfaces/page-result.interface';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OfferRequestActions } from '../../store/offer-request.actions';
 import { OfferRequestDto } from '../../dtos/offer-request.dto';

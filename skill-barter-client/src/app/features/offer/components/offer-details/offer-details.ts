@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { OfferState } from '../../store/offer.state';
 import { selectOfferDetailed, selectOfferLoading } from '../../store/offer.selectors';
 import { selectIdFromRouteParams } from '../../../../store/app.selector';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OfferActions } from '../../store/offer.actions';
 import { Role } from '../../../../common/enums/role.enum';

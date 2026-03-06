@@ -3,7 +3,7 @@ import { combineLatest, filter, Observable } from 'rxjs';
 import { NotificationOR } from '../../../../common/models/notification-or.model';
 import { Store } from '@ngrx/store';
 import { NotificationORState } from '../../store/notification-or.state';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   selectNotificationORFilter,

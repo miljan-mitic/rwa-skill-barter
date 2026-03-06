@@ -14,7 +14,7 @@ import {
   selectUserSkillList,
   selectUserSkillLoading,
 } from '../../store/user-skill.selector';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Role } from '../../../../common/enums/role.enum';
 import { UserSkillItem } from '../user-skill-item/user-skill-item';

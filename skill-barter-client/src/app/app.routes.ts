@@ -5,6 +5,7 @@ import { canActivateAuth } from './features/auth/guards/auth.guard';
 import { Dashboard } from './shared/dashboard/components/dashboard/dashboard';
 import { dashboardRoutes } from './shared/dashboard/dashboard.routes';
 import { canMatchNoAuth } from './features/auth/guards/no-auth.guard';
+import { UserProfile } from './features/user/components/user-profile/user-profile';
 
 export const appRoutes: Routes = [
   { path: 'login', component: Login, canMatch: [canMatchNoAuth] },
@@ -17,6 +18,11 @@ export const appRoutes: Routes = [
     path: 'dashboard',
     component: Dashboard,
     children: dashboardRoutes,
+    canActivate: [canActivateAuth],
+  },
+  {
+    path: 'user/profile',
+    component: UserProfile,
     canActivate: [canActivateAuth],
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

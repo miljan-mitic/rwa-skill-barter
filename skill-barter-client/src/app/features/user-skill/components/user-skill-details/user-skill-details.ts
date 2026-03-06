@@ -3,7 +3,7 @@ import { combineLatest, filter, Observable } from 'rxjs';
 import { UserSkillState } from '../../store/user-skill.state';
 import { Store } from '@ngrx/store';
 import { selectIdFromRouteParams } from '../../../../store/app.selector';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { UserSkillActions } from '../../store/user-skill.actions';
 import { Role } from '../../../../common/enums/role.enum';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';

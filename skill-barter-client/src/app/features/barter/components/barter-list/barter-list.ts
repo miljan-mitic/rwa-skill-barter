@@ -17,7 +17,7 @@ import {
   selectBarterLoading,
   selectBarterPaginationParams,
 } from '../../store/barter.selectors';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BarterActions } from '../../store/barter.actions';
 import { Role } from '../../../../common/enums/role.enum';

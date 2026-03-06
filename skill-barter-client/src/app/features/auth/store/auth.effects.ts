@@ -38,7 +38,7 @@ export class AuthEffects {
       exhaustMap(({ loginAuthDto }) =>
         this.authService.login(loginAuthDto).pipe(
           map(({ accessToken, user }) => AuthActions.loginSuccess({ accessToken, user })),
-          catchError((error) => of(AuthActions.loginFailure({ error }))),
+          catchError((error) => of(AuthActions.loginFailure(error))),
         ),
       ),
     ),
@@ -112,7 +112,7 @@ export class AuthEffects {
           this.notificationService.showMessage(
             NotificationSeverity.ERROR,
             NotificationSummary.ERROR,
-            error.error?.message || 'Invalid credentials. Please try again.',
+            error?.message || 'Invalid credentials. Please try again.',
           ),
         ),
       ),

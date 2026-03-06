@@ -1,7 +1,7 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { combineLatest, filter, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { Role } from '../../../../common/enums/role.enum';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { AsyncPipe, DecimalPipe, NgClass } from '@angular/common';

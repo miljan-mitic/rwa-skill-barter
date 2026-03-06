@@ -21,6 +21,7 @@ import { ImageType } from '../../../../common/enums/image-type.enum';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { SignupAuthDto } from '../../dtos/signup-auth.dto';
+import { USERNAME_LENGTH } from '../../../../common/constants/username-length.const';
 
 @Component({
   selector: 'app-signup',
@@ -46,7 +47,8 @@ export class Signup {
 
   uploadedImage: string;
 
-  readonly USERNAME_MIN_LENGTH = 6;
+  readonly USERNAME_MIN_LENGTH = USERNAME_LENGTH.MIN;
+  readonly USERNAME_MAX_LENGTH = USERNAME_LENGTH.MAX;
   readonly PASSWORD_PATTERN: string = REG_EX.PASSWORD.source;
   readonly UPLOAD_IMAGES_URL = UPLOAD_IMAGES_URL + ImageType.PROFILE_PICTURE;
   readonly AVATAR_STYLE = {

@@ -11,7 +11,7 @@ import {
   selectOfferRequestPaginationParams,
 } from '../../store/offer-request.selectors';
 import { PaginationParams } from '../../../../common/interfaces/pagination-params.interface';
-import { selectCurrentUser } from '../../../user/state/user.selector';
+import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OfferRequestActions } from '../../store/offer-request.actions';
 import { Role } from '../../../../common/enums/role.enum';

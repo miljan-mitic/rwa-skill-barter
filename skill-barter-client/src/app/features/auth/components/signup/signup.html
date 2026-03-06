@@ -49,14 +49,21 @@
             #usernameInput="ngModel"
           />
           <mat-hint
-            >Please enter a username with at least {{ USERNAME_MIN_LENGTH }} characters.</mat-hint
+            >Please enter a username with at least {{ USERNAME_MIN_LENGTH }} and a maximum of
+            {{ USERNAME_MAX_LENGTH }} characters.</mat-hint
           >
           @if (usernameInput.hasError('required')) {
             <mat-error>Username is required</mat-error>
           }
+
           @if (usernameInput.hasError('minlength')) {
             <mat-error
               >Username must be at least {{ USERNAME_MIN_LENGTH }} characters long.</mat-error
+            >
+          }
+          @if (usernameInput.hasError('maxlength')) {
+            <mat-error
+              >Username must be at most {{ USERNAME_MAX_LENGTH }} characters long.</mat-error
             >
           }
         </mat-form-field>
