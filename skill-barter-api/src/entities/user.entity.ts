@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Review } from './review.entity';
 import { UserSkill } from './user-skill.entity';
+import { NotificationOR } from './notification-or.entity';
 
 @Entity()
 export class User {
@@ -46,6 +47,9 @@ export class User {
 
   @OneToMany(() => UserSkill, (userSkill) => userSkill.user)
   userSkills?: UserSkill[];
+
+  @OneToMany(() => NotificationOR, (notificationOR) => notificationOR.receiver)
+  notificationsOR?: NotificationOR[];
 
   @OneToMany(() => Review, (review) => review.reviewer)
   writtenReviews?: Review[];

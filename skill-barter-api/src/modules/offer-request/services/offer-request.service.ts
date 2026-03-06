@@ -63,6 +63,12 @@ export class OfferRequestService {
       console.warn('OFFER REQUEST SERVICE - CREATE OFFER REQUEST:', error);
       throw new InternalServerErrorException('Unexpected error');
     }
+
+    await this.notificationORService.create(user, {
+      offerRequestId: newOfferRequest.id,
+      type: NOTIFICATION_OR_TYPE.OFFER_REQUEST_CREATED,
+    });
+
     return newOfferRequest;
   }
 
@@ -155,7 +161,7 @@ export class OfferRequestService {
       await this.notificationORService.create(user, {
         offerRequestId: offerRequest.id,
         type: canceled
-          ? NOTIFICATION_OR_TYPE.OFFER_REQUEST_CACELED
+          ? NOTIFICATION_OR_TYPE.OFFER_REQUEST_CANCELED
           : NOTIFICATION_OR_TYPE_MAPPING[status],
       });
     }

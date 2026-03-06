@@ -5,12 +5,14 @@ import { NotificationORService } from './services/notification-or.service';
 import { OfferRequestModule } from '../offer-request/offer-request.module';
 import { NotificationORController } from './controllers/notification-or.controller';
 import { SocketModule } from '../socket/socket.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([NotificationOR]),
     forwardRef(() => OfferRequestModule),
     SocketModule,
+    UserModule,
   ],
   providers: [NotificationORService],
   controllers: [NotificationORController],

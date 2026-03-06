@@ -17,6 +17,7 @@ import { SortType } from 'src/common/enums/sort.enum';
 import { NotificationSocketGateway } from 'src/modules/socket/gateways/notification-socket.gateway';
 import { SOCKET_EVENT_TYPE } from 'src/common/enums/socket-event-type.enum';
 import { SeenNotificationsOR } from '../dtos/seen-notifications-or.dto';
+import { UserService } from 'src/modules/user/services/user.service';
 
 @Injectable()
 export class NotificationORService {
@@ -26,6 +27,7 @@ export class NotificationORService {
     @Inject(forwardRef(() => OfferRequestService))
     private readonly offerRequestService: OfferRequestService,
     private readonly notificationSocketGateway: NotificationSocketGateway,
+    private readonly userService: UserService,
   ) {}
 
   async create(user: User, createNotificationOR: CreateNotificationOR) {
@@ -40,13 +42,22 @@ export class NotificationORService {
       },
     );
 
-    if (offerRequest.offer.userSkill.user.id !== user.id) {
+    const userIds = [
+      offerRequest.offer.userSkill.user.id,
+      offerRequest.userSkill.user.id,
+    ];
+
+    if (!userIds.includes(user.id)) {
       throw new ForbiddenException('Access denied');
     }
+
+    const sendTo = userIds.filter((userId) => userId !== user.id)[0];
+    const receiver = await this.userService.getUserById(sendTo);
 
     const newNotificationOR = this.notificationORRepository.create({
       ...createNotificationORData,
       offerRequest,
+      receiver,
     });
 
     try {
@@ -56,9 +67,8 @@ export class NotificationORService {
       throw new InternalServerErrorException('Unexpected error');
     }
 
-    const sendTo = offerRequest.userSkill.user.id.toString();
     this.notificationSocketGateway.sendNotification(
-      sendTo,
+      sendTo.toString(),
       SOCKET_EVENT_TYPE.NOTIFICATIONS_OR,
       newNotificationOR,
     );
@@ -83,6 +93,7 @@ export class NotificationORService {
 
     const queryBuilder = this.notificationORRepository
       .createQueryBuilder('notificationOR')
+      .leftJoin('notificationOR.receiver', 'receiver')
       .leftJoinAndSelect('notificationOR.offerRequest', 'offerRequest')
       .leftJoinAndSelect('offerRequest.userSkill', 'userSkill')
       .leftJoinAndSelect('userSkill.skill', 'skill')
@@ -90,7 +101,7 @@ export class NotificationORService {
       .leftJoinAndSelect('offerRequest.offer', 'offer')
       .leftJoinAndSelect('offer.userSkill', 'userSkillCreator')
       .leftJoinAndSelect('userSkillCreator.user', 'userCreator')
-      .where('userSender.id = :userId', filters);
+      .where('receiver.id = :userId', filters);
 
     queryBuilder.addOrderBy(`notificationOR.${sortBy}`, sortType);
 
@@ -113,12 +124,8 @@ export class NotificationORService {
     const numberUnseen = await this.notificationORRepository.count({
       where: {
         seen: false,
-        offerRequest: {
-          userSkill: {
-            user: {
-              id: user.id,
-            },
-          },
+        receiver: {
+          id: user.id,
         },
       },
     });
@@ -132,21 +139,11 @@ export class NotificationORService {
     const { ids, markAll } = seenNotificationsOR;
 
     const queryBuilder = this.notificationORRepository
-      .createQueryBuilder('notification_or')
+      .createQueryBuilder()
       .update()
       .set({ seen: true })
-      .where('notification_or.seen = false')
-      .andWhere(
-        `
-    offerRequestId IN (
-      SELECT offerReq.id
-      FROM offer_request  offerReq
-      INNER JOIN user_skill us ON us.id = offerReq."userSkillId"
-      WHERE us."userId" = :userId
-    )
-  `,
-      )
-      .setParameter('userId', user.id)
+      .where('seen = false')
+      .andWhere('receiverId = :userId', { userId: user.id })
       .returning(['id', 'seen']);
 
     if (!markAll) {

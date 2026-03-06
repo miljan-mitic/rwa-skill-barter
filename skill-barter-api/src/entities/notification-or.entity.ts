@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { OfferRequest } from './offer-request.entity';
 import { NOTIFICATION_OR_TYPE } from 'src/common/enums/notification-or-type.enum';
+import { User } from './user.entity';
 
 @Entity()
 export class NotificationOR {
@@ -37,4 +38,9 @@ export class NotificationOR {
     },
   )
   offerRequest?: OfferRequest;
+
+  @ManyToOne(() => User, (user) => user.notificationsOR, {
+    onDelete: 'CASCADE',
+  })
+  receiver?: User;
 }
