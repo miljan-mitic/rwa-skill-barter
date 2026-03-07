@@ -13,8 +13,12 @@
           (ngSubmit)="onSubmit(signupForm)"
         >
           <div class="rating-info" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <div><strong>Average rating:</strong> {{ user.ratingAvg | number: '1.1-2' }}</div>
-            <div><strong>Rating count:</strong> {{ user.ratingCount }}</div>
+            <div>
+              <strong>Average rating:</strong><span> {{ user.ratingAvg | number: '1.1-2' }} </span>
+            </div>
+            <div>
+              <strong>Rating count:</strong><span> {{ user.ratingCount }} </span>
+            </div>
           </div>
           <div fxFlex fxLayoutAlign="center center">
             <a class="click-region" (click)="fileUpload.choose()">
@@ -85,7 +89,7 @@
           </mat-form-field>
 
           <mat-form-field>
-            <mat-label>Password</mat-label>
+            <mat-label> Password </mat-label>
             <mat-icon matPrefix fontIcon="password"></mat-icon>
 
             <input
@@ -93,7 +97,7 @@
               ngModel
               [type]="hidePassword() ? 'password' : 'text'"
               name="password"
-              [pattern]="PASSWORD_PATTERN"
+              placeholder="Enter your password"
               #passwordInput="ngModel"
               (ngModelChange)="resetVisibilityPasswordIfEmpty($event, hidePassword)"
             />
@@ -110,42 +114,75 @@
                 <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
               </button>
             }
-
-            @if (passwordInput.hasError('pattern')) {
-              <mat-error
-                >Password must contain uppercase and lowercase letters, a number, a special
-                character, and be at least 8 characters long.</mat-error
-              >
-            }
           </mat-form-field>
 
-          <mat-form-field>
-            <mat-label>Confirm password</mat-label>
-            <mat-icon matPrefix fontIcon="password"></mat-icon>
+          @if (passwordInput.value) {
+            <mat-form-field>
+              <mat-label> New password </mat-label>
+              <mat-icon matPrefix fontIcon="password"></mat-icon>
 
-            <input
-              matInput
-              ngModel
-              [type]="hideConfirmPassword() ? 'password' : 'text'"
-              name="confirmPassword"
-              placeholder="Enter confirm password"
-              #confirmPasswordInput="ngModel"
-              (ngModelChange)="resetVisibilityPasswordIfEmpty($event, hideConfirmPassword)"
-            />
+              <input
+                matInput
+                ngModel
+                [type]="hideNewPassword() ? 'password' : 'text'"
+                name="newPassword"
+                placeholder="Enter new password"
+                [pattern]="PASSWORD_PATTERN"
+                #newPasswordInput="ngModel"
+                (ngModelChange)="resetVisibilityPasswordIfEmpty($event, hideNewPassword)"
+              />
 
-            @if (confirmPasswordInput.value) {
-              <button
-                mat-icon-button
-                matSuffix
-                type="button"
-                (click)="toogleVisibilityPassword(hideConfirmPassword)"
-                [attr.aria-label]="'Toggle password visibility'"
-                [attr.aria-password]="!hideConfirmPassword()"
-              >
-                <mat-icon>{{ hideConfirmPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
-              </button>
-            }
-          </mat-form-field>
+              @if (newPasswordInput.value) {
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  (click)="toogleVisibilityPassword(hideNewPassword)"
+                  [attr.aria-label]="'Toggle password visibility'"
+                  [attr.aria-password]="!hideNewPassword()"
+                >
+                  <mat-icon>{{ hideNewPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+              }
+
+              @if (newPasswordInput.hasError('pattern')) {
+                <mat-error
+                  >Password must contain uppercase and lowercase letters, a number, a special
+                  character, and be at least 8 characters long.</mat-error
+                >
+              }
+            </mat-form-field>
+
+            <mat-form-field>
+              <mat-label> Confirm new password </mat-label>
+              <mat-icon matPrefix fontIcon="password"></mat-icon>
+
+              <input
+                matInput
+                ngModel
+                [type]="hideConfirmNewPassword() ? 'password' : 'text'"
+                name="confirmNewPassword"
+                placeholder="Enter confirm new password"
+                #confirmNewPasswordInput="ngModel"
+                (ngModelChange)="resetVisibilityPasswordIfEmpty($event, hideConfirmNewPassword)"
+              />
+
+              @if (confirmNewPasswordInput.value) {
+                <button
+                  mat-icon-button
+                  matSuffix
+                  type="button"
+                  (click)="toogleVisibilityPassword(hideConfirmNewPassword)"
+                  [attr.aria-label]="'Toggle password visibility'"
+                  [attr.aria-password]="!hideConfirmNewPassword()"
+                >
+                  <mat-icon>{{
+                    hideConfirmNewPassword() ? 'visibility_off' : 'visibility'
+                  }}</mat-icon>
+                </button>
+              }
+            </mat-form-field>
+          }
 
           <button mat-raised-button color="primary" type="submit" [disabled]="signupForm.invalid">
             <mat-icon matPrefix fontIcon="save"></mat-icon>Save changes

@@ -51,7 +51,8 @@ export class UserProfile implements OnInit {
   editedUser: Partial<User> = {};
 
   hidePassword = signal<boolean>(true);
-  hideConfirmPassword = signal<boolean>(true);
+  hideNewPassword = signal<boolean>(true);
+  hideConfirmNewPassword = signal<boolean>(true);
 
   uploadedImage: string;
 
@@ -95,11 +96,16 @@ export class UserProfile implements OnInit {
       return;
     }
 
-    const { confirmPassword, email, username, password } = form.value;
+    const { confirmNewPassword, newPassword, password, email, username } = form.value;
 
     if (password) {
-      if (password !== confirmPassword) {
-        alert('Passwords do not match!');
+      if (!newPassword) {
+        alert('New password is required!');
+        return;
+      }
+
+      if (newPassword && newPassword !== confirmNewPassword) {
+        alert('New password not confirmed!');
         return;
       }
     }
@@ -107,7 +113,7 @@ export class UserProfile implements OnInit {
     const updateUserDto: UpdateUserDto = {
       ...(email && email !== '' && email !== this.user.email && { email }),
       ...(username && username !== '' && username !== this.user.username && { username }),
-      ...(password && password !== '' && { password }),
+      ...(password && password !== '' && { currentPassword: password, newPassword }),
       ...(this.uploadedImage &&
         this.uploadedImage !== '' &&
         this.uploadedImage !== this.user.profilePicture && { profilePicture: this.uploadedImage }),

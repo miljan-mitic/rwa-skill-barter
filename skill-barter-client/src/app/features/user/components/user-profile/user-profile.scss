@@ -17,6 +17,10 @@ mat-card-content {
   display: flex;
   justify-content: center;
   gap: 2rem;
+
+  span {
+    color: blue;
+  }
 }
 
 .profile-picture {
