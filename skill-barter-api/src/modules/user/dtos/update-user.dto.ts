@@ -6,6 +6,8 @@ import {
   Matches,
   IsNotEmpty,
   MaxLength,
+  ValidateIf,
+  IsDefined,
 } from 'class-validator';
 import { REGULAR_EXPRESSIONS } from '../../../common/constants/regular-expressions.const';
 import { Expose } from 'class-transformer';
@@ -32,11 +34,18 @@ export class UpdateUserDto {
   email?: string;
 
   @IsOptional()
-  @IsString({ message: 'PASSWORD_WRONG_TYPE' })
-  @IsNotEmpty({ message: 'PASSWORD_EMPTY' })
+  @IsString({ message: 'NEW_PASSWORD_WRONG_TYPE' })
+  @IsNotEmpty({ message: 'NEW_PASSWORD_EMPTY' })
   @Matches(REGULAR_EXPRESSIONS.PASSWORD, {
-    message: 'PASSWORD_TOO_WEAK',
+    message: 'NEW_PASSWORD_TOO_WEAK',
   })
   @Expose()
-  password?: string;
+  newPassword?: string;
+
+  @ValidateIf((o) => o.newPassword)
+  @IsDefined({ message: 'CURRENT_PASSWORD_IS_REQUIRED_WHEN_CHANGING_PASSWORD' })
+  @IsString({ message: 'CURRENT_PASSWORD_WRONG_TYPE' })
+  @IsNotEmpty({ message: 'CURRENT_PASSWORD_EMPTY' })
+  @Expose()
+  currentPassword?: string;
 }

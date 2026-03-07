@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   InternalServerErrorException,
@@ -83,12 +84,22 @@ export class UserService {
   }
 
   async updateUser(user: User, updateUserDto: UpdateUserDto): Promise<User> {
-    if (updateUserDto.password) {
+    const { newPassword, currentPassword, ...updateUserData } = updateUserDto;
+    if (newPassword && currentPassword) {
+      const userWithPassword = await this.getUserByEmail(user.email, true);
+
+      const isMatch = await bcrypt.compare(
+        currentPassword,
+        userWithPassword.password,
+      );
+      if (!isMatch) {
+        throw new BadRequestException('Wrong password');
+      }
+
       const salt = await bcrypt.genSalt();
-      user.password = await bcrypt.hash(updateUserDto.password, salt);
+      user.password = await bcrypt.hash(newPassword, salt);
     }
 
-    const { password, ...updateUserData } = updateUserDto;
     const filteredDto = removeUndefinedAttributes(updateUserData);
     Object.assign(user, filteredDto);
 
