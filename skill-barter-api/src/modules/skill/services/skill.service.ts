@@ -2,10 +2,13 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  ConflictException,
+  Inject,
+  forwardRef,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Skill } from 'src/entities/skill.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { CreateSkillDto } from '../dtos/create-skill.dto';
 import { CategoryService } from 'src/modules/category/services/category.service';
 import { FilterSkillDto } from '../dtos/filter-skill.dto';
@@ -18,10 +21,16 @@ export class SkillService {
   constructor(
     @InjectRepository(Skill)
     private readonly skillRepository: Repository<Skill>,
+    @Inject(forwardRef(() => CategoryService))
     private readonly categoryService: CategoryService,
   ) {}
   async create(createSkillDto: CreateSkillDto) {
-    const { categoryId } = createSkillDto;
+    const { categoryId, name } = createSkillDto;
+
+    const existing = await this.skillRepository.findOneBy({ name });
+    if (existing) {
+      throw new ConflictException(`Skill with name "${name}" already exists`);
+    }
 
     const category = await this.categoryService.findById(categoryId);
 
@@ -55,10 +64,12 @@ export class SkillService {
       sortBy = 'createdAt',
       sortType = SortType.ASC,
     } = filterSkillDto;
-    const queryBuilder = this.skillRepository.createQueryBuilder('skill');
+    const queryBuilder = this.skillRepository
+      .createQueryBuilder('skill')
+      .leftJoinAndSelect('skill.category', 'category');
 
     if (categoryId !== undefined) {
-      queryBuilder.andWhere('skill.categoryId = :categoryId', { categoryId });
+      queryBuilder.andWhere('category.Id = :categoryId', { categoryId });
     }
 
     if (userSkills !== undefined) {
@@ -92,5 +103,19 @@ export class SkillService {
       totalItems: count,
       currentPage: page,
     };
+  }
+
+  async deleteMany(findOptionsWhere: FindOptionsWhere<Skill>) {
+    return this.skillRepository.delete(findOptionsWhere);
+  }
+
+  async deleteSkill(id: number) {
+    const deletedResult = await this.skillRepository.delete({ id });
+
+    if (!deletedResult.affected) {
+      throw new NotFoundException('Skill not found');
+    }
+
+    return deletedResult;
   }
 }

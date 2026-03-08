@@ -12,6 +12,8 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { removeUndefinedAttributes } from 'src/common/utils/remove-undefined-attributes';
+import { FilterUserDto } from '../dtos/filter-user.dto';
+import { SortType } from 'src/common/enums/sort.enum';
 
 @Injectable()
 export class UserService {
@@ -61,6 +63,86 @@ export class UserService {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
     return user;
+  }
+
+  async getUsers(filterUserDto: FilterUserDto) {
+    const {
+      search,
+      page = 0,
+      pageSize = 10,
+      sortBy = 'createdAt',
+      sortType = SortType.ASC,
+      ratingAvgMin,
+      ratingAvgMax,
+      ratingCountMin,
+      ratingCountMax,
+    } = filterUserDto;
+
+    if (
+      ratingAvgMin !== undefined &&
+      ratingAvgMax !== undefined &&
+      ratingAvgMin > ratingAvgMax
+    ) {
+      throw new BadRequestException(
+        'Minimum average rating cannot be greater than maximum average rating',
+      );
+    }
+
+    if (
+      ratingCountMin !== undefined &&
+      ratingCountMax !== undefined &&
+      ratingCountMin > ratingCountMax
+    ) {
+      throw new BadRequestException(
+        'Minimum rating count cannot be greater than maximum rating count',
+      );
+    }
+
+    const queryBuilder = this.userRepository.createQueryBuilder('user');
+
+    if (search) {
+      queryBuilder.andWhere(
+        '(user.username ILIKE :search OR user.email ILIKE :search)',
+        { search: `%${search}%` },
+      );
+    }
+
+    if (ratingAvgMin !== undefined) {
+      queryBuilder.andWhere('user.ratingAvg >= :ratingAvgMin', {
+        ratingAvgMin,
+      });
+    }
+    if (ratingAvgMax !== undefined) {
+      queryBuilder.andWhere('user.ratingAvg <= :ratingAvgMax', {
+        ratingAvgMax,
+      });
+    }
+
+    if (ratingCountMin !== undefined) {
+      queryBuilder.andWhere('user.ratingCount >= :ratingCountMin', {
+        ratingCountMin,
+      });
+    }
+    if (ratingCountMax !== undefined) {
+      queryBuilder.andWhere('user.ratingCount <= :ratingCountMax', {
+        ratingCountMax,
+      });
+    }
+
+    queryBuilder.orderBy(`user.${sortBy}`, sortType);
+    queryBuilder.skip(page * pageSize).take(pageSize);
+
+    const [count, items] = await Promise.all([
+      queryBuilder.getCount(),
+      queryBuilder.getMany(),
+    ]);
+
+    return {
+      items,
+      totalPages: Math.ceil(count / pageSize),
+      totalItems: count,
+      currentPage: page,
+    };
   }
 
   async addNewRating(userId: number, rating: number) {
