@@ -1,0 +1,45 @@
+<mat-card fxFlex="100%" fxLayout="column">
+  <mat-card-title fxLayoutAlign="center"> FILTERS </mat-card-title>
+
+  <mat-card-content fxFlex="100%" fxLayout="row">
+    <div
+      fxFlex="100%"
+      class="filters-container"
+      fxLayout="row"
+      fxLayoutAlign="center"
+      fxLayoutGap="3%"
+    >
+      <mat-form-field>
+        <mat-label> Skill name </mat-label>
+        <input
+          matInput
+          #searchInput
+          placeholder="Enter skill"
+          (input)="onSearch($event.target.value)"
+        />
+      </mat-form-field>
+
+      <app-remote-searchable-select
+        class="filter-item"
+        fxFlex="23%"
+        [label]="'Category'"
+        [maxPage]="2"
+        [pageSize]="2"
+        [size]="'small'"
+        [fetchFn]="fetchCategoryFn"
+        [displayFn]="categoryLabel"
+        [trackBy]="trackCategory"
+        name="category"
+        [(ngModel)]="category"
+      />
+
+      <button mat-fab extended color="primary" (click)="clearFilters()">
+        <mat-icon>clear</mat-icon>CLEAR FILTERS
+      </button>
+
+      <button mat-fab extended color="primary" routerLink="create">
+        <mat-icon>create</mat-icon>CREATE SKILL
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

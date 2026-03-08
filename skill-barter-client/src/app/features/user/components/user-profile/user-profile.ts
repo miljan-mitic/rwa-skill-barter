@@ -20,7 +20,7 @@ import {
 import { ImageType } from '../../../../common/enums/image-type.enum';
 import { Store } from '@ngrx/store';
 import { UserState } from '../../state/user.state';
-import { UpdateUserDto } from '../../dtos/update-user.dto';
+import { UserUpdateDto } from '../../dtos/user-update.dto';
 import { UserActions } from '../../state/user.actions';
 import { filter } from 'rxjs';
 import { User } from '../../../../common/models/user.model';
@@ -110,7 +110,7 @@ export class UserProfile implements OnInit {
       }
     }
 
-    const updateUserDto: UpdateUserDto = {
+    const userUpdateDto: UserUpdateDto = {
       ...(email && email !== '' && email !== this.user.email && { email }),
       ...(username && username !== '' && username !== this.user.username && { username }),
       ...(password && password !== '' && { currentPassword: password, newPassword }),
@@ -119,7 +119,7 @@ export class UserProfile implements OnInit {
         this.uploadedImage !== this.user.profilePicture && { profilePicture: this.uploadedImage }),
     };
 
-    this.store.dispatch(UserActions.updateProfile({ updateUserDto }));
+    this.store.dispatch(UserActions.updateProfile({ userUpdateDto }));
   }
 
   formatImage(imgPath: string | undefined) {

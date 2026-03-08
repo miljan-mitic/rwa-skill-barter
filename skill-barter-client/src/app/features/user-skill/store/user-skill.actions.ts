@@ -12,7 +12,7 @@ export const UserSkillActions = createActionGroup({
     'Create user skill success': props<{ userSkill: UserSkill }>(),
     'Create user skill failure': props<{ error: any }>(),
 
-    'Load user skills': props<{ userSkillFilterDto: UserSkillFilterDto; isAdmin?: boolean }>(),
+    'Load user skills': props<{ userSkillFilterDto: UserSkillFilterDto }>(),
     'Load user skills success': props<{ userSkills: UserSkill[]; length: number }>(),
     'Load user skills failure': props<{ error: any }>(),
 
@@ -21,7 +21,7 @@ export const UserSkillActions = createActionGroup({
       paginationParams: PaginationParams<UserSkill>;
     }>(),
 
-    'Load user skill': props<{ id: number; isAdmin?: boolean }>(),
+    'Load user skill': props<{ id: number }>(),
     'Load user skill success': props<{ userSkill: UserSkill }>(),
     'Load user skill failure': props<{ error: any }>(),
 

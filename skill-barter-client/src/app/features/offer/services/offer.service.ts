@@ -21,7 +21,7 @@ export class OfferService {
     return this.httpClient.patch<Offer>(`${this.apiUrl}/${id}`, offerUpdateDto);
   }
 
-  get(offerFilterDto: OfferFilterDto, isAdmin = false): Observable<PageResponse<Offer>> {
+  get(offerFilterDto: OfferFilterDto): Observable<PageResponse<Offer>> {
     let params = new HttpParams();
     Object.keys(offerFilterDto).forEach((key) => {
       const value = offerFilterDto[key as keyof OfferFilterDto];
@@ -29,13 +29,13 @@ export class OfferService {
         params = params.set(key, value.toString());
       }
     });
-    return this.httpClient.get<PageResponse<Offer>>(this.apiUrl + (isAdmin ? '/admin' : ''), {
+    return this.httpClient.get<PageResponse<Offer>>(this.apiUrl, {
       params,
     });
   }
 
-  getById(id: number, isAdmin = false): Observable<Offer> {
-    return this.httpClient.get<Offer>(`${this.apiUrl}/${id}` + (isAdmin ? '/admin' : ''));
+  getById(id: number): Observable<Offer> {
+    return this.httpClient.get<Offer>(`${this.apiUrl}/${id}`);
   }
 
   delete(id: number): Observable<void> {

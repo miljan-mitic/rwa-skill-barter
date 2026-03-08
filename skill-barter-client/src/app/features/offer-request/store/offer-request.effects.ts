@@ -11,8 +11,6 @@ import {
 import { NotificationService } from '../../../shared/services/notification.service';
 import { OfferRequestActions } from './offer-request.actions';
 import { OFFER_REQUESTS_SECTION } from '../../../common/constants/offer-request-status.consts';
-import { Store } from '@ngrx/store';
-import { OfferRequestState } from './offer-request.state';
 
 @Injectable()
 export class OfferRequestEffects {
@@ -50,8 +48,8 @@ export class OfferRequestEffects {
   loadOfferRequests$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OfferRequestActions.loadOfferRequests),
-      switchMap(({ offerRequestFilterDto, isAdmin }) =>
-        this.offerRequestService.get(offerRequestFilterDto, isAdmin).pipe(
+      switchMap(({ offerRequestFilterDto }) =>
+        this.offerRequestService.get(offerRequestFilterDto).pipe(
           map(({ items, totalItems }) =>
             OfferRequestActions.loadOfferRequestsSuccess({
               offerRequests: items,

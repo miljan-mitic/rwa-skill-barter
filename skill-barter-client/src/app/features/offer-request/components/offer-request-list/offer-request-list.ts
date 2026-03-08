@@ -11,10 +11,8 @@ import {
   selectOfferRequestPaginationParams,
 } from '../../store/offer-request.selectors';
 import { PaginationParams } from '../../../../common/interfaces/pagination-params.interface';
-import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OfferRequestActions } from '../../store/offer-request.actions';
-import { Role } from '../../../../common/enums/role.enum';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { AsyncPipe, NgClass } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
@@ -65,20 +63,18 @@ export class OfferRequestList implements OnInit {
     combineLatest([
       this.store.select(selectIdFromRouteParams),
       this.store.select(selectOfferRequestFilter),
-      this.store.select(selectCurrentUser),
     ])
       .pipe(
-        filter(([id, _, user]) => !!id && !!user),
+        filter(([id, _]) => !!id),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(([offerId, filter, user]) => {
+      .subscribe(([offerId, filter]) => {
         this.store.dispatch(
           OfferRequestActions.loadOfferRequests({
             offerRequestFilterDto: {
               ...filter,
               ...(offerId && offerId !== '' ? { offerId: +offerId } : {}),
             },
-            ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
           }),
         );
       });

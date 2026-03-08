@@ -12,13 +12,13 @@ export const OfferActions = createActionGroup({
     'Create offer success': props<{ offer: Offer }>(),
     'Create offer failure': props<{ error: any }>(),
 
-    'Load offers': props<{ offerFilterDto: OfferFilterDto; isAdmin?: boolean }>(),
+    'Load offers': props<{ offerFilterDto: OfferFilterDto }>(),
     'Load offers success': props<{ offers: Offer[]; length: number }>(),
     'Load offers failure': props<{ error: any }>(),
 
     'Change offer filter': props<{ filter: OfferFilter }>(),
 
-    'Load offer': props<{ id: number; isAdmin?: boolean }>(),
+    'Load offer': props<{ id: number }>(),
     'Load offer success': props<{ offer: Offer }>(),
     'Load offer failure': props<{ error: any }>(),
 

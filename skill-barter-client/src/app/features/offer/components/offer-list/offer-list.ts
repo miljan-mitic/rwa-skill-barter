@@ -1,8 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { combineLatest, filter, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { selectCurrentUser } from '../../../user/state/user.selectors';
-import { Role } from '../../../../common/enums/role.enum';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { AsyncPipe, DecimalPipe, NgClass } from '@angular/common';
 import { OfferState } from '../../store/offer.state';
@@ -71,16 +69,13 @@ export class OfferList implements OnInit {
   }
 
   private loadOffers() {
-    combineLatest([this.store.select(selectOfferFilter), this.store.select(selectCurrentUser)])
-      .pipe(
-        filter(([_, user]) => !!user),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(([filter, user]) => {
+    this.store
+      .select(selectOfferFilter)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((filter) => {
         this.store.dispatch(
           OfferActions.loadOffers({
-            offerFilterDto: filter || {},
-            ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
+            offerFilterDto: filter,
           }),
         );
       });

@@ -8,10 +8,14 @@ import { OfferRequestState } from '../features/offer-request/store/offer-request
 import { NotificationORState } from '../features/notification-or/store/notification-or.state';
 import { SocketState } from '../shared/socket/store/socket.state';
 import { BarterState } from '../features/barter/store/barter.state';
+import { CategoryState } from '../features/category/store/category.state';
+import { SkillState } from '../features/skill/store/skill.state';
 
 export interface AppState {
   auth: AuthState;
   user: UserState;
+  category: CategoryState;
+  skill: SkillState;
   userSkill: UserSkillState;
   offer: OfferState;
   offerRequest: OfferRequestState;

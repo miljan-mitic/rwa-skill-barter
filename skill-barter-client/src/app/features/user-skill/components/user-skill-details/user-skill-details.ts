@@ -1,11 +1,9 @@
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
-import { combineLatest, filter, Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { UserSkillState } from '../../store/user-skill.state';
 import { Store } from '@ngrx/store';
 import { selectIdFromRouteParams } from '../../../../store/app.selector';
-import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { UserSkillActions } from '../../store/user-skill.actions';
-import { Role } from '../../../../common/enums/role.enum';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UserSkill } from '../../../../common/models/user-skill.model';
 import { selectUserSkillDetailed, selectUserSkillLoading } from '../../store/user-skill.selector';
@@ -70,19 +68,16 @@ export class UserSkillDetails implements OnInit {
   }
 
   private loadUserSkill() {
-    combineLatest([
-      this.store.select(selectIdFromRouteParams),
-      this.store.select(selectCurrentUser),
-    ])
+    this.store
+      .select(selectIdFromRouteParams)
       .pipe(
-        filter(([id, user]) => !!id && !!user),
+        filter((id) => !!id),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(([userSkillId, user]) => {
+      .subscribe((userSkillId) => {
         this.store.dispatch(
           UserSkillActions.loadUserSkill({
             id: +userSkillId!,
-            ...(user?.role === Role.ADMIN && { isAdmin: true }),
           }),
         );
       });

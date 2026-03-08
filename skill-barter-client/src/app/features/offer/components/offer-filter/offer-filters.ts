@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { SkillService } from '../../../skill/services/skill.service';
-import { CategoryService } from '../../../category/category.service';
+import { CategoryService } from '../../../category/services/category.service';
 import { OfferFilter, OfferState } from '../../store/offer.state';
 import { Store } from '@ngrx/store';
 import { Category } from '../../../../common/models/category.model';
@@ -11,7 +11,7 @@ import { Observable, tap } from 'rxjs';
 import { Skill } from '../../../../common/models/skill.model';
 import { SkillFilterDto } from '../../../skill/dtos/skill-filter.dto';
 import { MatCardModule } from '@angular/material/card';
-import { RemoteSearchableSelect } from '../../../../shared/components/remote-select/remote-searchable-select';
+import { RemoteSearchableSelect } from '../../../../shared/components/remote-searchable-select/remote-searchable-select';
 import { FormsModule } from '@angular/forms';
 import { OfferActions } from '../../store/offer.actions';
 import { FlexLayoutModule } from '@angular/flex-layout';

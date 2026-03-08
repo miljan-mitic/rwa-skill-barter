@@ -23,6 +23,20 @@
             </a>
           </li>
           <li>
+            <button mat-button routerLink="/dashboard">
+              <mat-icon matPrefix fontIcon="dashboard"></mat-icon>
+              Dashboard
+            </button>
+          </li>
+          @if (user.role === roleEnum.ADMIN) {
+            <li>
+              <button mat-button routerLink="/admin">
+                <mat-icon matPrefix fontIcon="admin_panel_settings"></mat-icon>
+                Admin panel
+              </button>
+            </li>
+          }
+          <li>
             <button mat-button routerLink="/user/profile">
               <mat-icon matPrefix fontIcon="account_circle"></mat-icon>
               Account
@@ -64,6 +78,16 @@
             ></mat-icon>
             Notifications
           </button>
+          <button mat-menu-item routerLink="/dashboard">
+            <mat-icon matPrefix fontIcon="dashboard"></mat-icon>
+            Dashboard
+          </button>
+          @if (user.role === roleEnum.ADMIN) {
+            <button mat-menu-item routerLink="/admin">
+              <mat-icon matPrefix fontIcon="admin_panel_settings"></mat-icon>
+              Admin panel
+            </button>
+          }
           <button mat-menu-item routerLink="/user/profile">
             <mat-icon matPrefix fontIcon="account_circle"></mat-icon>
             Account

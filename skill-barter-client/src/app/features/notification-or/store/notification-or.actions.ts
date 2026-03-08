@@ -9,7 +9,6 @@ export const NotificationORActions = createActionGroup({
   events: {
     'Load notifications o r': props<{
       notificationORFilterDto: NotificationORFilterDto;
-      isAdmin?: boolean;
     }>(),
     'Load notifications o r success': props<{
       notificationsOR: NotificationOR[];

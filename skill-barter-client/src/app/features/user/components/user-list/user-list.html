@@ -1,0 +1,23 @@
+@if (length$ | async) {
+  <mat-card fxFlex fxLayout="column" fxLayoutAlign="space-between">
+    <mat-list fxLayout="column" fxLayoutGap="3%">
+      @for (user of users$ | async; track user.id) {
+        <mat-list-item>
+          <app-user-item [user]="user"></app-user-item>
+        </mat-list-item>
+      }
+    </mat-list>
+
+    <mat-paginator
+      [length]="length$ | async"
+      [pageSize]="(paginationParams$ | async)!.pageSize"
+      [pageIndex]="(paginationParams$ | async)!.page"
+      (page)="getData($event)"
+    >
+    </mat-paginator>
+  </mat-card>
+} @else if (loading$ | async) {
+  <app-loader [overlay]="false"></app-loader>
+} @else {
+  <app-empty-state title="No users yet." message="There are no users available."></app-empty-state>
+}

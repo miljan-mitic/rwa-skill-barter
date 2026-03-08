@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RemoteSearchableSelect } from '../../../../shared/components/remote-select/remote-searchable-select';
+import { RemoteSearchableSelect } from '../../../../shared/components/remote-searchable-select/remote-searchable-select';
 import { UserSkillFilterDto } from '../../../user-skill/dtos/user-skill-filter.dto';
 import { User } from '../../../../common/models/user.model';
 import { Store } from '@ngrx/store';

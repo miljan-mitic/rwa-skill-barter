@@ -11,7 +11,7 @@ export class BarterService {
   private readonly apiUrl = `${environment.api}/barters`;
   private readonly httpClient = inject(HttpClient);
 
-  get(barterFilterDto: BarterFilterDto, isAdmin = false): Observable<PageResponse<Barter>> {
+  get(barterFilterDto: BarterFilterDto): Observable<PageResponse<Barter>> {
     let params = new HttpParams();
     Object.keys(barterFilterDto).forEach((key) => {
       const value = barterFilterDto[key as keyof BarterFilterDto];
@@ -19,7 +19,7 @@ export class BarterService {
         params = params.set(key, value.toString());
       }
     });
-    return this.httpClient.get<PageResponse<Barter>>(this.apiUrl + (isAdmin ? '/admin' : ''), {
+    return this.httpClient.get<PageResponse<Barter>>(this.apiUrl, {
       params,
     });
   }

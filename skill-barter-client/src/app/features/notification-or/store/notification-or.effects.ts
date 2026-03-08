@@ -29,8 +29,8 @@ export class NotificationOREffects {
   loadNotificationsOR$ = createEffect(() =>
     this.actions$.pipe(
       ofType(NotificationORActions.loadNotificationsOR),
-      switchMap(({ notificationORFilterDto, isAdmin }) =>
-        this.notificationORService.get(notificationORFilterDto, isAdmin).pipe(
+      switchMap(({ notificationORFilterDto }) =>
+        this.notificationORService.get(notificationORFilterDto).pipe(
           map(({ items, totalItems }) =>
             NotificationORActions.loadNotificationsORSuccess({
               notificationsOR: items,

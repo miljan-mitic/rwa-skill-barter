@@ -41,8 +41,8 @@ export class BarterEffects {
   loadBarters$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BarterActions.loadBarters),
-      switchMap(({ barterFilterDto, isAdmin }) =>
-        this.barterService.get(barterFilterDto, isAdmin).pipe(
+      switchMap(({ barterFilterDto }) =>
+        this.barterService.get(barterFilterDto).pipe(
           map(({ items, totalItems }) =>
             BarterActions.loadBartersSuccess({ barters: items, length: totalItems }),
           ),

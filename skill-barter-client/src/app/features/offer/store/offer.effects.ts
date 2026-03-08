@@ -50,8 +50,8 @@ export class OfferEffects {
   loadOffers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OfferActions.loadOffers),
-      switchMap(({ offerFilterDto, isAdmin }) =>
-        this.offerService.get(offerFilterDto, isAdmin).pipe(
+      switchMap(({ offerFilterDto }) =>
+        this.offerService.get(offerFilterDto).pipe(
           map(({ items, totalItems }) =>
             OfferActions.loadOffersSuccess({ offers: items, length: totalItems }),
           ),
@@ -64,8 +64,8 @@ export class OfferEffects {
   loadOffer$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OfferActions.loadOffer),
-      switchMap(({ id, isAdmin }) =>
-        this.offerService.getById(id, isAdmin).pipe(
+      switchMap(({ id }) =>
+        this.offerService.getById(id).pipe(
           map((offer) => OfferActions.loadOfferSuccess({ offer })),
           catchError((error) => of(OfferActions.loadOfferFailure(error))),
         ),

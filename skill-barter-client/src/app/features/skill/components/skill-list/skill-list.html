@@ -1,0 +1,26 @@
+@if (length$ | async) {
+  <mat-card fxFlex fxLayout="column" fxLayoutAlign="space-between">
+    <mat-list fxLayout="column" fxLayoutGap="3%">
+      @for (skill of skills$ | async; track skill.id) {
+        <mat-list-item>
+          <app-skill-item [skill]="skill"></app-skill-item>
+        </mat-list-item>
+      }
+    </mat-list>
+
+    <mat-paginator
+      [length]="length$ | async"
+      [pageSize]="(paginationParams$ | async)!.pageSize"
+      [pageIndex]="(paginationParams$ | async)!.page"
+      (page)="getData($event)"
+    >
+    </mat-paginator>
+  </mat-card>
+} @else if (loading$ | async) {
+  <app-loader [overlay]="false"></app-loader>
+} @else {
+  <app-empty-state
+    title="No skills yet."
+    message="There are no skills available."
+  ></app-empty-state>
+}

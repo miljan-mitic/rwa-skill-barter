@@ -21,10 +21,7 @@ export class UserSkillService {
     return this.httpClient.patch<UserSkill>(`${this.apiUrl}/${id}`, userSkillUpdateDto);
   }
 
-  get(
-    userSkillFilterDto: UserSkillFilterDto,
-    isAdmin = false,
-  ): Observable<PageResponse<UserSkill>> {
+  get(userSkillFilterDto: UserSkillFilterDto): Observable<PageResponse<UserSkill>> {
     let params = new HttpParams();
     Object.keys(userSkillFilterDto).forEach((key) => {
       const value = userSkillFilterDto[key as keyof UserSkillFilterDto];
@@ -32,13 +29,13 @@ export class UserSkillService {
         params = params.set(key, value.toString());
       }
     });
-    return this.httpClient.get<PageResponse<UserSkill>>(this.apiUrl + (isAdmin ? '/admin' : ''), {
+    return this.httpClient.get<PageResponse<UserSkill>>(this.apiUrl, {
       params,
     });
   }
 
-  getById(id: number, isAdmin = false): Observable<UserSkill> {
-    return this.httpClient.get<UserSkill>(`${this.apiUrl}/${id}` + (isAdmin ? '/admin' : ''));
+  getById(id: number): Observable<UserSkill> {
+    return this.httpClient.get<UserSkill>(`${this.apiUrl}/${id}`);
   }
 
   delete(id: number): Observable<void> {

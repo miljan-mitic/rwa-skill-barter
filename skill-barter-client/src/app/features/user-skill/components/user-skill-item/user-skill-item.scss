@@ -9,6 +9,15 @@ mat-card-title {
   cursor: pointer;
 }
 
+.user-skill-container {
+  flex-wrap: wrap;
+
+  @media screen and (max-width: 600px) {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+}
+
 .mat-mdc-card-title {
   color: inherit;
 }

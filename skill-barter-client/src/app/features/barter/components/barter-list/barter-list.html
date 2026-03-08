@@ -3,7 +3,6 @@
     <mat-list fxLayout="column" fxLayoutGap="3%">
       @for (barter of barters$ | async; track barter.id) {
         <mat-list-item>
-          <!--  [ngClass]="statusClasses[barter.status]"> -->
           <app-barter-item [barter]="barter"></app-barter-item>
         </mat-list-item>
       }

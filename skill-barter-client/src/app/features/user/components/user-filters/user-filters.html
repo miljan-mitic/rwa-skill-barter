@@ -1,0 +1,95 @@
+<mat-card fxFlex="100%" fxLayout="column">
+  <mat-card-title fxLayoutAlign="center"> FILTERS </mat-card-title>
+
+  <mat-card-content fxFlex="100%" fxLayout="row">
+    <div
+      fxFlex="100%"
+      class="filters-container"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      fxLayoutGap="3%"
+    >
+      <div fxLayoutAlign="center center">
+        <mat-form-field class="filter-item">
+          <mat-label> User </mat-label>
+          <input
+            matInput
+            #searchInput
+            placeholder="Enter username"
+            (input)="onSearch($event.target.value)"
+          />
+        </mat-form-field>
+      </div>
+
+      <div fxLayout="column" class="rating-container">
+        <span class="box-label">Average rating</span>
+        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="rating-inputs">
+          <mat-form-field class="filter-item">
+            <mat-label>From</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              max="5"
+              step="0.1"
+              placeholder="min"
+              #ratingAvgMinInput
+            />
+          </mat-form-field>
+
+          <mat-form-field class="filter-item">
+            <mat-label>To</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              max="5"
+              step="0.1"
+              placeholder="max"
+              #ratingAvgMaxInput
+            />
+          </mat-form-field>
+        </div>
+
+        <div fxLayoutAlign="center center">
+          <button mat-fab extended color="primary" (click)="applayRatingAvg()">
+            <mat-icon>done</mat-icon>APPLAY
+          </button>
+        </div>
+      </div>
+
+      <div fxLayout="column" class="rating-container">
+        <span class="box-label">Rating count</span>
+        <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutGap="2%" class="rating-inputs">
+          <mat-form-field class="filter-item">
+            <mat-label>From</mat-label>
+            <input
+              matInput
+              type="number"
+              min="1"
+              max="5"
+              step="1"
+              placeholder="min"
+              #ratingCountMinInput
+            />
+          </mat-form-field>
+
+          <mat-form-field class="filter-item">
+            <mat-label>To</mat-label>
+            <input matInput type="number" min="1" step="1" placeholder="max" #ratingCountMaxInput />
+          </mat-form-field>
+        </div>
+
+        <div fxLayoutAlign="center center">
+          <button mat-fab extended color="primary" (click)="applayRatingCount()">
+            <mat-icon>done</mat-icon>APPLAY
+          </button>
+        </div>
+      </div>
+
+      <button mat-fab extended color="primary" (click)="clearFilters()">
+        <mat-icon>clear</mat-icon>CLEAR FILTERS
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

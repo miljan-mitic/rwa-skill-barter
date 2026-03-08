@@ -40,9 +40,18 @@
             typeIcon[notificationOR.type]
           }}</mat-icon>
         </div>
-        <span>
-          {{ message }}
-        </span>
+        @if (notificationOR.type === typeEnum.OFFER_REQUEST_CREATED) {
+          <a
+            [routerLink]="['/dashboard/offers', notificationOR.offerRequest?.offer?.id]"
+            fragment="offer-requests-section"
+          >
+            {{ message }}
+          </a>
+        } @else {
+          <span>
+            {{ message }}
+          </span>
+        }
       </div>
 
       <div fxLayout="column" fxLayoutAlign="center center">

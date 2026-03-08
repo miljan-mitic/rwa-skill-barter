@@ -14,7 +14,6 @@ export const OfferRequestActions = createActionGroup({
 
     'Load offer requests': props<{
       offerRequestFilterDto: OfferRequestFilterDto;
-      isAdmin?: boolean;
     }>(),
     'Load offer requests success': props<{ offerRequests: OfferRequest[]; length: number }>(),
     'Load offer requests failure': props<{ error: any }>(),

@@ -20,6 +20,7 @@ import { OfferStatus } from '../../../common/enums/offer-status.enum';
 import { NotificationORActions } from '../../../features/notification-or/store/notification-or.actions';
 import { selectNotificationORNumberUnseen } from '../../../features/notification-or/store/notification-or.selectors';
 import { MatBadgeModule } from '@angular/material/badge';
+import { Role } from '../../../common/enums/role.enum';
 
 @Component({
   selector: 'app-header',
@@ -39,6 +40,7 @@ import { MatBadgeModule } from '@angular/material/badge';
   styleUrl: './header.scss',
 })
 export class Header implements OnInit {
+  roleEnum = Role;
   user?: User;
   notificationORNumberUnseen$: Observable<number | undefined>;
   displayNumberUnseen: string;

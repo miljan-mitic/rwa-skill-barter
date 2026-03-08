@@ -5,7 +5,7 @@ import { Loader } from '../../../../shared/components/loader/loader';
 import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { combineLatest, filter, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Barter } from '../../../../common/models/barter.model';
 import { PaginationParams } from '../../../../common/interfaces/pagination-params.interface';
 import { Store } from '@ngrx/store';
@@ -17,10 +17,8 @@ import {
   selectBarterLoading,
   selectBarterPaginationParams,
 } from '../../store/barter.selectors';
-import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BarterActions } from '../../store/barter.actions';
-import { Role } from '../../../../common/enums/role.enum';
 import { MatCardModule } from '@angular/material/card';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -57,16 +55,13 @@ export class BarterList {
   }
 
   private loadBarters() {
-    combineLatest([this.store.select(selectBarterFilter), this.store.select(selectCurrentUser)])
-      .pipe(
-        filter(([_, user]) => !!user),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(([filter, user]) => {
+    this.store
+      .select(selectBarterFilter)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((filter) => {
         this.store.dispatch(
           BarterActions.loadBarters({
             barterFilterDto: filter || {},
-            ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
           }),
         );
       });

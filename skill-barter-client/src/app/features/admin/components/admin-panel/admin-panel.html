@@ -1,0 +1,29 @@
+<mat-card fxFlex fxLayout="column">
+  <mat-card-header fxFlex class="header-toolbar">
+    <div fxFlex fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5%">
+      <mat-card-title
+        (click)="restartCategoriesFilter()"
+        routerLink="categories"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Categories</mat-card-title
+      >
+      <mat-card-title
+        routerLink="skills"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="restartSkillsFilter()"
+        >Skills</mat-card-title
+      >
+      <mat-card-title
+        routerLink="users"
+        routerLinkActive="active-tab"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="restartUsersFilter()"
+        >Users</mat-card-title
+      >
+    </div>
+  </mat-card-header>
+  <div class="header-padding"></div>
+  <router-outlet></router-outlet>
+</mat-card>

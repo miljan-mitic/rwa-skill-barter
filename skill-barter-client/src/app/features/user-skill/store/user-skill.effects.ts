@@ -50,8 +50,8 @@ export class UserSkillEffects {
   loadUserSkills$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserSkillActions.loadUserSkills),
-      switchMap(({ userSkillFilterDto, isAdmin }) =>
-        this.userSkillService.get(userSkillFilterDto, isAdmin).pipe(
+      switchMap(({ userSkillFilterDto }) =>
+        this.userSkillService.get(userSkillFilterDto).pipe(
           map(({ items, totalItems }) =>
             UserSkillActions.loadUserSkillsSuccess({ userSkills: items, length: totalItems }),
           ),
@@ -64,8 +64,8 @@ export class UserSkillEffects {
   loadUserSkill$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserSkillActions.loadUserSkill),
-      switchMap(({ id, isAdmin }) =>
-        this.userSkillService.getById(id, isAdmin).pipe(
+      switchMap(({ id }) =>
+        this.userSkillService.getById(id).pipe(
           map((userSkill) => UserSkillActions.loadUserSkillSuccess({ userSkill })),
           catchError((error) => of(UserSkillActions.loadUserSkillFailure(error))),
         ),

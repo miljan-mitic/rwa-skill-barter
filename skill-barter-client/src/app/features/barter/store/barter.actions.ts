@@ -6,7 +6,7 @@ import { BarterFilter, UpdateBarter } from './barter.state';
 export const BarterActions = createActionGroup({
   source: 'Barter',
   events: {
-    'Load barters': props<{ barterFilterDto: BarterFilterDto; isAdmin?: boolean }>(),
+    'Load barters': props<{ barterFilterDto: BarterFilterDto }>(),
     'Load barters success': props<{ barters: Barter[]; length: number }>(),
     'Load barters failure': props<{ error: any }>(),
 

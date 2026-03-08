@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { UserActions } from './user.actions';
 import { UserService } from '../services/user.service';
-import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
 import {
@@ -21,8 +21,8 @@ export class UserEffects {
   updateProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.updateProfile),
-      concatMap(({ updateUserDto }) =>
-        this.userService.updateProfile(updateUserDto).pipe(
+      concatMap(({ userUpdateDto }) =>
+        this.userService.updateProfile(userUpdateDto).pipe(
           map((user) => UserActions.updateProfileSuccess({ user })),
           catchError((error) => of(UserActions.updateProfileFailure(error))),
         ),
@@ -45,9 +45,23 @@ export class UserEffects {
     { dispatch: false },
   );
 
+  loadUsers$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.loadUsers),
+      switchMap(({ userFilterDto }) =>
+        this.userService.get(userFilterDto).pipe(
+          map(({ items, totalItems }) =>
+            UserActions.loadUsersSuccess({ users: items, length: totalItems }),
+          ),
+          catchError((error) => of(UserActions.loadUsersFailure(error))),
+        ),
+      ),
+    ),
+  );
+
   userFailure$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.updateProfileFailure),
+      ofType(UserActions.updateProfileFailure, UserActions.loadUsersFailure),
       mergeMap(({ error }) => {
         console.error('User Error:', error);
         if (error?.statusCode === HttpStatusCode.Unauthorized) {

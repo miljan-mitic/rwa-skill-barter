@@ -1,0 +1,55 @@
+mat-card-title {
+  font-weight: bold;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+.skill-container {
+  flex-wrap: wrap;
+}
+
+.mat-mdc-card-title {
+  color: inherit;
+}
+
+.title {
+  color: rgb(211, 33, 33);
+}
+
+.clickable-text:hover {
+  color: #0044cc;
+}
+
+button {
+  transition: color 0.2s ease;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-icon {
+    font-size: 46px;
+    width: 46px;
+    height: 46px;
+    line-height: 1;
+  }
+
+  @media screen and (max-width: 600px) {
+    width: 48px;
+    height: 48px;
+
+    mat-icon {
+      font-size: 32px;
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

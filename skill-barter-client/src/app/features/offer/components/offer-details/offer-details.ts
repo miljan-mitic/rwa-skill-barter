@@ -1,15 +1,13 @@
 import { AfterViewInit, Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { combineLatest, filter, Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
 import { Offer } from '../../../../common/models/offer.model';
 import { Store } from '@ngrx/store';
 import { OfferState } from '../../store/offer.state';
 import { selectOfferDetailed, selectOfferLoading } from '../../store/offer.selectors';
 import { selectIdFromRouteParams } from '../../../../store/app.selector';
-import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OfferActions } from '../../store/offer.actions';
-import { Role } from '../../../../common/enums/role.enum';
 import { ConfirmDialogActions } from '../../../../shared/confirm-dialog/store/confirm-dialog.actions';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -108,19 +106,16 @@ export class OfferDetails implements OnInit, AfterViewInit {
   }
 
   private loadOffer() {
-    combineLatest([
-      this.store.select(selectIdFromRouteParams),
-      this.store.select(selectCurrentUser),
-    ])
+    this.store
+      .select(selectIdFromRouteParams)
       .pipe(
-        filter(([id, user]) => !!id && !!user),
+        filter((id) => !!id),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe(([offerId, user]) => {
+      .subscribe((offerId) => {
         this.store.dispatch(
           OfferActions.loadOffer({
             id: +offerId!,
-            ...(user?.role === Role.ADMIN && { isAdmin: true }),
           }),
         );
       });

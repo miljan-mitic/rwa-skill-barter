@@ -1,9 +1,8 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { combineLatest, filter, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { NotificationOR } from '../../../../common/models/notification-or.model';
 import { Store } from '@ngrx/store';
 import { NotificationORState } from '../../store/notification-or.state';
-import { selectCurrentUser } from '../../../user/state/user.selectors';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   selectNotificationORFilter,
@@ -13,7 +12,6 @@ import {
   selectNotificationORPaginationParams,
 } from '../../store/notification-or.selectors';
 import { NotificationORActions } from '../../store/notification-or.actions';
-import { Role } from '../../../../common/enums/role.enum';
 import { PaginationParams } from '../../../../common/interfaces/pagination-params.interface';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
@@ -62,19 +60,13 @@ export class NotificationORList implements OnInit {
   }
 
   private loadNotificationsOR() {
-    combineLatest([
-      this.store.select(selectNotificationORFilter),
-      this.store.select(selectCurrentUser),
-    ])
-      .pipe(
-        filter(([_, user]) => !!user),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe(([filter, user]) => {
+    this.store
+      .select(selectNotificationORFilter)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((filter) => {
         this.store.dispatch(
           NotificationORActions.loadNotificationsOR({
             notificationORFilterDto: filter || {},
-            ...(user?.role === Role.ADMIN ? { isAdmin: true } : {}),
           }),
         );
       });

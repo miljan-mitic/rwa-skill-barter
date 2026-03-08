@@ -1,0 +1,22 @@
+<mat-card fxFlex="100%" fxLayout="column">
+  <mat-card-title fxLayoutAlign="center"> FILTERS </mat-card-title>
+
+  <mat-card-content fxFlex="100%" fxLayout="row">
+    <div
+      fxFlex="100%"
+      class="filters-container"
+      fxLayout="row"
+      fxLayoutAlign="center"
+      fxLayoutGap="3%"
+    >
+      <mat-form-field>
+        <mat-label> Category name </mat-label>
+        <input matInput placeholder="Enter category" (input)="onSearch($event.target.value)" />
+      </mat-form-field>
+
+      <button mat-fab extended color="primary" routerLink="create">
+        <mat-icon>create</mat-icon>CREATE CATEGORY
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,6 +1,6 @@
 import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { RemoteSearchableSelect } from '../../../../shared/components/remote-select/remote-searchable-select';
+import { RemoteSearchableSelect } from '../../../../shared/components/remote-searchable-select/remote-searchable-select';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FilterParams } from '../../../../common/types/filter-params.type';

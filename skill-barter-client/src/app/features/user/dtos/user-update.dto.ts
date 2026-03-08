@@ -1,4 +1,4 @@
-export interface UpdateUserDto {
+export interface UserUpdateDto {
   profilePicture?: string;
   username?: string;
   email?: string;

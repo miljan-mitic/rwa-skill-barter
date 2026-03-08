@@ -1,0 +1,45 @@
+<form
+  fxLayout="column"
+  fxLayoutGap="20px"
+  #categoryForm="ngForm"
+  (ngSubmit)="onSubmit(categoryForm)"
+>
+  <mat-card-title>Create a new Category</mat-card-title>
+
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+
+    <input matInput ngModel #nameModel="ngModel" name="name" type="text" maxlength="30" required />
+    @if (nameModel.hasError('required')) {
+      <mat-error>Name s required</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+
+    <textarea
+      matInput
+      ngModel
+      #descriptionModel="ngModel"
+      name="description"
+      rows="4"
+      maxlength="100"
+    ></textarea>
+    <mat-hint align="end">{{ descriptionModel.value?.length || 0 }}/100 </mat-hint>
+    @if (descriptionModel.hasError('maxlength')) {
+      <mat-error>Description is too long (max 100 characters)</mat-error>
+    }
+  </mat-form-field>
+
+  <button
+    mat-fab
+    extended
+    class="submit-button"
+    color="primary"
+    type="submit"
+    [disabled]="categoryForm.invalid"
+  >
+    <mat-icon matPrefix fontIcon="create"></mat-icon>Submit
+  </button>
+</form>

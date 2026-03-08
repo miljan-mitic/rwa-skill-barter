@@ -15,6 +15,7 @@ import { NotificationORState } from '../../store/notification-or.state';
 import { NotificationORActions } from '../../store/notification-or.actions';
 import { NotificationORType } from '../../../../common/enums/notification-or-type.enum';
 import { OverflowTooltip } from '../../../../shared/directives/overflow-tooltip';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-notification-or-item',
@@ -23,6 +24,7 @@ import { OverflowTooltip } from '../../../../shared/directives/overflow-tooltip'
     MatIconModule,
     FlexLayoutModule,
     NgClass,
+    RouterLink,
     CreatedAgoPipe,
     OverflowTooltip,
   ],
@@ -31,6 +33,7 @@ import { OverflowTooltip } from '../../../../shared/directives/overflow-tooltip'
 })
 export class NotificationORItem {
   @Input({ required: true }) notificationOR: NotificationOR;
+  typeEnum = NotificationORType;
   typeIcon = NOTIFICATION_OR_TYPE_ICON;
   typeIconClasses = NOTIFICATION_OR_TYPE_ICON_CLASSES;
   dateFormat = DATE_FORMAT.DEFAULT;

@@ -16,10 +16,7 @@ export class NotificationORService {
     return this.httpClient.patch<NotificationOR[]>(`${this.apiUrl}/seen`, notificationsSeenDto);
   }
 
-  get(
-    notificationORFilterDto: NotificationORFilterDto,
-    isAdmin = false,
-  ): Observable<PageResponse<NotificationOR>> {
+  get(notificationORFilterDto: NotificationORFilterDto): Observable<PageResponse<NotificationOR>> {
     let params = new HttpParams();
     Object.keys(notificationORFilterDto).forEach((key) => {
       const value = notificationORFilterDto[key as keyof NotificationORFilterDto];
@@ -27,12 +24,9 @@ export class NotificationORService {
         params = params.set(key, value.toString());
       }
     });
-    return this.httpClient.get<PageResponse<NotificationOR>>(
-      this.apiUrl + (isAdmin ? '/admin' : ''),
-      {
-        params,
-      },
-    );
+    return this.httpClient.get<PageResponse<NotificationOR>>(this.apiUrl, {
+      params,
+    });
   }
 
   getNumberUnseen(): Observable<{ numberUnseen: number }> {
