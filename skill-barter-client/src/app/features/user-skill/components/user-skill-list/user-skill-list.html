@@ -1,7 +1,7 @@
 @if (length$ | async) {
   <ng-content></ng-content>
 
-  <div fxFlex fxLayout="column" fxLayoutAlign="space-between">
+  <mat-card class="list-container" fxFlex fxLayout="column" fxLayoutAlign="space-between">
     <mat-list fxLayout="column" fxLayoutGap="3%">
       @for (userSkill of userSkills$ | async; track userSkill.id) {
         <mat-list-item>
@@ -17,7 +17,7 @@
       (page)="getData($event)"
     >
     </mat-paginator>
-  </div>
+  </mat-card>
 } @else if (loading$ | async) {
   <app-loader [overlay]="false"></app-loader>
 } @else {

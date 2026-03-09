@@ -3,7 +3,7 @@
     <div class="offers-grid">
       @for (offer of offers$ | async; track offer.id) {
         <mat-card class="offer-card" [ngClass]="statusClasses[offer.status]">
-          @if ((global$ | async) && offer.userSkill?.user!.ratingAvg) {
+          @if ((global$ | async) && offer.userSkill?.user?.ratingAvg) {
             <div
               class="rating"
               matTooltip="Average user rating based on {{

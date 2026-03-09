@@ -22,10 +22,12 @@ import { Loader } from '../../../../shared/components/loader/loader';
 import { EmptyState } from '../../../../shared/components/empty-state/empty-state';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-user-skill-list',
   imports: [
+    MatCardModule,
     MatListModule,
     MatPaginatorModule,
     MatIconModule,

@@ -1,5 +1,5 @@
 @if (length$ | async) {
-  <mat-card fxFlex fxLayout="column" fxLayoutAlign="space-between">
+  <mat-card class="list-container" fxFlex fxLayout="column" fxLayoutAlign="space-between">
     <mat-list fxLayout="column" fxLayoutGap="3%">
       @for (user of users$ | async; track user.id) {
         <mat-list-item>
