@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_HOST_PORT}:${DB_INTERNAL_PORT}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    depends_on:
+      - postgres
+    build:
+      context: ./skill-barter-api
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_INTERNAL_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      CLIENT_APP_URL: ${CLIENT_APP_URL}
+      JWT_ACCESS_SECRET_KEY: ${JWT_ACCESS_SECRET_KEY}
+      JWT_ACCESS_EXPIRATION_TIME: ${JWT_ACCESS_EXPIRATION_TIME}
+    ports:
+      - "${BACKEND_PORT}:3000"
+
+  client:
+    depends_on:
+      - api
+    build:
+      context: ./skill-barter-client
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "${FRONTEND_PORT}:80"
+
+volumes:
+  pgdata:

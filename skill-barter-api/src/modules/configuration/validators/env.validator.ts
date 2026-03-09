@@ -18,23 +18,23 @@ export class EnvVariables {
 
   @IsNotEmpty()
   @IsString()
-  DOCKER_DB_HOST: string;
+  DB_HOST: string;
 
   @IsNotEmpty()
   @IsPositive()
-  DOCKER_DB_PORT: number;
+  DB_PORT: number;
 
   @IsNotEmpty()
   @IsString()
-  DOCKER_DB_NAME: string;
+  DB_NAME: string;
 
   @IsNotEmpty()
   @IsString()
-  DOCKER_DB_USERNAME: string;
+  DB_USERNAME: string;
 
   @IsNotEmpty()
   @IsString()
-  DOCKER_DB_PASSWORD: string;
+  DB_PASSWORD: string;
 
   @IsNotEmpty()
   @IsString()

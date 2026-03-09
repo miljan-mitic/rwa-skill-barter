@@ -7,8 +7,8 @@ import { existsSync } from 'fs';
 import path from 'path';
 import { IMAGE_TYPE } from 'src/common/enums/image-type.enum';
 import * as multer from 'multer';
-import { v4 as uuidv4 } from 'uuid';
 import { File } from 'multer';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class FileService implements MulterOptionsFactory {
@@ -21,7 +21,7 @@ export class FileService implements MulterOptionsFactory {
         },
         filename: (req, file, cb) => {
           const extension: string = path.parse(file.originalname).ext;
-          const uniqueName: string = uuidv4();
+          const uniqueName: string = randomUUID();
           cb(null, `${uniqueName}${extension}`);
         },
       }),
