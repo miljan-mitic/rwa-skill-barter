@@ -5,6 +5,7 @@ import { createReducer, on } from '@ngrx/store';
 import { Skill } from '../../../common/models/skill.model';
 import { SkillFilter, SkillState } from './skill.state';
 import { SkillActions } from './skill.actions';
+import { AuthActions } from '../../auth/store/auth.actions';
 
 const adapter = createEntityAdapter<Skill>();
 
@@ -29,7 +30,7 @@ export const skillReducer = createReducer(
       loading: true,
     };
   }),
-  on(SkillActions.restartSkillFilter, (state: SkillState) => {
+  on(SkillActions.restartSkillFilter, AuthActions.logout, (state: SkillState) => {
     return { ...state, filter: initialStateFilter };
   }),
   on(SkillActions.changeSkillFilter, (state: SkillState, { filter }) => {

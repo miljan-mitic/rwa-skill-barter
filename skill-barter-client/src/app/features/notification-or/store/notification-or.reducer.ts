@@ -5,6 +5,7 @@ import { SortType } from '../../../common/enums/sort.enum';
 import { NotificationOR } from '../../../common/models/notification-or.model';
 import { NotificationORFilter, NotificationORState } from './notification-or.state';
 import { NotificationORActions } from './notification-or.actions';
+import { AuthActions } from '../../auth/store/auth.actions';
 
 const adapter = createEntityAdapter<NotificationOR>();
 
@@ -37,6 +38,9 @@ export const notificationORReducer = createReducer(
         ...filter,
       },
     };
+  }),
+  on(AuthActions.logout, (state: NotificationORState) => {
+    return { ...state, filter: initialStateNotificationORFilter };
   }),
   on(
     NotificationORActions.loadNotificationsORSuccess,

@@ -90,7 +90,11 @@
             <mat-icon matPrefix>do_disturb</mat-icon>CANCEL
           </button>
         </div>
-      } @else if (offerRequest.status === statusEnum.PENDING && !(hasAccepted$ | async)) {
+      } @else if (
+        offerRequest.status === statusEnum.PENDING &&
+        offerRequest.offer?.status !== offerStatusEnum.ARCHIVED &&
+        !(hasAccepted$ | async)
+      ) {
         <div fxLayoutAlign="center center">
           <button
             mat-fab

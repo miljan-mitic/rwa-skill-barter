@@ -5,6 +5,7 @@ import { PAGINATION_PARAMS } from '../../../common/constants/pagination-params.c
 import { SortType } from '../../../common/enums/sort.enum';
 import { createReducer, on } from '@ngrx/store';
 import { BarterActions } from './barter.actions';
+import { AuthActions } from '../../auth/store/auth.actions';
 
 const adapter = createEntityAdapter<Barter>();
 
@@ -29,7 +30,7 @@ export const barterReducer = createReducer(
       loading: true,
     };
   }),
-  on(BarterActions.restartBarterFilter, (state: BarterState) => {
+  on(BarterActions.restartBarterFilter, AuthActions.logout, (state: BarterState) => {
     return { ...state, filter: initialStateBarterFilter };
   }),
   on(BarterActions.changeBarterFilter, (state: BarterState, { filter }) => {

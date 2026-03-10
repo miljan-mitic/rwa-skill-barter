@@ -6,6 +6,7 @@ import { OfferActions } from './offer.actions';
 import { PAGINATION_PARAMS } from '../../../common/constants/pagination-params.const';
 import { SortType } from '../../../common/enums/sort.enum';
 import { OfferStatus } from '../../../common/enums/offer-status.enum';
+import { AuthActions } from '../../auth/store/auth.actions';
 
 const adapter = createEntityAdapter<Offer>();
 
@@ -44,6 +45,9 @@ export const offerReducer = createReducer(
         ...filter,
       },
     };
+  }),
+  on(AuthActions.logout, (state: OfferState) => {
+    return { ...state, filter: initialStateOfferFilter };
   }),
   on(OfferActions.loadOffersSuccess, (state: OfferState, { offers, length }) => {
     return adapter.setAll(offers, {

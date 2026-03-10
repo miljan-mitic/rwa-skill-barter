@@ -46,7 +46,7 @@ export const userReducer = createReducer(
       loading: true,
     };
   }),
-  on(UserActions.restartUserFilter, (state: UserState) => {
+  on(UserActions.restartUserFilter, AuthActions.logout, (state: UserState) => {
     return { ...state, filter: initialStateFilter };
   }),
   on(UserActions.changeUserFilter, (state: UserState, { filter }) => {

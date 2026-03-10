@@ -5,6 +5,7 @@ import { UserSkillActions } from './user-skill.actions';
 import { UserSkill } from '../../../common/models/user-skill.model';
 import { PAGINATION_PARAMS } from '../../../common/constants/pagination-params.const';
 import { SortType } from '../../../common/enums/sort.enum';
+import { AuthActions } from '../../auth/store/auth.actions';
 
 const adapter = createEntityAdapter<UserSkill>();
 
@@ -29,7 +30,7 @@ export const userSkillReducer = createReducer(
       loading: true,
     };
   }),
-  on(UserSkillActions.restartUserSkillFilter, (state: UserSkillState) => {
+  on(UserSkillActions.restartUserSkillFilter, AuthActions.logout, (state: UserSkillState) => {
     return { ...state, filter: initialStateFilter };
   }),
   on(

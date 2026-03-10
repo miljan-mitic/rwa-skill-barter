@@ -5,6 +5,7 @@ import { PAGINATION_PARAMS } from '../../../common/constants/pagination-params.c
 import { SortType } from '../../../common/enums/sort.enum';
 import { createReducer, on } from '@ngrx/store';
 import { CategoryActions } from './category.actions';
+import { AuthActions } from '../../auth/store/auth.actions';
 
 const adapter = createEntityAdapter<Category>();
 
@@ -29,7 +30,7 @@ export const categoryReducer = createReducer(
       loading: true,
     };
   }),
-  on(CategoryActions.restartCategoryFilter, (state: CategoryState) => {
+  on(CategoryActions.restartCategoryFilter, AuthActions.logout, (state: CategoryState) => {
     return { ...state, filter: initialStateFilter };
   }),
   on(CategoryActions.changeCategoryFilter, (state: CategoryState, { filter }) => {
